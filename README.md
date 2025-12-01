@@ -26,3 +26,4 @@ https://guides.rubyonrails.org/v5.2/getting_started.html <br>
 https://www.ibm.com/it-it/think/topics/database-normalization <br>
 https://www.geeksforgeeks.org/ruby/ruby-on-rails-directory-structure/ <br>
 https://guides.rubyonrails.org/active_record_basics.html#naming-conventions <br>
+https://drawsql.app/
