@@ -6,6 +6,7 @@ class CreateMatchResult < ActiveRecord::Migration[7.1]
       t.bigint :MatchID, null: false
       t.string :ScoreText, null: false
       t.bigint :RecordedByRefereeID, null: false
+      t.timestamps
     end
 
     add_foreign_key :match_result, :matches,

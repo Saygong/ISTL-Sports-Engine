@@ -5,6 +5,7 @@ class CreateMatchResultWinner < ActiveRecord::Migration[7.1]
 
       t.bigint :MatchResultID, null: false
       t.bigint :UserID, null: false
+      t.timestamps
     end
 
     add_foreign_key :match_result_winner, :match_result,

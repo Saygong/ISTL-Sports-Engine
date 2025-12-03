@@ -8,6 +8,7 @@ class CreateTournaments < ActiveRecord::Migration[7.1]
       t.bigint :AgeLimitation
       t.string :GenderLimitation, limit: 1
       t.date :StartDate, null: false
+      t.timestamps
     end
 
     add_foreign_key :tournaments, :organizers, column: :OrganizerID, primary_key: :OrganizerID

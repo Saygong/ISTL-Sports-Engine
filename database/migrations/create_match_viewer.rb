@@ -4,6 +4,7 @@ class CreateMatchViewer < ActiveRecord::Migration[7.1]
       t.bigint :MatchViewerID, primary_key: true
       t.bigint :MatchID, null: false
       t.bigint :UserID, null: false
+      t.timestamps
     end
 
     # Adding foreign key constraints

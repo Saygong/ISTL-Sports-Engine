@@ -4,6 +4,7 @@ class CreateReferees < ActiveRecord::Migration[7.1]
       t.bigint :RefereeID, primary_key: true
       t.string :QualificationLevel, null: false
       t.string :Availability, null: false
+      t.timestamps
     end
   end
 end

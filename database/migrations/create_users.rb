@@ -8,6 +8,7 @@ class CreateUsers < ActiveRecord::Migration[7.1]
       t.string :Email, null: false
       t.string :PasswordHash, null: false
       t.string :Gender, limit: 1, null: false
+      t.timestamps
     end
 
     add_index :users, :Email, unique: false   # Laravel did not specify unique

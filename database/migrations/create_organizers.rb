@@ -4,6 +4,7 @@ class CreateOrganizers < ActiveRecord::Migration[7.1]
       t.bigint :OrganizerID, primary_key: true
       t.string :OrganizationName, null: false
       t.string :Address, null: false
+      t.timestamps
     end
   end
 end
