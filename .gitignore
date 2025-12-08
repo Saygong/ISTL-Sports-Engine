@@ -11,8 +11,8 @@
 /.env*
 
 # Ignore all logfiles and tempfiles.
-/log/*
-/tmp/*
+/bakcend/log/*
+/bakcend/tmp/*
 !/log/.keep
 !/tmp/.keep
 
