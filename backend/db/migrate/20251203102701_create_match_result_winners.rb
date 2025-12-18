@@ -8,7 +8,6 @@ class CreateMatchResultWinner < ActiveRecord::Migration[8.1]
     end
 
     add_foreign_key :match_result_winners, :match_results, column: :match_result_id, primary_key: :id
-
     add_foreign_key :match_result_winners, :users, column: :user_id, primary_key: :id
   end
 end
