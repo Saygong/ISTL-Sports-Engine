@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  # ...
+  # Devise also ships with default routes
   devise_for :users
 
   # Routes Integration for DeviseTokenAuth.
