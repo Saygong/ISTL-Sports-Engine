@@ -22,6 +22,10 @@
 #  updated_at             :datetime         not null
 #  type                   :string           default("User")
 #  data                   :jsonb            default("{}"), not null
+#  first_name             :string
+#  last_name              :string
+#  birthdate              :datetime
+#  gender                 :integer          default(0), not null
 #
 # Indexes
 #
@@ -46,12 +50,8 @@ class User < ApplicationRecord
   # [https://devise-token-auth.gitbook.io/devise-token-auth/usage/model_concerns]
   # include DeviseTokenAuth::Concerns::User
 
-  # ActiveRecord::Store gives you a thin wrapper around serialize for the purpose of storing hashes in a single column.
-  # Every accessor comes with dirty tracking methods.
-  # The default validations with the exception of uniqueness will work.
-  store_accessor :data,
-                 :first_name,
-                 :last_name,
-                 :birthdate,
-                 :gender
+  enum :gender, {
+    male:   0,
+    female: 1
+  }
 end

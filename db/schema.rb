@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_21_144352) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_21_164205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "users", force: :cascade do |t|
     t.boolean "allow_password_change", default: false
+    t.datetime "birthdate"
     t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
@@ -23,6 +24,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_21_144352) do
     t.jsonb "data", default: {}, null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "first_name"
+    t.integer "gender", default: 0, null: false
+    t.string "last_name"
     t.string "provider", default: "email", null: false
     t.datetime "remember_created_at"
     t.datetime "reset_password_sent_at"

@@ -20,6 +20,10 @@
 #  updated_at             :datetime         not null
 #  type                   :string           default("User")
 #  data                   :jsonb            default("{}"), not null
+#  first_name             :string
+#  last_name              :string
+#  birthdate              :datetime
+#  gender                 :integer          default(0), not null
 #
 # Indexes
 #
