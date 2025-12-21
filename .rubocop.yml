@@ -12,6 +12,9 @@ Style/MethodDefParentheses:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
 Layout/IndentationWidth:
   Width: 2
 
