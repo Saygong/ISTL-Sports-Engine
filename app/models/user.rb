@@ -20,6 +20,7 @@
 #  tokens                 :json
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  type                   :string           default("User")
 #
 # Indexes
 #
