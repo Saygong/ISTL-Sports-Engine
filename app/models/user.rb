@@ -21,10 +21,12 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  type                   :string           default("User")
+#  data                   :jsonb            default("{}"), not null
 #
 # Indexes
 #
 #  index_users_on_confirmation_token    (confirmation_token) UNIQUE
+#  index_users_on_data                  (data)
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
