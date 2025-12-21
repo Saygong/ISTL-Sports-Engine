@@ -12,6 +12,9 @@ Style/MethodDefParentheses:
 Style/SymbolArray:
   EnforcedStyle: brackets
 
+Style/Documentation:
+  Enabled: false
+
 Layout/HashAlignment:
   EnforcedColonStyle: table
 
