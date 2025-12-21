@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::Base
-  include DeviseTokenAuth::Concerns::SetUserByToken
+  # Controller Integration for DeviseTokenAuth
+  # [https://devise-token-auth.gitbook.io/devise-token-auth/usage/controller_methods]
+  # include DeviseTokenAuth::Concerns::SetUserByToken
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
