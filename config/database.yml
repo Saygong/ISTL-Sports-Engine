@@ -17,10 +17,10 @@ default: &default
   encoding: unicode
 
   # Required to connect to the correct database.
-  host: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
-  username: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :username) %>
-  password: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :password) %>
-  database: <%= Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
+  host: <%= ENV['DB_HOST'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
+  username: <%= ENV['DB_USERNAME'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :username) %>
+  password: <%= ENV['DB_PASSWORD'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :password) %>
+  database: <%= ENV['DB_NAME'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :name) %>
 
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
