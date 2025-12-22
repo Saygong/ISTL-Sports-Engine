@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_21_175214) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_22_201900) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "match_results", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.bigint "match_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["match_id"], name: "index_match_results_on_match_id"
+    t.index ["user_id"], name: "index_match_results_on_user_id"
+  end
 
   create_table "matches", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -64,6 +74,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_21_175214) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "match_results", "matches"
+  add_foreign_key "match_results", "users"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "tournaments", "users"
 end

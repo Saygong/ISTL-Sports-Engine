@@ -40,5 +40,10 @@ class User
     store_accessor :data,
                    :qualification_level,
                    :availability
+
+    has_many :match_results,
+             class_name: 'Match::Result',
+             dependent:  :destroy,
+             inverse_of: :referee
   end
 end
