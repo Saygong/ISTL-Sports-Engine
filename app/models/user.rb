@@ -36,6 +36,8 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 class User < ApplicationRecord
+  include WithGender
+
   # Include default devise modules.
   devise :database_authenticatable,
          :registerable,
@@ -49,9 +51,4 @@ class User < ApplicationRecord
   # handled invisibly by the controller concerns.
   # [https://devise-token-auth.gitbook.io/devise-token-auth/usage/model_concerns]
   # include DeviseTokenAuth::Concerns::User
-
-  enum :gender, {
-    male:   0,
-    female: 1
-  }
 end
