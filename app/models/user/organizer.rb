@@ -37,8 +37,10 @@ class User
   #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
   #
   class Organizer < User
-    store_accessor :data,
-                   :organization_name,
-                   :address
+    store_accessor :data, :organization_name, :address
+
+    has_many :tournaments,
+             dependent:  :destroy,
+             inverse_of: :organizer
   end
 end
