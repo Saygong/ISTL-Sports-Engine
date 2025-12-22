@@ -1,0 +1,28 @@
+# Define named volumes for persistent data storage across container restarts
+volumes:
+  db-data:
+    external: false
+
+services:
+  # The database service using the official lightweight PostgreSQL Alpine image
+  db:
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    image: postgres:16.11-alpine
+    # Map the named volume to PostgreSQL's internal data directory
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  # The Ruby/Rails application service created from the local Dockerfile
+  app:
+    environment:
+      - RAILS_PORT
+      - RAILS_MASTER_KEY
+    build:
+      context: .
+    image: ${IMAGE_NAME}
+    ports:
+      - ${RAILS_PORT}:${RAILS_PORT}
+    depends_on:
+      - db
