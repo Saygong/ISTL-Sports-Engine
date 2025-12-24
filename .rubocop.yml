@@ -18,8 +18,14 @@ Style/Documentation:
 Layout/HashAlignment:
   EnforcedColonStyle: table
 
+Layout/IndentationConsistency:
+  EnforcedStyle: normal
+
 Layout/IndentationWidth:
   Width: 2
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
 
 Lint/UnusedMethodArgument:
   Enabled: true
