@@ -23,8 +23,5 @@ class Tournament < ApplicationRecord
 
   has_many :matches, dependent: :destroy
 
-  belongs_to :organizer,
-             class_name:  'User::Organizer',
-             foreign_key: 'user_id',
-             inverse_of:  :tournaments
+  belongs_to :organizer, class_name: 'User::Organizer', foreign_key: 'user_id', inverse_of: :tournaments
 end
