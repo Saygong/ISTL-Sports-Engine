@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_22_201900) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_23_215300) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "match_players", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "match_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["match_id"], name: "index_match_players_on_match_id"
+    t.index ["user_id"], name: "index_match_players_on_user_id"
+  end
+
+  create_table "match_result_winners", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "match_result_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["match_result_id"], name: "index_match_result_winners_on_match_result_id"
+    t.index ["user_id"], name: "index_match_result_winners_on_user_id"
+  end
 
   create_table "match_results", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -22,6 +40,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_201900) do
     t.bigint "user_id"
     t.index ["match_id"], name: "index_match_results_on_match_id"
     t.index ["user_id"], name: "index_match_results_on_user_id"
+  end
+
+  create_table "match_viewers", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "match_id"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["match_id"], name: "index_match_viewers_on_match_id"
+    t.index ["user_id"], name: "index_match_viewers_on_user_id"
   end
 
   create_table "matches", force: :cascade do |t|
@@ -74,8 +101,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_22_201900) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "match_players", "matches"
+  add_foreign_key "match_players", "users"
+  add_foreign_key "match_result_winners", "match_results"
+  add_foreign_key "match_result_winners", "users"
   add_foreign_key "match_results", "matches"
   add_foreign_key "match_results", "users"
+  add_foreign_key "match_viewers", "matches"
+  add_foreign_key "match_viewers", "users"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "tournaments", "users"
 end
