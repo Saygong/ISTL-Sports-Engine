@@ -39,8 +39,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  include Helpers::Model
-
   def types
     User
       .constants
