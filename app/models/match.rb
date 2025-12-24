@@ -18,6 +18,8 @@
 class Match < ApplicationRecord
   belongs_to :tournament
 
+  has_one :result, class_name: 'Match::Result', dependent: :destroy
+
   has_many :match_players, class_name: 'Match::Player', dependent: :destroy
   has_many :players, through: :match_players
 
