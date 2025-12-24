@@ -72,6 +72,11 @@ group :development, :test do
 
   # Add a comment summarizing the current schema
   gem 'annotate'
+
+  # Gem suite for running tests
+  gem 'factory_bot_rails'
+  gem 'minitest', '~> 5.0'
+  gem 'faker'
 end
 
 group :development do
