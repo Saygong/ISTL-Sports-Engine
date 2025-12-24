@@ -48,13 +48,13 @@ class UserTest < ActiveSupport::TestCase
       .filter { it < User }
   end
 
-  test 'user creation' do
+  test 'creation' do
     assert_nothing_raised do
       types.each { |type| create(:user, :with_email, type: type.to_s) }
     end
   end
 
-  test 'user type' do
+  test 'type' do
     types.each do |type|
       create(:user, :with_email, type: type.to_s)
         .then { assert_instance_of type, type.public_send(:last) }
@@ -107,5 +107,20 @@ class UserTest < ActiveSupport::TestCase
           assert_equal result.referee, referee
         end
     end
+  end
+
+  test 'organizer with tournaments' do
+    create_match
+      .then(&:tournament)
+      .then do |tournament|
+        User::Organizer
+          .joins(:tournaments)
+          .where(tournaments: { id: tournament.id })
+          .first!
+          .then do |user|
+            assert_includes user.tournaments, tournament
+            assert_equal tournament.organizer, user
+          end
+      end
   end
 end
