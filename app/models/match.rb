@@ -17,4 +17,10 @@
 #
 class Match < ApplicationRecord
   belongs_to :tournament
+
+  has_many :match_players, class_name: 'Match::Player', dependent: :destroy
+  has_many :players, through: :match_players
+
+  has_many :match_viewers, class_name: 'Match::Viewer', dependent: :destroy
+  has_many :viewers, through: :match_viewers
 end
