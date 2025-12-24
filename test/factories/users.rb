@@ -1,0 +1,51 @@
+# frozen_string_literal: true
+
+# == Schema Information
+#
+# Table name: users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string           default(""), not null
+#  encrypted_password     :string           default(""), not null
+#  uid                    :string           default(""), not null
+#  provider               :string           default("email"), not null
+#  reset_password_token   :string
+#  reset_password_sent_at :datetime
+#  allow_password_change  :boolean          default(FALSE)
+#  remember_created_at    :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string
+#  tokens                 :json
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  type                   :string           default("User")
+#  data                   :jsonb            default("{}"), not null
+#  first_name             :string
+#  last_name              :string
+#  birthdate              :datetime
+#  gender                 :integer          default(0), not null
+#
+# Indexes
+#
+#  index_users_on_confirmation_token    (confirmation_token) UNIQUE
+#  index_users_on_data                  (data)
+#  index_users_on_email                 (email) UNIQUE
+#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#
+
+FactoryBot.define do
+  factory :user do
+    first_name { Faker::Name.first_name }
+    last_name  { Faker::Name.last_name }
+    password { Faker::Internet.password(min_length: 8) }
+
+    trait :with_email do
+      email { Faker::Internet.unique.email }
+      uid { email }
+      provider { 'email' }
+    end
+  end
+end
