@@ -50,7 +50,6 @@ To create, update, or delete tables for your schema, Rails offers the migrations
 easily define all the entities needed to correctly define the required schema.
 
 ### Rubocop
-... explain some metrics, rails and conventions, look also at gems
 
 ### Authentication
 
@@ -59,10 +58,23 @@ rails g devise:install
 rails g devise_token_auth:install User auth
 ```
 
-... token auth by defualt, but opting out for monolith
+### Infrastructure specifications
+All considerations will be made considering the database as a separate and independent process, ideally located on a
+remote machine. The database is not replicated, so no structures or considerations will be taken into account to address
+the issue of data replication and synchronization.
 
-### Model annotations
-...
+#### Monolith based application
 
-## Deployment instructions
-...
+With a monolith-based application, all the code for managing pages and responding to client requests is handled by a
+single container. The application essentially comprises both frontend and backend logic. This is done through a
+Rails-based application that helps automatically separate all the modules responsible for a specific task.
+
+To be more precise:
+- Models
+- Views
+- Controllers
+
+This forms what is known as a Model-View-Controller. In a Rails-based application, models are where business logic
+resides. They expose public APIs to other system entities, such as controllers or, if necessary, jobs.
+
+#### Distribued based application
