@@ -25,4 +25,7 @@ class FriendlyMatch < ApplicationRecord
 
   belongs_to :field
   belongs_to :sport
+
+  has_many :players_friendly_matches, dependent: :destroy
+  has_many :players, through: :players_friendly_matches
 end

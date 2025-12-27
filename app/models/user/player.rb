@@ -45,6 +45,7 @@ class User
              dependent: :destroy,
              inverse_of: :organized_by
 
-    #has_many :friendly_matches_scheduled
+    has_many :players_friendly_matches, dependent: :destroy
+    has_many :friendly_matches_scheduled, through: :players_friendly_matches, source: :friendly_match
   end
 end

@@ -75,24 +75,23 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'player with organized firendly matches' do
-    build(:friendly_match, sport: create(:sport), field: create(:field))
-      .then do |match|
-        create_player
-          .tap { it.friendly_matches_organized << match }
-          .tap(&:save!)
-          .then do |player|
-            assert_includes player.friendly_matches_organized, match
-            assert_equal match.organized_by, player
-          end
+    create_friendly_match
+      .then do |match, player|
+        assert_includes player.friendly_matches_organized, match
+        assert_equal match.organized_by, player
       end
   end
 
-  test 'player with wins' do
-  end
-
-  test 'referee with matches' do
-  end
-
-  test 'organizer with tournaments' do
+  test 'player with scheduled firendly matches' do
+    create_friendly_match
+      .then do |match, _|
+        create_player
+          .tap { it.friendly_matches_scheduled << match }
+          .tap(&:save!)
+          .then do |player|
+            assert_includes player.friendly_matches_scheduled, match
+            assert_includes match.players, player
+          end
+      end
   end
 end
