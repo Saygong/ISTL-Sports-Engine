@@ -340,3 +340,54 @@
 }
 
 /* profile end */
+
+/* spectator personal matches start */
+/* =========================
+   Booked matches page styling (SCOPED)
+   Nothing outside .booked-page will be affected.
+   ========================= */
+
+.booked-page {
+    --booked-soft-border: rgba(0, 0, 0, 0.08);
+    --booked-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Narrow wrapper so card/table feel like "details card" width */
+.booked-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+/* Optional small “meta chip” for tournament name / sport */
+.booked-page .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--booked-soft-border);
+    background: var(--booked-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Reuse your global participants layout, but keep rows stable on tiny widths */
+.booked-page .participants {
+    min-width: 240px;
+}
+
+/* Make action column buttons not wrap weirdly */
+.booked-page .action-stack {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+/* Small helper for long tournament titles */
+.booked-page .min-w-0 {
+    min-width: 0;
+}
+/* spectator personal matches end */
