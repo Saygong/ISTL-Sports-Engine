@@ -37,10 +37,7 @@
 #
 class User
   class Player < User
-    has_many :match_players, class_name: 'Match::Player', dependent: :destroy, inverse_of: :player
-    has_many :matches, through: :match_players, source: :match
-
-    has_many :match_result_winners, class_name: 'Match::Result::Winner', dependent: :destroy, inverse_of: :player
-    has_many :won_matches, through: :match_result_winners, source: :match_result
+    has_many :players_tournaments, dependent: :destroy
+    has_many :tournaments, through: :players_tournaments
   end
 end
