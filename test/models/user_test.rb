@@ -62,7 +62,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'player with tournaments' do
-    create(:tournament, sport: create(:sport), field: create(:field), organizer: create_organizer)
+    create_tournament
       .then do |tournament|
         create_player
           .tap { it.tournaments << tournament }

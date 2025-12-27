@@ -3,27 +3,26 @@
 # Table name: matches
 #
 #  id            :integer          not null, primary key
+#  referee_id    :integer
 #  tournament_id :integer
-#  start_at      :datetime
-#  end_at        :datetime
+#  date          :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
 # Indexes
 #
+#  index_matches_on_referee_id     (referee_id)
 #  index_matches_on_tournament_id  (tournament_id)
 #
 
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
-  test 'with result' do
-    [create_match, create_referee].then do |match, referee|
-      create(:match_result, match: match, referee: referee)
-        .then do |result|
-          assert_equal match.result, result
-          assert_equal result.match, match
-        end
+  test 'creation' do
+    assert_nothing_raised do
+      create :match,
+             tournament: create_tournament,
+             referee:    create_referee
     end
   end
 end

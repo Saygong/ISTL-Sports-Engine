@@ -2,10 +2,11 @@
 
 module Helpers
   module Model
-    def create_match
-      create(:user, :with_email, type: 'User::Organizer')
-        .then { User::Organizer.find(it.id) }
-        .then { create(:match, tournament: create(:tournament, organizer: it)) }
+    def create_tournament
+      create :tournament,
+             sport:     create(:sport),
+             field:     create(:field),
+             organizer: create_organizer
     end
 
     def create_friendly_match

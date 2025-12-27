@@ -3,14 +3,15 @@
 # Table name: matches
 #
 #  id            :integer          not null, primary key
+#  referee_id    :integer
 #  tournament_id :integer
-#  start_at      :datetime
-#  end_at        :datetime
+#  date          :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #
 # Indexes
 #
+#  index_matches_on_referee_id     (referee_id)
 #  index_matches_on_tournament_id  (tournament_id)
 #
 
