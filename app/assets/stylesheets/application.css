@@ -182,3 +182,161 @@
     background: rgba(25, 135, 84, 0.85); /* green-ish */
 }
 /* spectator tournament detail end */
+
+/* profile start */
+/* =========================
+   Profile page styling (SCOPED)
+   Add at the end of your global stylesheet.
+   Nothing outside .profile-page will be affected.
+   ========================= */
+
+.profile-page {
+    --profile-soft-border: rgba(0, 0, 0, 0.08);
+    --profile-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Keep same “taste” but ONLY inside profile page */
+.profile-page .card {
+    border-color: var(--profile-soft-border);
+    border-radius: 1rem;
+}
+
+.profile-page .card-header {
+    background: var(--profile-soft-bg);
+    border-bottom-color: var(--profile-soft-border);
+}
+
+/* Detail blocks (same style language as tournament details) */
+.profile-page .detail-item {
+    padding: 0.75rem 0.85rem;
+    background: var(--profile-soft-bg);
+    border: 1px solid var(--profile-soft-border);
+    border-radius: 0.85rem;
+    height: 100%;
+}
+
+.profile-page .detail-label {
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.15rem;
+}
+
+.profile-page .detail-value {
+    font-weight: 600;
+    word-break: break-word;
+}
+
+/* Avatar */
+.profile-page .avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 1rem;
+    border: 1px solid var(--profile-soft-border);
+    background: linear-gradient(
+            135deg,
+            rgba(13, 110, 253, 0.12),
+            rgba(25, 135, 84, 0.10)
+    );
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+}
+
+.profile-page .avatar-initials {
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+/* Stats cards */
+.profile-page .stat-card {
+    border: 1px solid var(--profile-soft-border);
+    border-radius: 1rem;
+    padding: 1rem;
+    height: 100%;
+    background: #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-page .stat-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.55;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.00));
+    pointer-events: none;
+}
+
+.profile-page .stat-top {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: relative;
+}
+
+.profile-page .stat-icon {
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+.profile-page .stat-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.profile-page .stat-value {
+    position: relative;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-top: 0.4rem;
+    line-height: 1.1;
+}
+
+.profile-page .stat-sub {
+    position: relative;
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+}
+
+.profile-page .stat-card--win {
+    background: linear-gradient(135deg, rgba(25, 135, 84, 0.08), rgba(255, 255, 255, 1));
+}
+
+.profile-page .stat-card--loss {
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.08), rgba(255, 255, 255, 1));
+}
+
+.profile-page .stat-card--trophy {
+    background: linear-gradient(135deg, rgba(13, 110, 253, 0.10), rgba(255, 255, 255, 1));
+}
+
+/* Highlights */
+.profile-page .highlight {
+    border: 1px solid var(--profile-soft-border);
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #fff;
+    height: 100%;
+}
+
+.profile-page .highlight-title {
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+}
+
+.profile-page .highlight-value {
+    font-weight: 600;
+}
+
+/* Helper */
+.profile-page .min-w-0 {
+    min-width: 0;
+}
+
+/* profile end */
