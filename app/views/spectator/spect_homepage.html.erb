@@ -1,118 +1,153 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">ISTL Sports</a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarNavAltMarkup"
-      aria-controls="navbarNavAltMarkup"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="#"
-        >Homepage</a
-        >
-        <a class="nav-link" href="#">Matches</a>
-        <a class="nav-link" href="#">Profile</a>
-      </div>
-    </div>
-  </div>
-</nav>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-<div class="container py-4">
-  <div class="d-flex align-items-center justify-content-between mb-3">
-    <h2 class="mb-0">Tournaments</h2>
-  </div>
-
-  <!-- Filters -->
-  <div class="card mb-3">
-    <div class="card-body">
-      <div class="row g-3 align-items-end">
-        <div class="col-12 col-md-4">
-          <label for="filterName" class="form-label">Name</label>
-          <input
-            id="filterName"
-            type="text"
-            class="form-control"
-            placeholder="e.g. Wimbledon"
-            />
-        </div>
-
-        <div class="col-12 col-md-4">
-          <label for="filterSport" class="form-label">Sport</label>
-          <select id="filterSport" class="form-select">
-            <option value="">All</option>
-            <option value="Tennis">Tennis</option>
-            <option value="Table tennis">Table tennis</option>
-            <option value="Beach tennis">Beach tennis</option>
-            <option value="Badminton">Badminton</option>
-            <option value="Squash">Squash</option>
-            <option value="Padel">Padel</option>
-            <option value="Pickleball">Pickleball</option>
-          </select>
-        </div>
-
-        <div class="col-12 col-md-4">
-          <label for="filterStartDate" class="form-label"
-          >Start date</label
-          >
-          <input
-            id="filterStartDate"
-            type="text"
-            class="form-control"
-            placeholder="dd/mm/yyyy"
-            inputmode="numeric"
-            />
-        </div>
-
-        <div class="col-12 d-flex gap-2">
-          <button id="btnSearch" class="btn btn-primary">
-            <span class="me-1" data-feather="search"></span> Search
-          </button>
-          <button id="btnReset" class="btn btn-outline-secondary">
-            <span class="me-1" data-feather="rotate-ccw"></span> Reset
-          </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">Homepage</a>
+          <a class="nav-link" href="#">Matches</a>
+          <a class="nav-link" href="#">Profile</a>
         </div>
       </div>
     </div>
+  </nav>
+
+  <div class="container py-4">
+    <!-- Page header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div>
+        <h2 class="mb-1">Tournaments</h2>
+        <div class="page-subtitle">Browse and open tournament details</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <section class="card shadow-sm mb-4 filters-card">
+      <div class="card-header">
+        <strong class="fs-6">Filters</strong>
+      </div>
+
+      <div class="card-body">
+        <div class="row g-3 align-items-end">
+          <div class="col-12 col-md-4">
+            <label for="filterName" class="form-label">Name</label>
+            <input
+              id="filterName"
+              type="text"
+              class="form-control"
+              placeholder="e.g. Wimbledon"
+              />
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label for="filterSport" class="form-label">Sport</label>
+            <select id="filterSport" class="form-select">
+              <option value="">All</option>
+              <option value="Tennis">Tennis</option>
+              <option value="Table tennis">Table tennis</option>
+              <option value="Beach tennis">Beach tennis</option>
+              <option value="Badminton">Badminton</option>
+              <option value="Squash">Squash</option>
+              <option value="Padel">Padel</option>
+              <option value="Pickleball">Pickleball</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <label for="filterStartDate" class="form-label">Start date</label>
+            <input
+              id="filterStartDate"
+              type="text"
+              class="form-control"
+              placeholder="dd/mm/yyyy"
+              inputmode="numeric"
+              />
+          </div>
+
+          <div class="col-12 d-flex flex-wrap gap-2">
+            <button id="btnSearch" class="btn btn-primary">
+              <span class="me-1" data-feather="search"></span>
+              Search
+            </button>
+            <button id="btnReset" class="btn btn-outline-secondary">
+              <span class="me-1" data-feather="rotate-ccw"></span>
+              Reset
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tournaments table inside a card (same vibe as matches card) -->
+    <section class="card shadow-sm">
+      <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <strong class="fs-5">Results</strong>
+        <span class="text-body-secondary small">3 tournaments</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Sport</th>
+            <th scope="col">Start date</th>
+            <th scope="col" class="text-end">Action</th>
+          </tr>
+          </thead>
+
+          <tbody id="tournamentsTbody">
+          <tr>
+            <th scope="row">Winbledon</th>
+            <td><span class="sport-chip">Tennis</span></td>
+            <td>10/01/2026</td>
+            <td class="text-end">
+              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
+                <span data-feather="external-link" aria-hidden="true"></span>
+                Details
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <th scope="row">AP-2000</th>
+            <td><span class="sport-chip">Table tennis</span></td>
+            <td>14/04/2026</td>
+            <td class="text-end">
+              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
+                <span data-feather="external-link" aria-hidden="true"></span>
+                Details
+              </a>
+            </td>
+          </tr>
+
+          <tr>
+            <th scope="row">Summer fest</th>
+            <td><span class="sport-chip">Beach tennis</span></td>
+            <td>20/05/2026</td>
+            <td class="text-end">
+              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
+                <span data-feather="external-link" aria-hidden="true"></span>
+                Details
+              </a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
   </div>
 
-  <!-- Table -->
-  <div class="table-responsive">
-    <table class="table table-hover align-middle">
-      <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Sport</th>
-        <th scope="col">Start date</th>
-        <th scope="col">Action</th>
-      </tr>
-      </thead>
-      <tbody id="tournamentsTbody">
-      <tr>
-        <th scope="row">Winbledon</th>
-        <td>Tennis</td>
-        <td>10/01/2026</td>
-        <td><span class="me-1" data-feather="external-link"></span> Details</td>
-      </tr>
-      <tr>
-        <th scope="row">AP-2000</th>
-        <td>Table tennis</td>
-        <td>14/04/2026</td>
-        <td><span class="me-1" data-feather="external-link"></span> Details</td>
-      </tr>
-      <tr>
-        <th scope="row">Summer fest</th>
-        <td>Beach tennis</td>
-        <td>20/05/2026</td>
-        <td><span class="me-1" data-feather="external-link"></span> Details</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+</html>
