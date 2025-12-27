@@ -36,22 +36,12 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 class User < ApplicationRecord
-  include WithGender
-
-  # Include default devise modules.
-  devise :database_authenticatable,
-         :registerable,
-         :recoverable,
-         :rememberable,
-         :validatable,
-         :confirmable
-
-  has_many :match_viewers, class_name: 'Match::Viewer', dependent: :destroy, inverse_of: :viewer
-  has_many :attendances, through: :match_viewers, source: :match
-
   # Model Integration for for DeviseTokenAuth.
   # Typical use of this gem will not require the use of any of the following model methods. All authentication should be
   # handled invisibly by the controller concerns.
   # [https://devise-token-auth.gitbook.io/devise-token-auth/usage/model_concerns]
   # include DeviseTokenAuth::Concerns::User
+
+  include WithGender
+  include WithDeviseAuth
 end
