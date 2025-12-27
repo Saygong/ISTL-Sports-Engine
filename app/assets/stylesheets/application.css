@@ -48,3 +48,137 @@
 .links-centered .links {
     align-items: center;
 }
+
+/* spectator homepage start */
+/* --- Small design system to match the details page --- */
+.page-subtitle {
+    color: var(--bs-secondary-color);
+}
+
+.card {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0.75rem;
+}
+
+.card-header {
+    background: var(--bs-body-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.table thead th {
+    background: var(--bs-tertiary-bg);
+    border-bottom-color: rgba(0, 0, 0, 0.06);
+    font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* action button that looks like an icon link */
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Feather icon sizing (works when icons render) */
+[data-feather] {
+    width: 18px;
+    height: 18px;
+}
+
+/* make filter inputs feel “grouped” */
+.filters-card .form-label {
+    font-weight: 600;
+}
+
+/* optional: subtle “chip” for sport values */
+.sport-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.02);
+    font-size: 0.875rem;
+}
+/* spectator homepage end */
+
+/* spectator tournament detail start */
+.detail-item {
+    padding: 0.75rem 0.9rem;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 0.75rem;
+    background: rgba(0, 0, 0, 0.02);
+    height: 100%;
+}
+
+.detail-label {
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 0.25rem;
+}
+
+.detail-value {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.participants {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0.75rem;
+    align-items: center;
+    min-width: 260px;
+}
+
+.team {
+    display: grid;
+    gap: 0.25rem;
+}
+
+.player {
+    display: inline-block;
+    padding: 0.2rem 0.45rem;
+    border-radius: 0.5rem;
+    background: rgba(0, 0, 0, 0.04);
+    font-weight: 600;
+    font-size: 0.95rem;
+    width: fit-content;
+}
+
+.vs {
+    font-weight: 700;
+    opacity: 0.7;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.seat-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.04);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.seat-pill--low {
+    background: rgba(255, 193, 7, 0.22);
+}
+
+.seat-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: rgba(25, 135, 84, 0.85); /* green-ish */
+}
+/* spectator tournament detail end */
