@@ -39,5 +39,12 @@ class User
   class Player < User
     has_many :players_tournaments, dependent: :destroy
     has_many :tournaments, through: :players_tournaments
+
+    has_many :friendly_matches_organized,
+             class_name: 'FriendlyMatch',
+             dependent: :destroy,
+             inverse_of: :organized_by
+
+    #has_many :friendly_matches_scheduled
   end
 end

@@ -18,7 +18,11 @@
 #  index_friendly_matches_on_sport_id   (sport_id)
 #
 class FriendlyMatch < ApplicationRecord
-  belongs_to :player, class_name: 'User::Player'
+  belongs_to :organized_by,
+             class_name: 'User::Player',
+             foreign_key: :player_id,
+             inverse_of: :friendly_matches_organized
+
   belongs_to :field
   belongs_to :sport
 end

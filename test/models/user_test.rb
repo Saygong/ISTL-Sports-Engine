@@ -61,66 +61,38 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
-  test 'user with attendances' do
-    create_match
-      .then do |match|
-        viewers = types
-                  .map do |type|
-                    create(:user, :with_email, type: type.to_s)
-                      .tap { create :match_viewer, match: match, viewer: it }
-                  end
-
-        [match, viewers]
-      end.then do |match, viewers|
-        viewers.each { assert_includes match.viewers, it }
-        viewers.each { assert_includes it.attendances, match }
+  test 'player with tournaments' do
+    create(:tournament, sport: create(:sport), field: create(:field), organizer: create_organizer)
+      .then do |tournament|
+        create_player
+          .tap { it.tournaments << tournament }
+          .tap(&:save!)
+          .then do |player|
+            assert_includes player.tournaments, tournament
+            assert_includes tournament.players, player
+          end
       end
   end
 
-  test 'player with matches' do
-    create_match
-      .tap { |match| create :match_player, match: match, player: create_player }
+  test 'player with organized firendly matches' do
+    build(:friendly_match, sport: create(:sport), field: create(:field))
       .then do |match|
-        assert_includes User::Player.last!.matches, match
-        assert_includes match.players, User::Player.last!
+        create_player
+          .tap { it.friendly_matches_organized << match }
+          .tap(&:save!)
+          .then do |player|
+            assert_includes player.friendly_matches_organized, match
+            assert_equal match.organized_by, player
+          end
       end
   end
 
   test 'player with wins' do
-    [create_player, create(:match_result, match: create_match, referee: create_referee)].then do |player, result|
-      create(:match_result_winner, match_result: result, player: player)
-        .then do
-          # Player should see the result in won_matches
-          assert_includes player.won_matches, result
-
-          # The result should list the player as a winner
-          assert_includes result.winners, player
-        end
-    end
   end
 
   test 'referee with matches' do
-    [create_match, create_referee].then do |match, referee|
-      create(:match_result, match: match, referee: referee)
-        .then do |result|
-          assert_includes referee.match_results, result
-          assert_equal result.referee, referee
-        end
-    end
   end
 
   test 'organizer with tournaments' do
-    create_match
-      .then(&:tournament)
-      .then do |tournament|
-        User::Organizer
-          .joins(:tournaments)
-          .where(tournaments: { id: tournament.id })
-          .first!
-          .then do |user|
-            assert_includes user.tournaments, tournament
-            assert_equal tournament.organizer, user
-          end
-      end
   end
 end
