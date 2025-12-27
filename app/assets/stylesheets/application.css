@@ -8,3 +8,43 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.actions {
+    display: grid;
+    gap: 6px;
+    margin-top: 1.5rem;
+}
+
+.all-centered {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.field {
+    display: grid;
+}
+
+.field-lg {
+    width: 400px;
+}
+
+.fields {
+    display: grid;
+    gap: 6px;
+}
+
+.full-height {
+    min-height: 100vh;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.links-centered .links {
+    align-items: center;
+}
