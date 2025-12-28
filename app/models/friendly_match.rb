@@ -20,9 +20,9 @@
 #
 class FriendlyMatch < ApplicationRecord
   belongs_to :organized_by,
-             class_name: 'User::Player',
+             class_name:  'User::Player',
              foreign_key: :player_id,
-             inverse_of: :friendly_matches_organized
+             inverse_of:  :friendly_matches_organized
 
   belongs_to :field
   belongs_to :sport
