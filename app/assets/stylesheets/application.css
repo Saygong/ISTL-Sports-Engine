@@ -537,3 +537,90 @@
     min-width: 0;
 }
 /* REFEREE HOMEPAGE END */
+
+/* REFEREE INSERT RESULT START */
+/* =========================
+         Referee match result page styling (SCOPED)
+         Nothing outside .referee-result-page will be affected.
+         ========================= */
+.referee-result-page {
+    --rr-soft-border: rgba(0, 0, 0, 0.08);
+    --rr-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Narrow wrapper to match “details-card” feeling */
+.referee-result-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+/* Small header “chips” */
+.referee-result-page .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--rr-soft-border);
+    background: var(--rr-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* A light “section” inside the card (without changing .card itself) */
+.referee-result-page .section-block {
+    border: 1px solid var(--rr-soft-border);
+    border-radius: 0.75rem;
+    background: #fff;
+    overflow: hidden;
+}
+
+.referee-result-page .section-header {
+    padding: 0.75rem 0.9rem;
+    background: var(--rr-soft-bg);
+    border-bottom: 1px solid var(--rr-soft-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.referee-result-page .section-title {
+    margin: 0;
+    font-weight: 800;
+}
+
+/* Participants block: reuse global structure but keep stable on small widths */
+.referee-result-page .participants {
+    min-width: 220px;
+}
+
+/* Inline helper to avoid overflow for long text */
+.referee-result-page .min-w-0 {
+    min-width: 0;
+}
+
+/* Small “set” rows inside the form */
+.referee-result-page .set-row {
+    border: 1px solid var(--rr-soft-border);
+    border-radius: 0.75rem;
+    padding: 0.85rem;
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.referee-result-page .set-title {
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+/* Make the submit area feel like your other pages */
+.referee-result-page .actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+/* REFEREE INSERT RESULT END */
