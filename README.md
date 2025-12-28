@@ -84,3 +84,8 @@ resides. They expose public APIs to other system entities, such as controllers o
 ### ERD
 The ERD diagrams were generated using the `rails-erd` gem, which is located in the `assets` folder. The notation used
 was developed by Charles Bachman in 1992. It uses open and closed points to indicate partial and full participation.
+To automatically generate the ERD diagram, simply run the following command:
+
+``` bash
+bundle exec erd
+```
