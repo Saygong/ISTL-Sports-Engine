@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   # Devise also ships with default routes
-  devise_for :users
+  devise_for :users, controllers: { sessions: 'resources/users_sessions' }
 
   # Routes Integration for DeviseTokenAuth.
   # If you need to handle an authentication mechanism other than the basic mechanisms offered by the device, uncomment
@@ -22,5 +22,7 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  namespace :resources do
+    resources :users, only: [:show]
+  end
 end
