@@ -75,14 +75,15 @@ group :development, :test do
 
   # Gem suite for running tests
   gem 'factory_bot_rails'
-  gem 'minitest', '~> 5.0'
   gem 'faker'
+  gem 'minitest', '~> 5.0'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem 'web-console'
   gem 'letter_opener'
+  gem 'rails-erd'
+  gem 'web-console'
 end
 
 group :test do
