@@ -89,4 +89,28 @@ class User::PlayerTest < ActiveSupport::TestCase
           end
       end
   end
+
+  test 'won and lost matches' do
+    { winner: :won_by, loser: :lost_by }
+      .each do |status, scope|
+        create(:match_result)
+          .then do |match_result|
+            build(:players_match_result, match_result: match_result, player_status: status)
+              .then do |match|
+                create(:user_player)
+                  .tap { it.players_match_results << match }
+                  .tap(&:save!)
+                  .then do |player|
+                    Match::Result
+                      .public_send(scope, player)
+                      .map(&:players)
+                      .flatten
+                      .then do |players|
+                        assert_includes players, player
+                      end
+                  end
+              end
+          end
+      end
+  end
 end
