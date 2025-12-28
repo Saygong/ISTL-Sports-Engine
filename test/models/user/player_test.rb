@@ -76,4 +76,17 @@ class User::PlayerTest < ActiveSupport::TestCase
           end
       end
   end
+
+  test 'match results' do
+    create(:match_result)
+      .then do |match_result|
+        create(:user_player)
+          .tap { it.players_match_results << build(:players_match_result, match_result: match_result) }
+          .tap(&:save!)
+          .then do |player|
+            assert_includes player.match_results, match_result
+            assert_includes match_result.players, player
+          end
+      end
+  end
 end
