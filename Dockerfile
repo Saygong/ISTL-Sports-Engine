@@ -16,7 +16,7 @@ ENV PATH="$PATH:/root/.rbenv/shims"
 
 # Install the C compiler and headers (zlib, yaml, etc.) needed to build Ruby and the native gems.
 # Then build Ruby 3.4.8 and install the Bundler gem.
-RUN apk add build-base openssl-dev libffi-dev yaml-dev zlib-dev tzdata && \
+RUN apk add build-base openssl-dev libffi-dev yaml-dev zlib-dev tzdata graphviz && \
     rbenv install 3.4.8 && \
     rbenv global 3.4.8 && \
     gem install bundler
