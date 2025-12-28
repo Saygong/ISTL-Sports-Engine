@@ -55,28 +55,6 @@ class User::PlayerTest < ActiveSupport::TestCase
       end
   end
 
-  test 'organized firendly matches' do
-    create(:friendly_match)
-      .then { [it, it.organized_by] }
-      .then do |match, player|
-        assert_includes player.friendly_matches_organized, match
-        assert_equal match.organized_by, player
-      end
-  end
-
-  test 'scheduled firendly matches' do
-    create(:friendly_match)
-      .then do |match|
-        create(:user_player)
-          .tap { it.friendly_matches_scheduled << match }
-          .tap(&:save!)
-          .then do |player|
-            assert_includes player.friendly_matches_scheduled, match
-            assert_includes match.players, player
-          end
-      end
-  end
-
   test 'match results' do
     create(:match_result)
       .then do |match_result|
@@ -86,6 +64,19 @@ class User::PlayerTest < ActiveSupport::TestCase
           .then do |player|
             assert_includes player.match_results, match_result
             assert_includes match_result.players, player
+          end
+      end
+  end
+
+  test 'matches' do
+    create(:match)
+      .then do |match|
+        create(:user_player)
+          .tap { it.matches << match }
+          .tap(&:save!)
+          .then do |player|
+            assert_includes player.matches, match
+            assert_includes match.players, player
           end
       end
   end
@@ -105,9 +96,7 @@ class User::PlayerTest < ActiveSupport::TestCase
                       .public_send(scope, player)
                       .map(&:players)
                       .flatten
-                      .then do |players|
-                        assert_includes players, player
-                      end
+                      .then { |players| assert_includes players, player }
                   end
               end
           end

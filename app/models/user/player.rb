@@ -40,13 +40,8 @@ class User
     has_many :players_tournaments, dependent: :destroy
     has_many :tournaments, through: :players_tournaments
 
-    has_many :friendly_matches_organized,
-             class_name: 'FriendlyMatch',
-             dependent:  :destroy,
-             inverse_of: :organized_by
-
-    has_many :players_friendly_matches, dependent: :destroy
-    has_many :friendly_matches_scheduled, through: :players_friendly_matches, source: :friendly_match
+    has_many :players_matches, dependent: :destroy
+    has_many :matches, through: :players_matches
 
     has_many :players_match_results, dependent: :destroy
     has_many :match_results, through: :players_match_results

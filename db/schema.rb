@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_140514) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,18 +22,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
     t.string "name"
     t.integer "surface", default: 0, null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "friendly_matches", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "date"
-    t.bigint "field_id"
-    t.bigint "player_id"
-    t.bigint "sport_id"
-    t.datetime "updated_at", null: false
-    t.index ["field_id"], name: "index_friendly_matches_on_field_id"
-    t.index ["player_id"], name: "index_friendly_matches_on_player_id"
-    t.index ["sport_id"], name: "index_friendly_matches_on_sport_id"
   end
 
   create_table "match_results", force: :cascade do |t|
@@ -54,15 +42,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
 
-  create_table "players_friendly_matches", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "friendly_match_id"
-    t.bigint "player_id"
-    t.datetime "updated_at", null: false
-    t.index ["friendly_match_id"], name: "index_players_friendly_matches_on_friendly_match_id"
-    t.index ["player_id"], name: "index_players_friendly_matches_on_player_id"
-  end
-
   create_table "players_match_results", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "match_result_id"
@@ -73,6 +52,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
     t.index ["player_id"], name: "index_players_match_results_on_player_id"
   end
 
+  create_table "players_matches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "match_id"
+    t.bigint "player_id"
+    t.datetime "updated_at", null: false
+    t.index ["match_id"], name: "index_players_matches_on_match_id"
+    t.index ["player_id"], name: "index_players_matches_on_player_id"
+  end
+
   create_table "players_tournaments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "player_id"
@@ -80,32 +68,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_tournaments_on_player_id"
     t.index ["tournament_id"], name: "index_players_tournaments_on_tournament_id"
-  end
-
-  create_table "spectators", force: :cascade do |t|
-    t.boolean "allow_password_change", default: false
-    t.datetime "birthdate"
-    t.datetime "confirmation_sent_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "created_at", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "first_name"
-    t.integer "gender", default: 0, null: false
-    t.string "last_name"
-    t.string "provider", default: "email", null: false
-    t.datetime "remember_created_at"
-    t.datetime "reset_password_sent_at"
-    t.string "reset_password_token"
-    t.json "tokens"
-    t.string "uid", default: "", null: false
-    t.string "unconfirmed_email"
-    t.datetime "updated_at", null: false
-    t.index ["confirmation_token"], name: "index_spectators_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_spectators_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_spectators_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_spectators_on_uid_and_provider", unique: true
   end
 
   create_table "sports", force: :cascade do |t|
@@ -163,16 +125,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_095442) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "friendly_matches", "fields"
-  add_foreign_key "friendly_matches", "sports"
-  add_foreign_key "friendly_matches", "users", column: "player_id"
   add_foreign_key "match_results", "matches"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users", column: "referee_id"
-  add_foreign_key "players_friendly_matches", "friendly_matches"
-  add_foreign_key "players_friendly_matches", "users", column: "player_id"
   add_foreign_key "players_match_results", "match_results"
   add_foreign_key "players_match_results", "users", column: "player_id"
+  add_foreign_key "players_matches", "matches"
+  add_foreign_key "players_matches", "users", column: "player_id"
   add_foreign_key "players_tournaments", "tournaments"
   add_foreign_key "players_tournaments", "users", column: "player_id"
   add_foreign_key "tournaments", "fields"
