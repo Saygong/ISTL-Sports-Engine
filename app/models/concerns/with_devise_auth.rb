@@ -17,5 +17,4 @@ module WithDeviseAuth
       self.uid = email
     end
   end
-
 end
