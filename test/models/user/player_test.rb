@@ -38,14 +38,14 @@ require 'test_helper'
 
 class User::PlayerTest < ActiveSupport::TestCase
   test 'creation' do
-    create(:user_player, :with_email)
+    create(:user_player)
       .then { assert_equal User::Player.last!, it }
   end
 
   test 'tournaments' do
-    create_tournament
+    create(:tournament)
       .then do |tournament|
-        create(:user_player, :with_email)
+        create(:user_player)
           .tap { it.tournaments << tournament }
           .tap(&:save!)
           .then do |player|
@@ -56,7 +56,8 @@ class User::PlayerTest < ActiveSupport::TestCase
   end
 
   test 'organized firendly matches' do
-    create_friendly_match
+    create(:friendly_match)
+      .then { [it, it.organized_by] }
       .then do |match, player|
         assert_includes player.friendly_matches_organized, match
         assert_equal match.organized_by, player
@@ -64,9 +65,9 @@ class User::PlayerTest < ActiveSupport::TestCase
   end
 
   test 'scheduled firendly matches' do
-    create_friendly_match
-      .then do |match, _|
-        create(:user_player, :with_email)
+    create(:friendly_match)
+      .then do |match|
+        create(:user_player)
           .tap { it.friendly_matches_scheduled << match }
           .tap(&:save!)
           .then do |player|
