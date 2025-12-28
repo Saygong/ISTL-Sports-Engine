@@ -20,6 +20,9 @@ class Match < ApplicationRecord
   belongs_to :tournament
   belongs_to :referee, class_name: 'User::Referee'
 
+  has_many :viewers_matches, dependent: :destroy
+  has_many :viewers, through: :viewers_matches
+
   has_many :players_matches, dependent: :destroy
   has_many :players, through: :players_matches
 end

@@ -43,5 +43,20 @@ class User < ApplicationRecord
   # include DeviseTokenAuth::Concerns::User
 
   include WithGender
-  include WithDeviseAuth
+
+  # Include default devise modules.
+  devise :database_authenticatable,
+         :registerable,
+         :recoverable,
+         :rememberable,
+         :validatable,
+         :confirmable
+
+  has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
+  has_many :viewed_matches, through: :viewers_matches, source: :match
+
+  # noinspection RubyResolve
+  before_create unless: :uid? do
+    self.uid = email
+  end
 end

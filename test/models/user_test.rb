@@ -39,5 +39,32 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  # Nothing to do
+  test 'creation' do
+    assert_nothing_raised do
+      create :user
+    end
+  end
+
+  test 'viewed matches' do
+    create(:match)
+      .then do |match|
+        # Create a user for each type.
+        # Each user will be able to see one match.
+        users = [:player, :organizer, :referee]
+                .map do |type|
+                  # noinspection RailsParamDefResolve
+                  create(:"user_#{type}")
+                    .tap { match.viewers << it }
+                end
+
+        # Save the game with spectators.
+        match.save!
+
+        # Test the associations.
+        users.each do |user|
+          assert_includes match.viewers, user
+          assert_includes user.viewed_matches, match
+        end
+      end
+  end
 end
