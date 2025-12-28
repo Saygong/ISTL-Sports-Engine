@@ -12,7 +12,6 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-
 class Field < ApplicationRecord
   enum :surface, { grass: 0, hard: 1 }
 end

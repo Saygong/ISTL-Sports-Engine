@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: tournaments
@@ -19,9 +21,6 @@
 #  index_tournaments_on_organizer_id  (organizer_id)
 #  index_tournaments_on_sport_id      (sport_id)
 #
-
-# frozen_string_literal: true
-
 class Tournament < ApplicationRecord
   belongs_to :field
   belongs_to :sport
