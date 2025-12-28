@@ -78,3 +78,5 @@ This forms what is known as a Model-View-Controller. In a Rails-based applicatio
 resides. They expose public APIs to other system entities, such as controllers or, if necessary, jobs.
 
 #### Distribued based application
+
+## Tools & Gems
