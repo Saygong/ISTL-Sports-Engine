@@ -43,5 +43,8 @@ class User
              class_name: 'Match',
              inverse_of: :referee,
              dependent:  :nullify
+
+    has_many :referees_tournaments, dependent: :destroy
+    has_many :tournaments, through: :referees_tournaments
   end
 end

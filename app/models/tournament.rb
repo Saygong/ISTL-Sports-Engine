@@ -34,4 +34,7 @@ class Tournament < ApplicationRecord
 
   has_many :players_tournaments, dependent: :destroy
   has_many :players, through: :players_tournaments
+
+  has_many :referees_tournaments, dependent: :destroy
+  has_many :referees, through: :referees_tournaments
 end

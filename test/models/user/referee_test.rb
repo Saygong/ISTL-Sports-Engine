@@ -55,4 +55,17 @@ class User::RefereeTest < ActiveSupport::TestCase
           end
       end
   end
+
+  test 'tournaments' do
+    create(:tournament)
+      .then do |tournament|
+        create(:user_referee)
+          .tap { it.tournaments << tournament }
+          .tap(&:save!)
+          .then do |referee|
+            assert_includes referee.tournaments, tournament
+            assert_includes tournament.referees, referee
+          end
+      end
+  end
 end

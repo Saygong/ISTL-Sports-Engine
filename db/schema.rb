@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_142349) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_165958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -67,6 +67,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_142349) do
     t.datetime "updated_at", null: false
     t.index ["player_id"], name: "index_players_tournaments_on_player_id"
     t.index ["tournament_id"], name: "index_players_tournaments_on_tournament_id"
+  end
+
+  create_table "referees_tournaments", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "referee_id"
+    t.bigint "tournament_id"
+    t.datetime "updated_at", null: false
+    t.index ["referee_id"], name: "index_referees_tournaments_on_referee_id"
+    t.index ["tournament_id"], name: "index_referees_tournaments_on_tournament_id"
   end
 
   create_table "sports", force: :cascade do |t|
@@ -142,6 +151,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_142349) do
   add_foreign_key "players_matches", "users", column: "player_id"
   add_foreign_key "players_tournaments", "tournaments"
   add_foreign_key "players_tournaments", "users", column: "player_id"
+  add_foreign_key "referees_tournaments", "tournaments"
+  add_foreign_key "referees_tournaments", "users", column: "referee_id"
   add_foreign_key "tournaments", "fields"
   add_foreign_key "tournaments", "sports"
   add_foreign_key "tournaments", "users", column: "organizer_id"
