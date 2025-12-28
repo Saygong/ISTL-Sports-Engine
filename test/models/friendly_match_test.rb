@@ -22,10 +22,7 @@ require 'test_helper'
 class FriendlyMatchTest < ActiveSupport::TestCase
   test 'creation' do
     assert_nothing_raised do
-      create :friendly_match,
-             organized_by: create_player,
-             field:        create(:field),
-             sport:        create(:sport)
+      create :friendly_match
     end
   end
 end

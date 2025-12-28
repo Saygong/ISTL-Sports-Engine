@@ -19,6 +19,8 @@
 
 FactoryBot.define do
   factory :friendly_match do
-    # Nothing to do
+    association :field, factory: :field
+    association :organized_by, factory: :user_player
+    association :sport, factory: :sport
   end
 end

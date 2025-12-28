@@ -20,9 +20,7 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   test 'creation' do
     assert_nothing_raised do
-      create :match,
-             tournament: create_tournament,
-             referee:    create_referee
+      create :match
     end
   end
 end

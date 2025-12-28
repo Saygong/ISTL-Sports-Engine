@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: users
@@ -36,13 +34,11 @@
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
 
-FactoryBot.define do
-  factory :user do
-    first_name { Faker::Name.first_name }
-    last_name  { Faker::Name.last_name }
-    password { Faker::Internet.password(min_length: 8) }
-    email { Faker::Internet.unique.email }
-    uid { email }
-    provider { 'email' }
+require 'test_helper'
+
+class User::RefereeTest < ActiveSupport::TestCase
+  test 'creation' do
+    create(:user_referee)
+      .then { assert_equal User::Referee.last!, it }
   end
 end

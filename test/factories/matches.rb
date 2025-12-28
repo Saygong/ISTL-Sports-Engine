@@ -17,6 +17,7 @@
 
 FactoryBot.define do
   factory :match do
-    # Nothing to do
+    association :tournament, factory: :tournament
+    association :referee, factory: :user_referee
   end
 end
