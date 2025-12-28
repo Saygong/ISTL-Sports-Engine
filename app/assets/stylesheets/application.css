@@ -755,3 +755,60 @@
     min-width: 0;
 }
 /* ORGANIZER HOMEPAGE END */
+
+/* ORGANIZER CREATE TOURNAMENT START */
+
+.organizer-create-page {
+    --oc-soft-border: rgba(0, 0, 0, 0.08);
+    --oc-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Match the “details-card” width feeling */
+.organizer-create-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+/* Small helper for long header text */
+.organizer-create-page .min-w-0 {
+    min-width: 0;
+}
+
+/* Light section block inside the card (like referee pages) */
+.organizer-create-page .section-block {
+    border: 1px solid var(--oc-soft-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+}
+
+.organizer-create-page .section-header {
+    padding: 0.75rem 0.9rem;
+    background: var(--oc-soft-bg);
+    border-bottom: 1px solid var(--oc-soft-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.organizer-create-page .section-title {
+    margin: 0;
+    font-weight: 800;
+}
+
+/* Make grouped labels a bit stronger (without touching global .filters-card) */
+.organizer-create-page .form-label {
+    font-weight: 600;
+}
+
+/* Footer actions aligned like other pages */
+.organizer-create-page .actions-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+/* ORGANIZER CREATE TOURNAMENT END */
