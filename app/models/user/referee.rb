@@ -39,6 +39,9 @@ class User
   class Referee < User
     store_accessor :data, :qualification_level, :availability
 
-    has_many :match_results, class_name: 'Match::Result', dependent: :destroy, inverse_of: :referee
+    has_many :refereed_matches,
+             class_name: 'Match',
+             inverse_of: :referee,
+             dependent:  :nullify
   end
 end

@@ -21,6 +21,7 @@ class MatchTest < ActiveSupport::TestCase
   test 'creation' do
     assert_nothing_raised do
       create :match
+      create :match, referee: nil
     end
   end
 end

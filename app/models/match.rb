@@ -18,7 +18,11 @@
 #
 class Match < ApplicationRecord
   belongs_to :tournament
-  belongs_to :referee, class_name: 'User::Referee'
+
+  belongs_to :referee,
+             class_name: 'User::Referee',
+             inverse_of: :refereed_matches,
+             optional:   true
 
   has_many :viewers_matches, dependent: :destroy
   has_many :viewers, through: :viewers_matches

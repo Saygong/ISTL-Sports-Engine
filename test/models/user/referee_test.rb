@@ -38,7 +38,21 @@ require 'test_helper'
 
 class User::RefereeTest < ActiveSupport::TestCase
   test 'creation' do
-    create(:user_referee)
-      .then { assert_equal User::Referee.last!, it }
+    assert_nothing_raised do
+      create(:user_referee)
+    end
+  end
+
+  test 'matches' do
+    create(:match, referee: nil)
+      .then do |match|
+        create(:user_referee)
+          .tap { it.refereed_matches << match }
+          .tap(&:save!)
+          .then do |referee|
+            assert_includes referee.refereed_matches, match
+            assert_equal match.referee, referee
+          end
+      end
   end
 end
