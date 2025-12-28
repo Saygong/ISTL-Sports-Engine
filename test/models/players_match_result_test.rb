@@ -5,7 +5,7 @@
 #  id              :integer          not null, primary key
 #  player_id       :integer
 #  match_result_id :integer
-#  player_status   :integer          default(0), not null
+#  player_status   :integer          not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -18,7 +18,9 @@
 require 'test_helper'
 
 class PlayersMatchResultTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'creation' do
+    assert_nothing_raised do
+      create :players_match_result
+    end
+  end
 end
