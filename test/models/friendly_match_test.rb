@@ -18,13 +18,13 @@
 
 require 'test_helper'
 
-class MatchTest < ActiveSupport::TestCase
+class FriendlyMatchTest < ActiveSupport::TestCase
   test 'creation' do
     assert_nothing_raised do
       create :friendly_match,
              organized_by: create_player,
-             field: create(:field),
-             sport: create(:sport)
+             field:        create(:field),
+             sport:        create(:sport)
     end
   end
 end
