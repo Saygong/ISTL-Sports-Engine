@@ -1,17 +1,15 @@
-attributes:
-  - foreign_keys
+attributes: false
 
 filename: assets/erd-bachman
 filetype: png
 title: istl-sports-engine
 
-
 disconnected: true
-indirect: true
+indirect: false
 inheritance: true
 markup: true
 notation: bachman
-orientation: horizontal
+orientation: vertical
 polymorphism: false
 sort: true
 warn: true
