@@ -10,12 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_28_140514) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_28_142349) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "fields", force: :cascade do |t|
-    t.integer "courts"
     t.datetime "created_at", null: false
     t.string "description"
     t.integer "max_seats"
@@ -125,6 +124,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_140514) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "viewers_matches", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "match_id"
+    t.datetime "updated_at", null: false
+    t.bigint "viewer_id"
+    t.index ["match_id"], name: "index_viewers_matches_on_match_id"
+    t.index ["viewer_id"], name: "index_viewers_matches_on_viewer_id"
+  end
+
   add_foreign_key "match_results", "matches"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users", column: "referee_id"
@@ -137,4 +145,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_28_140514) do
   add_foreign_key "tournaments", "fields"
   add_foreign_key "tournaments", "sports"
   add_foreign_key "tournaments", "users", column: "organizer_id"
+  add_foreign_key "viewers_matches", "matches"
+  add_foreign_key "viewers_matches", "users", column: "viewer_id"
 end
