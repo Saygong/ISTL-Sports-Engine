@@ -49,7 +49,7 @@
     align-items: center;
 }
 
-/* spectator homepage start */
+/* SPECTATOR HOMEPAGE START */
 /* --- Small design system to match the details page --- */
 .page-subtitle {
     color: var(--bs-secondary-color);
@@ -106,9 +106,9 @@
     background: rgba(0, 0, 0, 0.02);
     font-size: 0.875rem;
 }
-/* spectator homepage end */
+/* SPECTATOR HOMEPAGE END */
 
-/* spectator tournament detail start */
+/* SPECTATOR TOURNAMENT DETAIL START */
 .detail-item {
     padding: 0.75rem 0.9rem;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -181,14 +181,9 @@
     border-radius: 50%;
     background: rgba(25, 135, 84, 0.85); /* green-ish */
 }
-/* spectator tournament detail end */
+/* SPECTATOR TOURNAMENT DETAIL END */
 
-/* profile start */
-/* =========================
-   Profile page styling (SCOPED)
-   Add at the end of your global stylesheet.
-   Nothing outside .profile-page will be affected.
-   ========================= */
+/* PROFILE START */
 
 .profile-page {
     --profile-soft-border: rgba(0, 0, 0, 0.08);
@@ -339,13 +334,9 @@
     min-width: 0;
 }
 
-/* profile end */
+/* PROFILE END */
 
-/* spectator personal matches start */
-/* =========================
-   Booked matches page styling (SCOPED)
-   Nothing outside .booked-page will be affected.
-   ========================= */
+/* SPECTATOR PERSONAL MATCHES START */
 
 .booked-page {
     --booked-soft-border: rgba(0, 0, 0, 0.08);
@@ -390,13 +381,9 @@
 .booked-page .min-w-0 {
     min-width: 0;
 }
-/* spectator personal matches end */
+/* SPECTATOR PERSONAL MATCHES END */
 
 /* REFEREE HOMEPAGE START */
-/* =========================
-         Referee homepage styling (SCOPED)
-         Nothing outside .referee-page will be affected.
-         ========================= */
 
 .referee-page {
     --ref-soft-border: rgba(0, 0, 0, 0.08);
@@ -539,10 +526,7 @@
 /* REFEREE HOMEPAGE END */
 
 /* REFEREE INSERT RESULT START */
-/* =========================
-         Referee match result page styling (SCOPED)
-         Nothing outside .referee-result-page will be affected.
-         ========================= */
+
 .referee-result-page {
     --rr-soft-border: rgba(0, 0, 0, 0.08);
     --rr-soft-bg: rgba(0, 0, 0, 0.02);
@@ -624,3 +608,150 @@
     margin-top: 1rem;
 }
 /* REFEREE INSERT RESULT END */
+
+/* ORGANIZER HOMEPAGE START */
+
+.organizer-page {
+    --org-soft-border: rgba(0, 0, 0, 0.08);
+    --org-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Narrow wrapper to match your “details-card” feeling */
+.organizer-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+/* Accordion visual alignment with your cards */
+.organizer-page .accordion-item {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+}
+
+.organizer-page .accordion-item + .accordion-item {
+    margin-top: 0.75rem;
+}
+
+.organizer-page .accordion-button {
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 1rem 1rem;
+    background: #fff;
+}
+
+.organizer-page .accordion-button:not(.collapsed) {
+    background: var(--org-soft-bg);
+    box-shadow: none;
+}
+
+.organizer-page .accordion-button:focus {
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.12);
+}
+
+.organizer-page .accordion-body {
+    background: #fff;
+}
+
+/* Tournament header layout inside the accordion button */
+.organizer-page .tournament-title {
+    font-weight: 800;
+    line-height: 1.1;
+    margin: 0;
+}
+
+.organizer-page .tournament-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.35rem;
+}
+
+.organizer-page .meta-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--org-soft-border);
+    background: var(--org-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Section block inside accordion */
+.organizer-page .section-block {
+    border: 1px solid var(--org-soft-border);
+    border-radius: 0.75rem;
+    overflow: hidden;
+    background: #fff;
+}
+
+.organizer-page .section-header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 0.9rem;
+    background: var(--org-soft-bg);
+    border-bottom: 1px solid var(--org-soft-border);
+}
+
+.organizer-page .section-title {
+    font-weight: 800;
+    margin: 0;
+}
+
+/* Reuse global participants layout, but slightly smaller min width here */
+.organizer-page .participants {
+    min-width: 220px;
+}
+
+/* Winner chip (compact) */
+.organizer-page .winner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--org-soft-border);
+    background: rgba(25, 135, 84, 0.08);
+    font-weight: 700;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.organizer-page .winner-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: rgba(25, 135, 84, 0.85);
+}
+
+/* Keep “Referee” readable but compact */
+.organizer-page .ref-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--org-soft-border);
+    background: var(--org-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Align last column */
+.organizer-page .action-end {
+    text-align: end;
+    white-space: nowrap;
+}
+
+.organizer-page .min-w-0 {
+    min-width: 0;
+}
+/* ORGANIZER HOMEPAGE END */
