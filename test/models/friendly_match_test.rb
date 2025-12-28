@@ -6,6 +6,7 @@
 #  player_id  :integer
 #  sport_id   :integer
 #  field_id   :integer
+#  date       :datetime
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
