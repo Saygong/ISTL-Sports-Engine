@@ -29,4 +29,17 @@ class TournamentTest < ActiveSupport::TestCase
       create :tournament, organizer: nil
     end
   end
+
+  test 'matches' do
+    build(:match, tournament: nil)
+      .then do |match|
+        create(:tournament)
+          .tap { it.matches << match }
+          .tap(&:save!)
+          .then do |tournament|
+            assert_includes tournament.matches, match
+            assert_equal match.tournament, tournament
+          end
+      end
+  end
 end

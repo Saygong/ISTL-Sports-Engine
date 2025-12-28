@@ -30,6 +30,8 @@ class Tournament < ApplicationRecord
              class_name: 'User::Organizer',
              optional: true
 
+  has_many :matches, dependent: :destroy
+
   has_many :players_tournaments, dependent: :destroy
   has_many :players, through: :players_tournaments
 end
