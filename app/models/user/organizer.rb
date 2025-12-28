@@ -39,6 +39,8 @@ class User
   class Organizer < User
     store_accessor :data, :organization_name, :address
 
-    has_many :tournaments, dependent: :destroy, inverse_of: :organizer
+    has_many :tournaments,
+             dependent:  :nullify,
+             inverse_of: :organizer
   end
 end

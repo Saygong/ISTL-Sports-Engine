@@ -20,16 +20,13 @@
 #  index_tournaments_on_sport_id      (sport_id)
 #
 
-# frozen_string_literal: true
+require 'test_helper'
 
-class Tournament < ApplicationRecord
-  belongs_to :field
-  belongs_to :sport
-
-  belongs_to :organizer,
-             class_name: 'User::Organizer',
-             optional: true
-
-  has_many :players_tournaments, dependent: :destroy
-  has_many :players, through: :players_tournaments
+class TournamentTest < ActiveSupport::TestCase
+  test 'creation' do
+    assert_nothing_raised do
+      create :tournament
+      create :tournament, organizer: nil
+    end
+  end
 end

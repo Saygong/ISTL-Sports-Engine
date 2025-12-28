@@ -41,4 +41,17 @@ class User::OrganizerTest < ActiveSupport::TestCase
     create(:user_organizer)
       .then { assert_equal User::Organizer.last!, it }
   end
+
+  test 'tournaments' do
+    create(:tournament, organizer: nil)
+      .then do |tournament|
+        create(:user_organizer)
+          .tap { |organizer| organizer.tournaments << tournament }
+          .tap(&:save!)
+          .then do |organizer|
+            assert_includes organizer.tournaments, tournament
+            assert_equal tournament.organizer, organizer
+          end
+      end
+  end
 end

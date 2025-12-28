@@ -5,7 +5,7 @@ class CreateTournament < ActiveRecord::Migration[8.1]
       t.string :description
       t.datetime :start_date
       t.datetime :end_date
-      t.references :organizer, foreign_key: { to_table: :users }
+      t.references :organizer, null: true, foreign_key: { to_table: :users }
       t.references :sport, foreign_key: true
       t.references :field, foreign_key: true
 
