@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: fields
@@ -9,7 +8,6 @@
 #  description :string
 #  surface     :integer          default(0), not null
 #  max_seats   :integer
-#  courts      :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
