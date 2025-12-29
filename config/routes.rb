@@ -33,6 +33,8 @@ Rails.application.routes.draw do
       get 'unconfirmed', on: :new
       get 'passwords', on: :new
     end
+
+    resources :tournaments, only: [:index, :show]
   end
 
   get '/profile', to: 'profile#show', as: :profile
