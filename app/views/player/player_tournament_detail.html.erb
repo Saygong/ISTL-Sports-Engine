@@ -1,0 +1,170 @@
+<div class="player-tournament-detail">
+  <!-- Navbar (recycled) -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="#">Homepage</a>
+          <a class="nav-link active" href="#">Tournament Registrations</a>
+          <a class="nav-link" href="#">Spectate</a>
+          <a class="nav-link" href="#">Booked Matches</a>
+          <a class="nav-link" href="#">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Outer container -->
+  <div class="container py-4">
+    <!-- Shared width wrapper -->
+    <div class="page-narrow mx-auto">
+      <!-- Page header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Tournament details</h2>
+          <div class="text-body-secondary">View informations for a specific tournament</div>
+        </div>
+
+        <!-- Eligibility + Register -->
+        <div class="header-actions">
+          <!-- Eligible example (swap to --no + “Not eligible”) -->
+          <span class="elig-chip" title="Eligibility status">
+                <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+                Eligible
+              </span>
+
+          <a class="btn btn-primary" href="#" title="Register to this tournament">
+            <span class="me-1" aria-hidden="true">✍️</span> Register
+          </a>
+
+          <!-- If NOT eligible, you can use this instead:
+          <a class="btn btn-primary disabled" aria-disabled="true" href="#" title="You are not eligible">
+            <span class="me-1" aria-hidden="true">✍️</span> Register
+          </a>
+          -->
+        </div>
+      </div>
+
+      <!-- Tournament details card -->
+      <section class="card shadow-sm mb-4">
+        <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
+          <div class="d-flex align-items-center gap-2 flex-wrap">
+            <strong class="fs-5">Wimbledon</strong>
+            <span class="sport-chip">Tennis</span>
+          </div>
+
+          <!-- Optional: repeat eligibility in the card header if you like
+          <span class="elig-chip">
+            <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+            Eligible
+          </span>
+          -->
+        </div>
+
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Name</div>
+                <div class="detail-value">Wimbledon</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Sport</div>
+                <div class="detail-value">Tennis</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Start date</div>
+                <div class="detail-value">10/01/2026</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Number of rounds</div>
+                <div class="detail-value">6</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Participants</div>
+                <div class="detail-value">128</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Referee</div>
+                <div class="detail-value">Alice Verdi</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Organizer</div>
+                <div class="detail-value">ISTL Committee</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Gender of players</div>
+                <div class="detail-value">Mixed</div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+              <div class="detail-item">
+                <div class="detail-label">Min age</div>
+                <div class="detail-value">16</div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+              <div class="detail-item">
+                <div class="detail-label">Max age</div>
+                <div class="detail-value">45</div>
+              </div>
+            </div>
+
+            <!-- Optional: if you want to show match type -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Match type</div>
+                <div class="detail-value">Individual</div>
+              </div>
+            </div>
+
+            <!-- Optional: eligibility reason (nice UX when Not eligible) -->
+            <!--
+            <div class="col-12">
+              <div class="detail-item">
+                <div class="detail-label">Eligibility note</div>
+                <div class="detail-value">Not eligible: age must be between 16 and 45.</div>
+              </div>
+            </div>
+            -->
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
