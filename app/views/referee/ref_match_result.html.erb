@@ -1,0 +1,233 @@
+<div class="referee-result-page">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="#">Homepage</a>
+          <a class="nav-link active" aria-current="page" href="#">Matches</a>
+          <a class="nav-link" href="#">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="page-narrow">
+      <!-- Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Insert match result</h2>
+          <div class="page-subtitle">
+            Confirm the final score and assign the winner
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+          <span class="meta-chip">Tournament: Wimbledon</span>
+          <span class="sport-chip">Tennis</span>
+          <span class="date-chip">10/05/2026</span>
+        </div>
+      </div>
+
+      <!-- Main card -->
+      <section class="card shadow-sm">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Match details</strong>
+        </div>
+
+        <div class="card-body">
+          <form action="#" method="post">
+            <!-- Match info (read-only style blocks) -->
+            <div class="row g-3 mb-3">
+              <div class="col-12 col-md-8">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Participants</strong></div>
+                  <div class="detail-value">
+                    <div class="participants mt-1">
+                      <div class="team"><span class="player">J. Sinner</span></div>
+                      <div class="vs">vs</div>
+                      <div class="team"><span class="player">C. Alcaraz</span></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-2">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Round</strong></div>
+                  <div class="detail-value">Round 2</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Start date</strong></div>
+                  <div class="detail-value">12/01/2026</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Start time</strong></div>
+                  <div class="detail-value">11:15</div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Stadium</strong></div>
+                  <div class="detail-value">Centre Court</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Results section -->
+            <div class="section-block">
+              <div class="section-header">
+                <h3 class="section-title fs-6">Results</h3>
+              </div>
+
+              <div class="p-3 p-md-4">
+                <div class="row g-3 align-items-end mb-3">
+                  <div class="col-12 col-md-4">
+                    <label for="numSets" class="form-label fw-semibold">Number of sets</label>
+                    <select id="numSets" class="form-select" name="num_sets">
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3" selected>3</option>
+                      <option value="5">5</option>
+                    </select>
+                    <div class="form-text">Choose the total sets played.</div>
+                  </div>
+
+                  <div class="col-12 col-md-8">
+                    <label for="winner" class="form-label fw-semibold">Winner</label>
+                    <select id="winner" class="form-select" name="winner">
+                      <option value="" selected disabled>Select the winner</option>
+                      <option value="sinner">J. Sinner</option>
+                      <option value="alcaraz">C. Alcaraz</option>
+                    </select>
+                    <div class="form-text">Only participants can be selected.</div>
+                  </div>
+                </div>
+
+                <!-- Sets input (example for up to 3 sets; you can duplicate for 5) -->
+                <div class="row g-3">
+                  <div class="col-12">
+                    <div class="set-row">
+                      <div class="set-title">Set 1</div>
+                      <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                          <label for="set1TeamA" class="form-label fw-semibold">J. Sinner points</label>
+                          <input
+                            id="set1TeamA"
+                            name="set1_team_a"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 6"
+                            />
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label for="set1TeamB" class="form-label fw-semibold">C. Alcaraz points</label>
+                          <input
+                            id="set1TeamB"
+                            name="set1_team_b"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 4"
+                            />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="set-row">
+                      <div class="set-title">Set 2</div>
+                      <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                          <label for="set2TeamA" class="form-label fw-semibold">J. Sinner points</label>
+                          <input
+                            id="set2TeamA"
+                            name="set2_team_a"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 6"
+                            />
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label for="set2TeamB" class="form-label fw-semibold">C. Alcaraz points</label>
+                          <input
+                            id="set2TeamB"
+                            name="set2_team_b"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 7"
+                            />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="set-row">
+                      <div class="set-title">Set 3</div>
+                      <div class="row g-3">
+                        <div class="col-12 col-md-6">
+                          <label for="set3TeamA" class="form-label fw-semibold">J. Sinner points</label>
+                          <input
+                            id="set3TeamA"
+                            name="set3_team_a"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 7"
+                            />
+                        </div>
+                        <div class="col-12 col-md-6">
+                          <label for="set3TeamB" class="form-label fw-semibold">C. Alcaraz points</label>
+                          <input
+                            id="set3TeamB"
+                            name="set3_team_b"
+                            type="number"
+                            class="form-control"
+                            min="0"
+                            placeholder="e.g. 5"
+                            />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="actions-bar">
+                  <a href="#" class="btn btn-outline-secondary">Cancel</a>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
