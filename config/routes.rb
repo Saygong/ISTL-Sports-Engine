@@ -2,7 +2,10 @@
 
 Rails.application.routes.draw do
   # Devise also ships with default routes
-  devise_for :users, controllers: { sessions: 'resources/users_sessions' }
+  devise_for :users, controllers: {
+    sessions: 'resources/users_sessions',
+    registrations: 'resources/users_registrations'
+  }
 
   # Routes Integration for DeviseTokenAuth.
   # If you need to handle an authentication mechanism other than the basic mechanisms offered by the device, uncomment
@@ -23,6 +26,10 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   namespace :resources do
-    resources :users, only: [:show]
+
+    # Views will be customized by using the proper type (e.g. players). The user cotrollers is mainly used to be intergated with Devise regsistration flow
+    resources :users, only: [] do
+      get "unconfirmed", on: :new
+    end
   end
 end
