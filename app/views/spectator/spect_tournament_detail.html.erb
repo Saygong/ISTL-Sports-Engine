@@ -1,0 +1,235 @@
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="#">Homepage</a>
+          <a class="nav-link" href="#">Matches</a>
+          <a class="nav-link active" aria-current="page" href="#">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Outer container (Bootstrap) -->
+  <div class="container py-4">
+    <!-- Shared width wrapper (IMPORTANT) -->
+    <div class="page-narrow mx-auto">
+      <!-- Page header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <div>
+          <h2 class="mb-1">Tournament details</h2>
+          <div class="text-body-secondary">View info and matches for a specific tournament</div>
+        </div>
+      </div>
+
+      <!-- Tournament details card -->
+      <section class="card shadow-sm mb-4">
+        <div class="card-header d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge text-bg-primary">Active</span>
+            <strong class="fs-5">Wimbledon</strong>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Name</div>
+                <div class="detail-value">Wimbledon</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Sport</div>
+                <div class="detail-value">Tennis</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Start date</div>
+                <div class="detail-value">10/01/2026</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Number of rounds</div>
+                <div class="detail-value">6</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Participants</div>
+                <div class="detail-value">128</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Referee</div>
+                <div class="detail-value">Alice Verdi</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Organizer</div>
+                <div class="detail-value">ISTL Committee</div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="detail-item">
+                <div class="detail-label">Gender of players</div>
+                <div class="detail-value">Mixed</div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+              <div class="detail-item">
+                <div class="detail-label">Min age</div>
+                <div class="detail-value">16</div>
+              </div>
+            </div>
+
+            <div class="col-6 col-md-3 col-lg-2">
+              <div class="detail-item">
+                <div class="detail-label">Max age</div>
+                <div class="detail-value">45</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Matches card (same width as details card because of .page-narrow wrapper) -->
+      <section class="card shadow-sm">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Matches</strong>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+              <th scope="col">Participants</th>
+              <th scope="col">Round</th>
+              <th scope="col">Start date</th>
+              <th scope="col">Start time</th>
+              <th scope="col">Stadium</th>
+              <th scope="col">Seats</th>
+              <th scope="col" class="text-end">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team"><span class="player">J. Sinner</span></div>
+                  <div class="vs">vs</div>
+                  <div class="team"><span class="player">C. Alcaraz</span></div>
+                </div>
+              </td>
+              <td><span class="badge text-bg-secondary">Round 1</span></td>
+              <td>10/01/2026</td>
+              <td>14:30</td>
+              <td>Centre Court</td>
+              <td>
+                      <span class="seat-pill">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        210 available
+                      </span>
+              </td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-success" href="#" title="Book ticket">
+                  <span class="me-1" aria-hidden="true">🎟️</span> Book
+                </a>
+                <a class="btn btn-sm btn-outline-danger ms-1" href="#" title="Unbook ticket">
+                  <span class="me-1" aria-hidden="true">✖</span> Unbook
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team">
+                    <span class="player">M. Rossi</span>
+                    <span class="player">L. Bianchi</span>
+                  </div>
+                  <div class="vs">vs</div>
+                  <div class="team">
+                    <span class="player">S. Neri</span>
+                    <span class="player">G. Conti</span>
+                  </div>
+                </div>
+              </td>
+              <td><span class="badge text-bg-secondary">Round 1</span></td>
+              <td>10/01/2026</td>
+              <td>16:00</td>
+              <td>Court 2</td>
+              <td>
+                      <span class="seat-pill">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        85 available
+                      </span>
+              </td>
+              <td class="text-end">
+                <a class="btn btn-sm btn-success" href="#" title="Book ticket">
+                  <span class="me-1" aria-hidden="true">🎟️</span> Book
+                </a>
+                <a class="btn btn-sm btn-outline-danger ms-1" href="#" title="Unbook ticket">
+                  <span class="me-1" aria-hidden="true">✖</span> Unbook
+                </a>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team"><span class="player">A. Verdi</span></div>
+                  <div class="vs">vs</div>
+                  <div class="team"><span class="player">P. Blu</span></div>
+                </div>
+              </td>
+              <td><span class="badge text-bg-warning">Round 2</span></td>
+              <td>12/01/2026</td>
+              <td>11:15</td>
+              <td>Court 1</td>
+              <td>
+                      <span class="seat-pill seat-pill--low">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        12 available
+                      </span>
+              </td>
+              <td class="text-end">
+                <span class="badge text-bg-success me-2">Reserved</span>
+                <a class="btn btn-sm btn-outline-danger" href="#" title="Unbook ticket">
+                  <span class="me-1" aria-hidden="true">✖</span> Unbook
+                </a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>

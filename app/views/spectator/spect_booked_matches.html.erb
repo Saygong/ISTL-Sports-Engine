@@ -1,0 +1,189 @@
+<div class="booked-page">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link" href="#">Homepage</a>
+          <a class="nav-link active" aria-current="page" href="#">Matches</a>
+          <a class="nav-link" href="#">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="page-narrow">
+      <!-- Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Booked matches</h2>
+          <div class="page-subtitle">These are the matches you reserved tickets for</div>
+        </div>
+      </div>
+
+      <!-- Matches card -->
+      <section class="card shadow-sm">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Your reservations</strong>
+          <span class="text-body-secondary small">Only unbooking is available here</span>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+              <th scope="col">Participants</th>
+              <th scope="col">Tournament</th>
+              <th scope="col">Round</th>
+              <th scope="col">Start date</th>
+              <th scope="col">Start time</th>
+              <th scope="col">Stadium</th>
+              <th scope="col">Seats</th>
+              <th scope="col" class="text-end">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <!-- Booked 1v1 -->
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team"><span class="player">J. Sinner</span></div>
+                  <div class="vs">vs</div>
+                  <div class="team"><span class="player">C. Alcaraz</span></div>
+                </div>
+              </td>
+
+              <td class="tournament-cell">
+                <div class="tournament-title">Wimbledon</div>
+                <div class="tournament-sub">
+                  <span class="sport-chip">Tennis</span>
+                </div>
+              </td>
+
+              <td><span class="badge text-bg-secondary">Round 1</span></td>
+              <td>10/01/2026</td>
+              <td>14:30</td>
+              <td>Centre Court</td>
+              <td>
+                      <span class="seat-pill">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        210 available
+                      </span>
+              </td>
+              <td class="text-end">
+                      <span class="action-stack">
+                        <a class="btn btn-sm btn-outline-danger" href="#" title="Unbook ticket">
+                          <span class="me-1" aria-hidden="true">✖</span> Unbook
+                        </a>
+                      </span>
+              </td>
+            </tr>
+
+            <!-- Booked 2v2 -->
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team">
+                    <span class="player">M. Rossi</span>
+                    <span class="player">L. Bianchi</span>
+                  </div>
+                  <div class="vs">vs</div>
+                  <div class="team">
+                    <span class="player">S. Neri</span>
+                    <span class="player">G. Conti</span>
+                  </div>
+                </div>
+              </td>
+
+              <td class="tournament-cell">
+                <div class="tournament-title">AP-2000</div>
+                <div class="tournament-sub">
+                  <span class="sport-chip">Table tennis</span>
+                </div>
+              </td>
+
+              <td><span class="badge text-bg-secondary">Round 1</span></td>
+              <td>14/04/2026</td>
+              <td>16:00</td>
+              <td>Court 2</td>
+              <td>
+                      <span class="seat-pill">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        85 available
+                      </span>
+              </td>
+              <td class="text-end">
+                      <span class="action-stack">
+                        <a class="btn btn-sm btn-outline-danger" href="#" title="Unbook ticket">
+                          <span class="me-1" aria-hidden="true">✖</span> Unbook
+                        </a>
+                      </span>
+              </td>
+            </tr>
+
+            <!-- Booked (low seats visual) -->
+            <tr>
+              <td>
+                <div class="participants">
+                  <div class="team"><span class="player">A. Verdi</span></div>
+                  <div class="vs">vs</div>
+                  <div class="team"><span class="player">P. Blu</span></div>
+                </div>
+              </td>
+
+              <td class="tournament-cell">
+                <div class="tournament-title">Summer fest</div>
+                <div class="tournament-sub">
+                  <span class="sport-chip">Beach tennis</span>
+                </div>
+              </td>
+
+              <td><span class="badge text-bg-warning">Round 2</span></td>
+              <td>20/05/2026</td>
+              <td>11:15</td>
+              <td>Court 1</td>
+              <td>
+                      <span class="seat-pill seat-pill--low">
+                        <span class="seat-dot" aria-hidden="true"></span>
+                        12 available
+                      </span>
+              </td>
+              <td class="text-end">
+                      <span class="action-stack">
+                        <a class="btn btn-sm btn-outline-danger" href="#" title="Unbook ticket">
+                          <span class="me-1" aria-hidden="true">✖</span> Unbook
+                        </a>
+                      </span>
+              </td>
+            </tr>
+
+            <!-- Empty state example (remove if you don't need it) -->
+            <!--
+            <tr>
+              <td colspan="8" class="text-center py-5 text-body-secondary">
+                No booked matches yet.
+              </td>
+            </tr>
+            -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
