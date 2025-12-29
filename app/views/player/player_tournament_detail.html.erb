@@ -37,23 +37,20 @@
           <div class="text-body-secondary">View informations for a specific tournament</div>
         </div>
 
-        <!-- Eligibility + Register -->
+        <!-- Eligibility + Actions -->
         <div class="header-actions">
-          <!-- Eligible example (swap to --no + “Not eligible”) -->
           <span class="elig-chip" title="Eligibility status">
-                <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
-                Eligible
-              </span>
+            <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+            Eligible
+          </span>
 
+          <!-- Register button (ONLY for Individual tournaments) -->
+          <!-- Show this only if match type is Individual -->
           <a class="btn btn-primary" href="#" title="Register to this tournament">
             <span class="me-1" aria-hidden="true">✍️</span> Register
           </a>
 
-          <!-- If NOT eligible, you can use this instead:
-          <a class="btn btn-primary disabled" aria-disabled="true" href="#" title="You are not eligible">
-            <span class="me-1" aria-hidden="true">✍️</span> Register
-          </a>
-          -->
+          <!-- If match type is NOT Individual, do NOT render the button at all -->
         </div>
       </div>
 
@@ -64,13 +61,6 @@
             <strong class="fs-5">Wimbledon</strong>
             <span class="sport-chip">Tennis</span>
           </div>
-
-          <!-- Optional: repeat eligibility in the card header if you like
-          <span class="elig-chip">
-            <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
-            Eligible
-          </span>
-          -->
         </div>
 
         <div class="card-body">
@@ -145,20 +135,93 @@
               </div>
             </div>
 
-            <!-- Optional: if you want to show match type -->
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Match type</div>
                 <div class="detail-value">Individual</div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
 
-            <!-- Optional: eligibility reason (nice UX when Not eligible) -->
+      <!-- Teams section (ONLY if match type is Individual) -->
+      <section class="card shadow-sm">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <div class="min-w-0">
+            <strong class="fs-5">Available teams</strong>
+            <div class="text-body-secondary small">Join a team that still has free slots</div>
+          </div>
+          <span class="text-body-secondary small">Teams with 2 players are hidden</span>
+        </div>
+
+        <div class="card-body">
+          <div class="row g-3">
+            <!-- Team card (0/2) -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="team-card">
+                <div class="team-card-top">
+                  <div class="min-w-0">
+                    <div class="team-name">Team Alpha</div>
+                    <div class="team-meta">
+                      <span class="slot-chip">
+                        <span class="slot-dot slot-dot--empty" aria-hidden="true"></span>
+                        No member yet
+                      </span>
+                    </div>
+                  </div>
+                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Alpha">
+                    <span class="me-1" aria-hidden="true">➕</span> Join
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team card (1/2) -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="team-card">
+                <div class="team-card-top">
+                  <div class="min-w-0">
+                    <div class="team-name">Team Bravo</div>
+                    <div class="team-meta">
+                      <span class="slot-chip">
+                        <span class="slot-dot slot-dot--half" aria-hidden="true"></span>
+                        Member: <span class="fw-semibold">M. Rossi</span>
+                      </span>
+                    </div>
+                  </div>
+                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Bravo">
+                    <span class="me-1" aria-hidden="true">➕</span> Join
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team card (1/2) -->
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="team-card">
+                <div class="team-card-top">
+                  <div class="min-w-0">
+                    <div class="team-name">Team Delta</div>
+                    <div class="team-meta">
+                      <span class="slot-chip">
+                        <span class="slot-dot slot-dot--half" aria-hidden="true"></span>
+                        Member: <span class="fw-semibold">S. Neri</span>
+                      </span>
+                    </div>
+                  </div>
+                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Delta">
+                    <span class="me-1" aria-hidden="true">➕</span> Join
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Example empty state (if no teams available) -->
             <!--
             <div class="col-12">
-              <div class="detail-item">
-                <div class="detail-label">Eligibility note</div>
-                <div class="detail-value">Not eligible: age must be between 16 and 45.</div>
+              <div class="text-center text-body-secondary py-4">
+                No joinable teams available right now.
               </div>
             </div>
             -->

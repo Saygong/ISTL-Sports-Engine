@@ -946,6 +946,60 @@
     flex-wrap: wrap;
     justify-content: flex-end;
 }
+
+.player-tournament-detail .team-card {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0.75rem;
+    background: #fff;
+    padding: 0.9rem;
+}
+
+.player-tournament-detail .team-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.player-tournament-detail .team-name {
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.player-tournament-detail .team-meta {
+    margin-top: 0.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.player-tournament-detail .slot-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--ptd-soft-border);
+    background: var(--ptd-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.player-tournament-detail .slot-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+}
+
+.player-tournament-detail .slot-dot--empty {
+    background: rgba(220, 53, 69, 0.75);
+}
+
+.player-tournament-detail .slot-dot--half {
+    background: rgba(255, 193, 7, 0.9);
+}
 /* PLAYER TOURNAMENT DETAIL END */
 
 /* PLAYER REGISTRATION START */
