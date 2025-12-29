@@ -12,6 +12,10 @@ module Resources
       # Nothing to do
     end
 
+    def passwords
+      # Nothing to do
+    end
+
     private
 
     def resource_name
