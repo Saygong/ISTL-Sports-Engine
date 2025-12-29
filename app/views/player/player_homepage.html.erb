@@ -1,0 +1,171 @@
+<div class="player-page">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <a class="nav-link active" aria-current="page" href="#">Homepage</a>
+          <a class="nav-link" href="#">Tournament Registrations</a>
+          <a class="nav-link" href="#">Spectate</a>
+          <a class="nav-link" href="#">Booked Matches</a>
+          <a class="nav-link" href="#">Profile</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="page-narrow">
+      <!-- Header -->
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Player homepage</h2>
+          <div class="page-subtitle">Browse tournaments and check your eligibility</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <section class="card shadow-sm filters-card mb-3">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Filters</strong>
+        </div>
+
+        <div class="card-body">
+          <form action="#" method="get">
+            <div class="row g-3 align-items-end">
+              <div class="col-12 col-md-4">
+                <label for="filterName" class="form-label">Name</label>
+                <input
+                  id="filterName"
+                  name="name"
+                  type="text"
+                  class="form-control"
+                  placeholder="e.g. Wimbledon"
+                  />
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="filterSport" class="form-label">Sport type</label>
+                <select id="filterSport" name="sport" class="form-select">
+                  <option value="">All</option>
+                  <option value="Tennis">Tennis</option>
+                  <option value="Table tennis">Table tennis</option>
+                  <option value="Beach tennis">Beach tennis</option>
+                  <option value="Badminton">Badminton</option>
+                  <option value="Squash">Squash</option>
+                  <option value="Padel">Padel</option>
+                  <option value="Pickleball">Pickleball</option>
+                </select>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="filterStartDate" class="form-label">Start date</label>
+                <!-- Native picker; your backend can enforce dd/mm/yyyy display if needed -->
+                <input id="filterStartDate" name="start_date" type="date" class="form-control" />
+              </div>
+
+              <div class="col-12 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Apply</button>
+                <a href="#" class="btn btn-outline-secondary">Reset</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Tournaments table -->
+      <section class="card shadow-sm table-card">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Tournaments</strong>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+              <th scope="col">Name</th>
+              <th scope="col">Sport</th>
+              <th scope="col">Start date</th>
+              <th scope="col">Organizer</th>
+              <th scope="col">Eligibility</th>
+              <th scope="col" class="action-end">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr>
+              <th scope="row">Wimbledon</th>
+              <td><span class="sport-chip">Tennis</span></td>
+              <td>10/01/2026</td>
+              <td><span class="org-chip">ISTL Committee</span></td>
+              <td>
+                      <span class="elig-pill">
+                        <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+                        Eligible
+                      </span>
+              </td>
+              <td class="action-end">
+                <a class="btn btn-sm btn-outline-primary" href="#" title="Open details">Details</a>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">AP-2000</th>
+              <td><span class="sport-chip">Table tennis</span></td>
+              <td>14/04/2026</td>
+              <td><span class="org-chip">AP Org Team</span></td>
+              <td>
+                      <span class="elig-pill">
+                        <span class="elig-dot elig-dot--no" aria-hidden="true"></span>
+                        Not eligible
+                      </span>
+              </td>
+              <td class="action-end">
+                <a class="btn btn-sm btn-outline-primary" href="#" title="Open details">Details</a>
+              </td>
+            </tr>
+
+            <tr>
+              <th scope="row">Summer fest</th>
+              <td><span class="sport-chip">Beach tennis</span></td>
+              <td>20/05/2026</td>
+              <td><span class="org-chip">Seaside Events</span></td>
+              <td>
+                      <span class="elig-pill">
+                        <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+                        Eligible
+                      </span>
+              </td>
+              <td class="action-end">
+                <a class="btn btn-sm btn-outline-primary" href="#" title="Open details">Details</a>
+              </td>
+            </tr>
+
+            <!-- Optional empty state (remove if not needed) -->
+            <!--
+            <tr>
+              <td colspan="6" class="text-center py-5 text-body-secondary">
+                No tournaments found for the selected filters.
+              </td>
+            </tr>
+            -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
