@@ -23,4 +23,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Profile page
+  get '/profile', to: 'profile#show', as: :profile
 end
