@@ -34,4 +34,6 @@ Rails.application.routes.draw do
       get 'passwords', on: :new
     end
   end
+
+  get '/profile', to: 'profile#show', as: :profile
 end
