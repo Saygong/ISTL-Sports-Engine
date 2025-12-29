@@ -2,8 +2,6 @@
 
 module Resources
   class UsersController < ApplicationController
-    # before_action :authenticate_user!
-
     # To view shared links provided by Devise
     # [https://github.com/heartcombo/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app]
     helper_method :resource_name, :resource, :devise_mapping, :resource_class
