@@ -812,3 +812,196 @@
     margin-top: 1rem;
 }
 /* ORGANIZER CREATE TOURNAMENT END */
+
+/* PLAYER HOMEPAGE START */
+.player-page {
+    --pl-soft-border: rgba(0, 0, 0, 0.08);
+    --pl-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Match the “details-card” width feeling */
+.player-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+.player-page .min-w-0 {
+    min-width: 0;
+}
+
+/* Filters block (same “card + grouped inputs” taste) */
+.player-page .filters-card {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 0.75rem;
+    background: #fff;
+}
+
+.player-page .filters-card .card-header {
+    background: var(--pl-soft-bg);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+/* Compact eligibility pills */
+.player-page .elig-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--pl-soft-border);
+    background: var(--pl-soft-bg);
+    font-weight: 700;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.player-page .elig-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+}
+
+.player-page .elig-dot--ok {
+    background: rgba(25, 135, 84, 0.85);
+}
+
+.player-page .elig-dot--no {
+    background: rgba(220, 53, 69, 0.85);
+}
+
+/* Keep organizer readable, compact */
+.player-page .org-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--pl-soft-border);
+    background: var(--pl-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Align action column */
+.player-page .action-end {
+    text-align: end;
+    white-space: nowrap;
+}
+
+/* Make the table card match other pages */
+.player-page .table-card {
+    overflow: hidden;
+}
+/* PLAYER HOMEPAGE END */
+
+/* PLAYER TOURNAMENT DETAIL START */
+.player-tournament-detail {
+    --ptd-soft-border: rgba(0, 0, 0, 0.08);
+    --ptd-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Match the “details-card” width feeling */
+.player-tournament-detail .page-narrow {
+    max-width: 980px;
+}
+
+.player-tournament-detail .min-w-0 {
+    min-width: 0;
+}
+
+/* Eligibility chip (keeps same pill language as the rest of the site) */
+.player-tournament-detail .elig-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    border: 1px solid var(--ptd-soft-border);
+    background: var(--ptd-soft-bg);
+    font-weight: 700;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.player-tournament-detail .elig-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+}
+
+.player-tournament-detail .elig-dot--ok {
+    background: rgba(25, 135, 84, 0.85);
+}
+
+.player-tournament-detail .elig-dot--no {
+    background: rgba(220, 53, 69, 0.85);
+}
+
+/* Header actions: keep buttons aligned and not wrapping badly */
+.player-tournament-detail .header-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+/* PLAYER TOURNAMENT DETAIL END */
+
+/* PLAYER REGISTRATION START */
+.player-registrations-page {
+    --pr-soft-border: rgba(0, 0, 0, 0.08);
+    --pr-soft-bg: rgba(0, 0, 0, 0.02);
+}
+
+/* Match your “details-card” width feeling */
+.player-registrations-page .page-narrow {
+    max-width: 980px;
+    margin-inline: auto;
+}
+
+.player-registrations-page .min-w-0 {
+    min-width: 0;
+}
+
+/* Tournament cell (title + sport chip) like booked matches */
+.player-registrations-page .tournament-cell {
+    min-width: 220px;
+}
+
+.player-registrations-page .tournament-title {
+    font-weight: 800;
+    line-height: 1.1;
+}
+
+.player-registrations-page .tournament-sub {
+    margin-top: 0.35rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+/* Organizer chip (same pill language as other pages) */
+.player-registrations-page .org-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--pr-soft-border);
+    background: var(--pr-soft-bg);
+    font-weight: 600;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+/* Keep action column aligned like booked page */
+.player-registrations-page .action-stack {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+/* PLAYER REGISTRATION END */
