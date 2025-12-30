@@ -7,7 +7,7 @@ module Resources
 
     # GET - Display a list of all tournaments
     def index
-      @tournaments = Tournament.all
+      @tournaments = Tournament.all.order(start_date: :asc)
     end
 
     # GET - Display form page for creating a new tournament
