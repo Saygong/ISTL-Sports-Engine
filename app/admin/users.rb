@@ -4,8 +4,8 @@
 ActiveAdmin.register User do
   extend Admin::User::ResourceDSL
 
-  menu parent: 'User',
-       label: I18n.t('active_admin.menu.users.all'),
+  menu parent:   'User',
+       label:    I18n.t('active_admin.menu.users.all'),
        priority: 1 # So it's the first menu item visible
 
   # Restrict the actions allowed by the admin for the user page.
