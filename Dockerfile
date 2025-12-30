@@ -26,6 +26,7 @@ WORKDIR /backend
 
 # Install the Ruby gems specified in the Gemfile using Bundler
 COPY Gemfile* .
+COPY .ruby-version .
 RUN bundle install
 
 # ...
