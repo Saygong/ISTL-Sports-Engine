@@ -29,6 +29,21 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    models:
+      user/player:
+        one: Player
+        other: Players
+
+      user/organizer:
+        one: Organizer
+        other: Organizers
+
+      user/referee:
+        one: Referee
+        other: Referees
+
   active_admin:
     dashboard: "Dashboard"
     dashboard_welcome:
