@@ -13,7 +13,7 @@ module Resources
     # GET - Display form page for creating a new tournament
     def new
       @sports = Sport.all
-      @fields = Field.all_field_from_owner(current_user)
+      @fields = Field.owned_fields(current_user)
     end
 
     # POST - Create a new tournament
