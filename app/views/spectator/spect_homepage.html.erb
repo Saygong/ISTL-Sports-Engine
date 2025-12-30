@@ -1,155 +1,94 @@
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">ISTL Sports</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <span class="navbar-toggler-icon"></span>
+    </button>
 
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link" href="#">Homepage</a>
-          <a class="nav-link" href="#">Tournament Registrations</a>
-          <a class="nav-link active" aria-current="page" href="#">Spectate</a>
-          <a class="nav-link" href="#">Booked Matches</a>
-          <a class="nav-link" href="#">Profile</a>
-        </div>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <%= link_to "Homepage", player_home_path, class: "nav-link" %>
+        <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link" %>
+        <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link active", aria: { current: "page" } %>
+        <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
+        <%= link_to "Profile", profile_path, class: "nav-link" %>
       </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
-  <div class="container py-4">
-    <!-- Page header -->
-    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
-      <div>
-        <h2 class="mb-1">Tournaments</h2>
-        <div class="page-subtitle">Browse and open tournament details</div>
-      </div>
+<div class="container py-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+      <h2 class="mb-1">Tournaments</h2>
+      <div class="page-subtitle">Browse and open tournament details</div>
     </div>
+  </div>
 
-    <!-- Filters -->
-    <section class="card shadow-sm mb-4 filters-card">
-      <div class="card-header">
-        <strong class="fs-6">Filters</strong>
-      </div>
-
-      <div class="card-body">
+  <section class="card shadow-sm mb-4 filters-card">
+    <div class="card-header"><strong class="fs-6">Filters</strong></div>
+    <div class="card-body">
+      <%= form_with url: spectator_tournaments_path, method: :get, local: true do %>
         <div class="row g-3 align-items-end">
           <div class="col-12 col-md-4">
             <label for="filterName" class="form-label">Name</label>
-            <input
-              id="filterName"
-              type="text"
-              class="form-control"
-              placeholder="e.g. Wimbledon"
-              />
+            <%= text_field_tag :name, params[:name], class: "form-control", id: "filterName", placeholder: "e.g. Wimbledon" %>
           </div>
 
           <div class="col-12 col-md-4">
             <label for="filterSport" class="form-label">Sport</label>
-            <select id="filterSport" class="form-select">
-              <option value="">All</option>
-              <option value="Tennis">Tennis</option>
-              <option value="Table tennis">Table tennis</option>
-              <option value="Beach tennis">Beach tennis</option>
-              <option value="Badminton">Badminton</option>
-              <option value="Squash">Squash</option>
-              <option value="Padel">Padel</option>
-              <option value="Pickleball">Pickleball</option>
-            </select>
+            <%= select_tag :sport_id,
+                           options_from_collection_for_select(@sports, :id, :description, params[:sport_id]),
+                           include_blank: "All sports",
+                           class: "form-select",
+                           id: "filterSport" %>
           </div>
 
-          <div class="col-12 col-md-4">
-            <label for="filterStartDate" class="form-label">Start date</label>
-            <input
-              id="filterStartDate"
-              type="text"
-              class="form-control"
-              placeholder="dd/mm/yyyy"
-              inputmode="numeric"
-              />
-          </div>
-
-          <div class="col-12 d-flex flex-wrap gap-2">
-            <button id="btnSearch" class="btn btn-primary">
-              <span class="me-1" data-feather="search"></span>
-              Search
-            </button>
-            <button id="btnReset" class="btn btn-outline-secondary">
-              <span class="me-1" data-feather="rotate-ccw"></span>
-              Reset
-            </button>
+          <div class="col-12 col-md-4 d-flex gap-2">
+            <%= submit_tag "Apply", class: "btn btn-primary" %>
+            <%= link_to "Reset", spectator_tournaments_path, class: "btn btn-outline-secondary" %>
           </div>
         </div>
-      </div>
-    </section>
+      <% end %>
+    </div>
+  </section>
 
-    <!-- Tournaments table inside a card (same vibe as matches card) -->
-    <section class="card shadow-sm">
-      <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <strong class="fs-5">Results</strong>
-        <span class="text-body-secondary small">3 tournaments</span>
-      </div>
+  <section class="card shadow-sm">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <strong class="fs-5">Available tournaments</strong>
+    </div>
 
-      <div class="table-responsive">
-        <table class="table table-hover align-middle mb-0">
-          <thead>
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr>
+          <th scope="col">Tournament</th>
+          <th scope="col">Sport</th>
+          <th scope="col">Start date</th>
+          <th scope="col" class="text-end">Action</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% if @tournaments.empty? %>
           <tr>
-            <th scope="col">Name</th>
-            <th scope="col">Sport</th>
-            <th scope="col">Start date</th>
-            <th scope="col" class="text-end">Action</th>
+            <td colspan="4" class="text-center py-5 text-body-secondary">No tournaments found.</td>
           </tr>
-          </thead>
+        <% else %>
+          <% @tournaments.each do |t| %>
+            <tr>
+              <th scope="row"><%= t.name %></th>
+              <td><span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span></td>
+              <td><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></td>
+              <td class="text-end">
+                <%= link_to "Details", spectator_tournament_path(t), class: "action-btn btn btn-sm btn-outline-primary" %>
+              </td>
+            </tr>
+          <% end %>
+        <% end %>
+        </tbody>
 
-          <tbody id="tournamentsTbody">
-          <tr>
-            <th scope="row">Winbledon</th>
-            <td><span class="sport-chip">Tennis</span></td>
-            <td>10/01/2026</td>
-            <td class="text-end">
-              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
-                <span data-feather="external-link" aria-hidden="true"></span>
-                Details
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <th scope="row">AP-2000</th>
-            <td><span class="sport-chip">Table tennis</span></td>
-            <td>14/04/2026</td>
-            <td class="text-end">
-              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
-                <span data-feather="external-link" aria-hidden="true"></span>
-                Details
-              </a>
-            </td>
-          </tr>
-
-          <tr>
-            <th scope="row">Summer fest</th>
-            <td><span class="sport-chip">Beach tennis</span></td>
-            <td>20/05/2026</td>
-            <td class="text-end">
-              <a class="action-btn btn btn-sm btn-outline-primary" href="#" title="Open details">
-                <span data-feather="external-link" aria-hidden="true"></span>
-                Details
-              </a>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  </div>
-
-</html>
+      </table>
+    </div>
+  </section>
+</div>
