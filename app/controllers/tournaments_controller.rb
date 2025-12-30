@@ -10,15 +10,12 @@ class TournamentsController < ApplicationController
     @tournaments = Tournament.all
   end
 
-  # Lista tornei di cui è organizzatore e tutti i dati di tutte i match
-
-
-
   # GET - Display form page for creating a new tournament
   def new
     @sports = Sport.all
-    @fields = Field.owned_fields(current_user) #TODO
+    @fields = [] #Field.owned_fields(current_user) #TODO
     @referees = User::Referee.all
+    @tournament = Tournament.new
   end
 
   # POST - Create a new tournament
@@ -58,7 +55,7 @@ class TournamentsController < ApplicationController
 
   def require_organizer!
     unless current_user.is_a?(User::Organizer)
-      redirect_to root_path, alert: "You must be an organizer to create a tournament."
+      redirect_to root_path, alert: "You must be an organizers to create a tournament."
     end
   end
 
