@@ -10,16 +10,21 @@ module Resources
       @tournaments = Tournament.all
     end
 
+    # Lista tornei di cui è organizzatore e tutti i dati di tutte i match
+
+
+
     # GET - Display form page for creating a new tournament
     def new
       @sports = Sport.all
-      @fields = Field.owned_fields(current_user)
+      @fields = Field.owned_fields(current_user) #TODO
+      @referees = User::Referee.all
     end
 
     # POST - Create a new tournament
     def create
-      @tournament = Tournament.new(tournament_params)
-
+      @tournament = Tournament.new(params)
+      Tournament.build_matches(params) #TODO
       if @tournament.save
         redirect_to @tournament, notice: "Tournament created successfully."
       else

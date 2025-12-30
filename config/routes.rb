@@ -29,13 +29,30 @@ Rails.application.routes.draw do
   namespace :resources do
     # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
     # integrate with the Devise workflow.
-    resources :users, only: [] do
+    resources :users do
+      get 'homepage', to:'users#homepage'
+      get 'profile', to: 'users#show'
       get 'unconfirmed', on: :new
       get 'passwords', on: :new
     end
 
+
     resources :tournaments, only: [:index, :new, :create, :show]
   end
 
-  get '/profile', to: 'profile#show', as: :profile
+  resource :organizers, only: [:show]
+  resource :referees, only: [:show]
+  resources :homepage
+
+
+  resources :matches do
+    resources :results, only: [:index, :new, :create], :module => :matches
+  end
+
+  resources :player_tournaments, only: [:index, :show], path: 'tournament_registrations' do
+    member do
+      delete :unsubscribe
+    end
+  end
+
 end
