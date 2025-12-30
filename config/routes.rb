@@ -36,23 +36,22 @@ Rails.application.routes.draw do
       get 'passwords', on: :new
     end
 
-
-    resources :tournaments, only: [:index, :new, :create, :show]
   end
 
+
+  resources :tournaments, only: [:index, :new, :create, :show] do
+    post subscribe, to: 'tournaments#subscribe'
+    post unsubscribe, to: 'tournaments#unsubscribe'
+  end
   resource :organizers, only: [:show]
   resource :referees, only: [:show]
-  resources :homepage
-
 
   resources :matches do
     resources :results, only: [:index, :new, :create], :module => :matches
+    resource :viewers_match, only: [:create, :destroy]
   end
 
-  resources :player_tournaments, only: [:index, :show], path: 'tournament_registrations' do
-    member do
-      delete :unsubscribe
-    end
-  end
+  # specific route to show all matches that a user is subscribed to
+  resources :players_tournaments, only: [:index], path: 'tournament_registrations'
 
 end

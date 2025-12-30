@@ -9,10 +9,7 @@ class PlayersTournamentsController < ApplicationController
 
 
   def unsubscribe
-
     PlayersTournament.unsubscribe(current_user, params[:id]) #TODO
-
   end
-
 
 end
