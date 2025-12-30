@@ -14,4 +14,8 @@
 #
 class Field < ApplicationRecord
   enum :surface, { grass: 0, hard: 1 }
+
+  # TODO: add owner field, every field (better if is called court) must have an owner
+  # TODO: add a method "all_field_from_owner" that given a user (that must be organizer) returns all his fields
+
 end
