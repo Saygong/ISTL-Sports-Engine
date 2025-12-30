@@ -2,8 +2,8 @@
 
 
 class TournamentsController < ApplicationController
-  before_action :authenticate_user!, only: [subscribe, unsubscribe]
-  before_action :require_organizer!, only: [new, create]
+  before_action :authenticate_user!, only: [:subscribe, :unsubscribe]
+  before_action :require_organizer!, only: [:new, :create]
 
   # GET - Display a list of all tournaments
   def index
