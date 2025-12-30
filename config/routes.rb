@@ -34,7 +34,7 @@ Rails.application.routes.draw do
       get 'passwords', on: :new
     end
 
-    resources :tournaments, only: [:index, :show]
+    resources :tournaments, only: [:index, :new, :create, :show]
   end
 
   get '/profile', to: 'profile#show', as: :profile
