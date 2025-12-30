@@ -23,10 +23,14 @@ RUN apk add build-base openssl-dev libffi-dev yaml-dev zlib-dev tzdata graphviz 
 
 # Define the working directory inside the container and copy the application source code
 WORKDIR /backend
-COPY . .
 
 # Install the Ruby gems specified in the Gemfile using Bundler
+COPY Gemfile* .
+COPY .ruby-version .
 RUN bundle install
+
+# Copy the rest of the application code into the container
+COPY . .
 
 # Use the entrypoint script to manage service startup
 ENTRYPOINT ["bash", "./entrypoint.sh"]
