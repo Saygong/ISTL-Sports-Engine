@@ -35,11 +35,9 @@ en:
       user/player:
         one: Player
         other: Players
-
       user/organizer:
         one: Organizer
         other: Organizers
-
       user/referee:
         one: Referee
         other: Referees
