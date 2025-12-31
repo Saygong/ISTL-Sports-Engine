@@ -15,6 +15,5 @@ FactoryBot.define do
   factory :sport do
     variant_kind { Sport.variant_kinds.keys.sample }
     format_kind { Sport.format_kinds.keys.sample }
-    gender { Sport.genders.keys.sample }
   end
 end
