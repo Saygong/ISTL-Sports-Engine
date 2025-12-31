@@ -45,5 +45,8 @@ class User
 
     has_many :players_match_results, dependent: :destroy
     has_many :match_results, through: :players_match_results
+
+    has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
+    has_many :viewed_matches, through: :viewers_matches, source: :match
   end
 end
