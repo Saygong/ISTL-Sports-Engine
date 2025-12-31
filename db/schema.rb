@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_29_205721) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_105144) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -109,8 +109,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_29_205721) do
     t.string "description"
     t.integer "format_kind", default: 0, null: false
     t.integer "gender", default: 0, null: false
-    t.datetime "max_age"
-    t.datetime "min_age"
+    t.integer "max_age"
+    t.integer "min_age"
     t.datetime "updated_at", null: false
     t.integer "variant_kind", default: 0, null: false
   end

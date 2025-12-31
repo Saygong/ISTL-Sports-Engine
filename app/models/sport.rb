@@ -5,14 +5,14 @@
 # Table name: sports
 #
 #  id           :integer          not null, primary key
+#  created_at   :datetime         not null
 #  description  :string
-#  variant_kind :integer          default(0), not null
 #  format_kind  :integer          default(0), not null
 #  gender       :integer          default(0), not null
-#  min_age      :datetime
-#  max_age      :datetime
-#  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  variant_kind :integer          default(0), not null
+#  min_age      :integer
+#  max_age      :integer
 #
 class Sport < ApplicationRecord
   include WithGender
