@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_105814) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_111849) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -87,13 +87,13 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_105814) do
     t.index ["player_id"], name: "index_players_matches_on_player_id"
   end
 
-  create_table "players_tournaments", force: :cascade do |t|
+  create_table "players_teams", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "player_id"
-    t.bigint "tournament_id"
+    t.bigint "team_id"
     t.datetime "updated_at", null: false
-    t.index ["player_id"], name: "index_players_tournaments_on_player_id"
-    t.index ["tournament_id"], name: "index_players_tournaments_on_tournament_id"
+    t.index ["player_id"], name: "index_players_teams_on_player_id"
+    t.index ["team_id"], name: "index_players_teams_on_team_id"
   end
 
   create_table "referees_tournaments", force: :cascade do |t|
@@ -113,6 +113,15 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_105814) do
     t.integer "variant_kind", default: 0, null: false
   end
 
+  create_table "teams", force: :cascade do |t|
+    t.integer "composition", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.string "name"
+    t.bigint "tournament_id"
+    t.datetime "updated_at", null: false
+    t.index ["tournament_id"], name: "index_teams_on_tournament_id"
+  end
+
   create_table "tournaments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "description"
@@ -122,6 +131,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_105814) do
     t.integer "max_age"
     t.integer "min_age"
     t.string "name"
+    t.integer "number_of_matches"
     t.bigint "organizer_id"
     t.bigint "sport_id"
     t.datetime "start_date"
@@ -176,10 +186,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_105814) do
   add_foreign_key "players_match_results", "users", column: "player_id"
   add_foreign_key "players_matches", "matches"
   add_foreign_key "players_matches", "users", column: "player_id"
-  add_foreign_key "players_tournaments", "tournaments"
-  add_foreign_key "players_tournaments", "users", column: "player_id"
+  add_foreign_key "players_teams", "teams"
+  add_foreign_key "players_teams", "users", column: "player_id"
   add_foreign_key "referees_tournaments", "tournaments"
   add_foreign_key "referees_tournaments", "users", column: "referee_id"
+  add_foreign_key "teams", "tournaments"
   add_foreign_key "tournaments", "fields"
   add_foreign_key "tournaments", "sports"
   add_foreign_key "tournaments", "users", column: "organizer_id"
