@@ -5,6 +5,9 @@ class UsersController < ApplicationController
   # [https://github.com/heartcombo/devise/wiki/How-To:-Display-a-custom-sign_in-form-anywhere-in-your-app]
   helper_method :resource_name, :resource, :devise_mapping, :resource_class
 
+  before_action :authenticate_user!,
+                only: [:profile]
+
   # before_action :authenticate_user!, only: [:show]
 
   # def show
@@ -33,6 +36,18 @@ class UsersController < ApplicationController
 
   def passwords
     # Nothing to do
+  end
+
+  # Controller action to prepare data for the user profile page.
+  def profile
+    @user = current_user
+
+    # Check if the registered user is a player (STI)
+    if current_user.is_a? User::Player
+      # noinspection RubyResolve
+      @matches_won = Match::Result.won_by(current_user).count
+      @matches_lost = Match::Result.lost_by(current_user).count
+    end
   end
 
   private
