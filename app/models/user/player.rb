@@ -37,8 +37,8 @@
 #
 class User
   class Player < User
-    has_many :players_tournaments, dependent: :destroy
-    has_many :tournaments, through: :players_tournaments
+    has_many :players_teams, dependent: :destroy
+    has_many :teams, through: :players_teams
 
     has_many :players_matches, dependent: :destroy
     has_many :matches, through: :players_matches

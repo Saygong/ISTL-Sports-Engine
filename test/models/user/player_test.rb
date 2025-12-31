@@ -42,15 +42,15 @@ class User::PlayerTest < ActiveSupport::TestCase
       .then { assert_equal User::Player.last!, it }
   end
 
-  test 'tournaments' do
-    create(:tournament)
-      .then do |tournament|
+  test 'with teams' do
+    create(:team)
+      .then do |team|
         create(:user_player)
-          .tap { it.tournaments << tournament }
+          .tap { it.teams << team }
           .tap(&:save!)
           .then do |player|
-            assert_includes player.tournaments, tournament
-            assert_includes tournament.players, player
+            assert_includes player.teams, team
+            assert_includes team.players, player
           end
       end
   end
