@@ -29,13 +29,27 @@
     <section class="card shadow-sm mb-4">
       <div class="card-header d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-2">
+          <span class="badge text-bg-primary">Active</span>
           <strong class="fs-5"><%= @tournament.name %></strong>
-          <span class="sport-chip"><%= @tournament.sport.description.presence || @tournament.sport.variant_kind.humanize %></span>
         </div>
       </div>
 
       <div class="card-body">
         <div class="row g-3">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Name</div>
+              <div class="detail-value"><%= @tournament.name %></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Sport</div>
+              <div class="detail-value"><%= @tournament.sport.description.presence || @tournament.sport.variant_kind.humanize %></div>
+            </div>
+          </div>
+
           <div class="col-12 col-md-6 col-lg-4">
             <div class="detail-item">
               <div class="detail-label">Start date</div>
@@ -45,14 +59,57 @@
 
           <div class="col-12 col-md-6 col-lg-4">
             <div class="detail-item">
-              <div class="detail-label">Stadium</div>
-              <div class="detail-value"><%= @tournament.field&.name %></div>
+              <div class="detail-label">Number of rounds</div>
+              <div class="detail-value"><%= @number_of_rounds %></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Participants</div>
+              <div class="detail-value"><%= @participants_count %></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Referee</div>
+              <div class="detail-value"><%= @head_referee_name %></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Organizer</div>
+              <div class="detail-value"><%= @organizer_name %></div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="detail-item">
+              <div class="detail-label">Gender of players</div>
+              <div class="detail-value"><%= @participants_gender %></div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3 col-lg-2">
+            <div class="detail-item">
+              <div class="detail-label">Min age</div>
+              <div class="detail-value"><%= @min_age %></div>
+            </div>
+          </div>
+
+          <div class="col-6 col-md-3 col-lg-2">
+            <div class="detail-item">
+              <div class="detail-label">Max age</div>
+              <div class="detail-value"><%= @max_age %></div>
             </div>
           </div>
         </div>
       </div>
     </section>
 
+    <!-- Matches card -->
     <section class="card shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong class="fs-5">Matches</strong>
@@ -63,6 +120,7 @@
           <thead class="table-light">
           <tr>
             <th scope="col">Participants</th>
+            <th scope="col">Round</th>
             <th scope="col">Start date</th>
             <th scope="col">Start time</th>
             <th scope="col">Stadium</th>
@@ -81,6 +139,7 @@
               <% max_seats = m.tournament.field&.max_seats.to_i %>
               <% used = m.viewers.size %>
               <% available = [max_seats - used, 0].max %>
+              <% reserved = @booked_match_ids.include?(m.id) %>
 
               <tr>
                 <td>
@@ -99,6 +158,7 @@
                   </div>
                 </td>
 
+                <td><span class="badge text-bg-secondary"><%= m_round_label = (@round_by_match_id && @round_by_match_id[m.id]) || "Round -" %></span></td>
                 <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
                 <td><%= m.date&.strftime("%H:%M") %></td>
                 <td><%= m.tournament.field&.name %></td>
@@ -111,10 +171,16 @@
                 </td>
 
                 <td class="text-end">
-                  <%= button_to "Book",
-                                spectator_book_match_path(m),
-                                method: :post,
-                                class: "btn btn-sm btn-outline-primary" %>
+                  <% if reserved %>
+                    <span class="badge text-bg-success me-2">Reserved</span>
+                  <% else %>
+                    <%= button_to "Book",
+                                  spectator_book_match_path(m),
+                                  method: :post,
+                                  class: "btn btn-sm btn-outline-primary" do %>
+                      <span class="me-1" aria-hidden="true">🎟️</span> Book
+                    <% end %>
+                  <% end %>
                 </td>
               </tr>
             <% end %>
