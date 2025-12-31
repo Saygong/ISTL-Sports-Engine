@@ -64,18 +64,18 @@ class User::PlayerTest < ActiveSupport::TestCase
 
       # Create a team, associate it with the match, and persist it to the database
       team = create(:team)
-               .tap { it.matches << match }
-               .tap(&:save!)
+             .tap { it.matches << match }
+             .tap(&:save!)
 
       # Create a player, assign them to the team, and save the relationship
       player = create(:user_player)
-                 .tap { it.teams << team }
-                 .tap(&:save!)
+               .tap { it.teams << team }
+               .tap(&:save!)
 
       # Generate a match result and link the specific team to it with a :winner status
       result = create(:match_result, match: match)
-                 .tap { it.teams_match_results << build(:teams_match_result, team: team, team_status: status) }
-                 .tap(&:save!)
+               .tap { it.teams_match_results << build(:teams_match_result, team: team, team_status: status) }
+               .tap(&:save!)
 
       # Verify that the query scope "won_by" correctly identifies this result for the player
       assert_includes Match::Result.public_send(scope, player), result

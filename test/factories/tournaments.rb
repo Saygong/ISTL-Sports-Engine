@@ -17,17 +17,18 @@
 #  gender            :integer          default(0), not null
 #  number_of_matches :integer
 #  format_kind       :integer          default(0), not null
+#  court_id          :integer
 #
 # Indexes
 #
-#  index_tournaments_on_field_id      (field_id)
+#  index_tournaments_on_court_id      (court_id)
 #  index_tournaments_on_organizer_id  (organizer_id)
 #  index_tournaments_on_sport_id      (sport_id)
 #
 
 FactoryBot.define do
   factory :tournament do
-    association :field, factory: :field
+    association :court, factory: :court
     association :organizer, factory: :user_organizer
     association :sport, factory: :sport
   end

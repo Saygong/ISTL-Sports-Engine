@@ -1,20 +1,16 @@
-# frozen_string_literal: true
-
 # == Schema Information
 #
-# Table name: fields
+# Table name: courts
 #
 #  id          :integer          not null, primary key
 #  name        :string
 #  description :string
-#  surface     :integer          default(0), not null
-#  max_seats   :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
 
 FactoryBot.define do
-  factory :field do
-    surface { Field.surfaces.keys.sample }
+  factory :court do
+    # Nothing to do
   end
 end
