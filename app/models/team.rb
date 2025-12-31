@@ -21,6 +21,12 @@ class Team < ApplicationRecord
   has_many :players_teams, dependent: :destroy
   has_many :players, through: :players_teams
 
+  has_many :teams_matches, dependent: :destroy
+  has_many :matches, through: :teams_matches
+
+  has_many :teams_match_results, dependent: :destroy
+  has_many :match_results, through: :teams_match_results
+
   enum :composition, {
     single: 0,
     double: 1,

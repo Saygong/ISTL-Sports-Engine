@@ -55,52 +55,34 @@ class User::PlayerTest < ActiveSupport::TestCase
       end
   end
 
-  test 'match results' do
-    create(:match_result)
-      .then do |match_result|
-        create(:user_player)
-          .tap { it.players_match_results << build(:players_match_result, match_result: match_result) }
-          .tap(&:save!)
-          .then do |player|
-            assert_includes player.match_results, match_result
-            assert_includes match_result.players, player
-          end
-      end
-  end
-
-  test 'matches' do
-    create(:match)
-      .then do |match|
-        create(:user_player)
-          .tap { it.matches << match }
-          .tap(&:save!)
-          .then do |player|
-            assert_includes player.matches, match
-            assert_includes match.players, player
-          end
-      end
-  end
-
   test 'won and lost matches' do
-    { winner: :won_by, loser: :lost_by }
-      .each do |status, scope|
-        create(:match_result)
-          .then do |match_result|
-            build(:players_match_result, match_result: match_result, player_status: status)
-              .then do |match|
-                create(:user_player)
-                  .tap { it.players_match_results << match }
-                  .tap(&:save!)
-                  .then do |player|
-                    Match::Result
-                      .public_send(scope, player)
-                      .map(&:players)
-                      .flatten
-                      .then { |players| assert_includes players, player }
-                  end
-              end
-          end
-      end
+    ensure_inclusion = proc do |status|
+      status => { scope:, status: }
+
+      # Initialize a base match record using FactoryBot
+      match = create(:match)
+
+      # Create a team, associate it with the match, and persist it to the database
+      team = create(:team)
+               .tap { it.matches << match }
+               .tap(&:save!)
+
+      # Create a player, assign them to the team, and save the relationship
+      player = create(:user_player)
+                 .tap { it.teams << team }
+                 .tap(&:save!)
+
+      # Generate a match result and link the specific team to it with a :winner status
+      result = create(:match_result, match: match)
+                 .tap { it.teams_match_results << build(:teams_match_result, team: team, team_status: status) }
+                 .tap(&:save!)
+
+      # Verify that the query scope "won_by" correctly identifies this result for the player
+      assert_includes Match::Result.public_send(scope, player), result
+    end
+
+    ensure_inclusion.call scope: :won_by, status: :winner
+    ensure_inclusion.call scope: :lost_by, status: :loser
   end
 
   test 'viewed matches' do

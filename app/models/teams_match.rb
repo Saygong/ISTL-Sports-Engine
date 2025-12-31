@@ -2,20 +2,20 @@
 
 # == Schema Information
 #
-# Table name: players_matches
+# Table name: teams_matches
 #
 #  id         :integer          not null, primary key
-#  player_id  :integer
+#  team_id    :integer
 #  match_id   :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 # Indexes
 #
-#  index_players_matches_on_match_id   (match_id)
-#  index_players_matches_on_player_id  (player_id)
+#  index_teams_matches_on_match_id  (match_id)
+#  index_teams_matches_on_team_id   (team_id)
 #
-class PlayersMatch < ApplicationRecord
-  belongs_to :player, class_name: 'User::Player'
+class TeamsMatch < ApplicationRecord
+  belongs_to :team
   belongs_to :match
 end
