@@ -39,6 +39,14 @@ gem 'devise'
 # [https://github.com/lynndylanhurley/devise_token_auth]
 gem 'devise_token_auth'
 
+# An admin engine for Rails applications.
+# Abstracts common patterns to implement beautiful and elegant interfaces with ease.
+# [https://activeadmin.info/]
+gem 'activeadmin'
+
+# Required for SCSS needed by active admin
+gem 'sassc-rails'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
