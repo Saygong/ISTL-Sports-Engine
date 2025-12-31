@@ -50,6 +50,15 @@ Rails.application.routes.draw do
       get 'passwords', on: :new
     end
 
+  # Views will be customized using the appropriate type (e.g., players). UsersController is primarily used to
+  # integrate with the Devise workflow, or to group actions common to all types of users.
+  resource :user, only: [] do
+    # Unauthenticated access points
+    get :unconfirmed
+    get :passwords
+
+    # Authenticated access points
+    get :profile
   end
 
 
