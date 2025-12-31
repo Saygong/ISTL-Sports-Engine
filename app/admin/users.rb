@@ -4,10 +4,6 @@
 ActiveAdmin.register User do
   extend Admin::User::ResourceDSL
 
-  menu parent:   'User',
-       label:    I18n.t('active_admin.menu.users.all'),
-       priority: 1 # So it's the first menu item visible
-
   # Restrict the actions allowed by the admin for the user page.
   # Since users are always created with a specific type, only readable actions are allowed on the generic page.
   actions :all, except: [:new, :edit, :destroy]

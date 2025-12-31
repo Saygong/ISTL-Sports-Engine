@@ -4,7 +4,7 @@
 ActiveAdmin.register User::Organizer do
   extend Admin::User::ResourceDSL
 
-  menu parent: 'User'
+  menu parent: 'Users'
 
   user_permit_params
   user_filter
