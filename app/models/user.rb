@@ -49,8 +49,8 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable,
-         :confirmable
+         :validatable
+         #:confirmable
 
   has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
   has_many :viewed_matches, through: :viewers_matches, source: :match

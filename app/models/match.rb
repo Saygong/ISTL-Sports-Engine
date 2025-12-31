@@ -29,4 +29,7 @@ class Match < ApplicationRecord
 
   has_many :players_matches, dependent: :destroy
   has_many :players, through: :players_matches
+
+
+
 end
