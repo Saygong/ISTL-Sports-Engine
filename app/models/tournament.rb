@@ -27,7 +27,7 @@ class Tournament < ApplicationRecord
 
   belongs_to :organizer,
              class_name: 'User::Organizer',
-             optional: true
+             optional:   true
 
   has_many :matches, dependent: :destroy
 
