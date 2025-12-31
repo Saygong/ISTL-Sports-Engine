@@ -3,9 +3,9 @@
 Rails.application.routes.draw do
   # Devise also ships with default routes
   devise_for :users, controllers: {
-    passwords:     'resources/users_passwords',
-    confirmations: 'resources/users_confirmations',
-    registrations: 'resources/users_registrations'
+    passwords:     'overrides/devise/passwords',
+    confirmations: 'overrides/devise/confirmations',
+    registrations: 'overrides/devise/registrations'
   }
 
   # Automatically added by running the active_admin:install generator
