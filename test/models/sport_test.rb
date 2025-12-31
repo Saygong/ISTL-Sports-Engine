@@ -5,7 +5,6 @@
 #  id           :integer          not null, primary key
 #  created_at   :datetime         not null
 #  description  :string
-#  format_kind  :integer          default(0), not null
 #  updated_at   :datetime         not null
 #  variant_kind :integer          default(0), not null
 #

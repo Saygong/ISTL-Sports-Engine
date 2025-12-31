@@ -18,6 +18,7 @@
 #  min_age           :integer
 #  gender            :integer          default(0), not null
 #  number_of_matches :integer
+#  format_kind       :integer          default(0), not null
 #
 # Indexes
 #
@@ -40,4 +41,6 @@ class Tournament < ApplicationRecord
 
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
+
+  enum :format_kind, { single: 0, double: 1 }
 end
