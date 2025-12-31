@@ -77,4 +77,18 @@ Rails.application.routes.draw do
   # specific route to show all matches that a user is subscribed to
   resources :players_tournaments, only: [:index], path: 'tournament_registrations'
 
+  # == Endpoints for all user types
+  # Defines singular resources for different user roles within the application.
+
+  resource :player, only: [:show] do
+    get :profile
+  end
+
+  resource :organizer, only: [:show] do
+    get :profile
+  end
+
+  resource :referee, only: [:show] do
+    get :profile
+  end
 end
