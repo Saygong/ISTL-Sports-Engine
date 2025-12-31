@@ -3,11 +3,12 @@
 # Table name: matches
 #
 #  id            :integer          not null, primary key
+#  created_at    :datetime         not null
+#  date          :datetime
 #  referee_id    :integer
 #  tournament_id :integer
-#  date          :datetime
-#  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  round         :integer
 #
 # Indexes
 #
@@ -23,5 +24,12 @@ class MatchTest < ActiveSupport::TestCase
       create :match
       create :match, referee: nil
     end
+  end
+
+  test 'result' do
+    create(:match)
+      .tap { it.match_result = create :match_result }
+      .tap(&:save!)
+      .then { |match| assert_not_nil match.match_result }
   end
 end

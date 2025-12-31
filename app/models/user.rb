@@ -52,9 +52,6 @@ class User < ApplicationRecord
          :validatable
          #:confirmable
 
-  has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
-  has_many :viewed_matches, through: :viewers_matches, source: :match
-
   # noinspection RubyResolve
   before_create unless: :uid? do
     self.uid = email

@@ -16,6 +16,6 @@
 #  index_viewers_matches_on_viewer_id  (viewer_id)
 #
 class ViewersMatch < ApplicationRecord
-  belongs_to :viewer, class_name: 'User', inverse_of: :viewers_matches
+  belongs_to :viewer, class_name: 'User::Player', inverse_of: :viewers_matches
   belongs_to :match
 end

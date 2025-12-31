@@ -18,14 +18,14 @@ class Match
   class Result < ApplicationRecord
     belongs_to :match
 
-    has_many :players_match_results, dependent: :destroy, inverse_of: :match_result
-    has_many :players, through: :players_match_results
+    has_many :teams_match_results, dependent: :destroy, inverse_of: :match_result
+    has_many :teams, through: :teams_match_results
 
     { won_by: :winner, lost_by: :loser }.each do |key, value|
       scope key, lambda { |player|
-        joins(:players_match_results)
-          .where(players_match_results: { player: player })
-          .where(players_match_results: { player_status: value })
+        joins(teams_match_results: { team: :players })
+          .where(players: { id: player.id })
+          .where(teams_match_results: { team_status: value })
       }
     end
   end

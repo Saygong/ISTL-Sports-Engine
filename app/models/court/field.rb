@@ -2,9 +2,10 @@
 
 # == Schema Information
 #
-# Table name: fields
+# Table name: court_fields
 #
 #  id          :integer          not null, primary key
+#  court_id    :integer
 #  name        :string
 #  description :string
 #  surface     :integer          default(0), not null
@@ -12,10 +13,14 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
-class Field < ApplicationRecord
-  enum :surface, { grass: 0, hard: 1 }
+# Indexes
+#
+#  index_court_fields_on_court_id  (court_id)
+#
+class Court
+  class Field < ApplicationRecord
+    belongs_to :court
 
-  # TODO: add owner field, every field (better if is called court) must have an owner
-  # TODO: add a method "owned_fields" that given a user (that must be organizer) returns all his fields
-
+    enum :surface, { grass: 0, hard: 1 }
+  end
 end

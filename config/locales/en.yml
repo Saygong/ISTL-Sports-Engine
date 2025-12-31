@@ -29,3 +29,27 @@
 
 en:
   hello: "Hello world"
+
+  activerecord:
+    models:
+      user/player:
+        one: Player
+        other: Players
+      user/organizer:
+        one: Organizer
+        other: Organizers
+      user/referee:
+        one: Referee
+        other: Referees
+      court:
+        one: Court
+        other: Courts
+      court/field:
+        one: Field
+        other: Fields
+
+  active_admin:
+    dashboard: "Dashboard"
+    dashboard_welcome:
+      welcome: "Welcome to Active Admin. This is the default dashboard page."
+      call_to_action: "Start navigating through the panels to perform actions"

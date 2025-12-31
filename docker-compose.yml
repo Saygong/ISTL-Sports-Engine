@@ -4,7 +4,6 @@ volumes:
     external: false
 
 services:
-  # The database service using the official lightweight PostgreSQL Alpine image
   db:
     environment:
       - POSTGRES_USER
@@ -14,7 +13,6 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
-  # The Ruby/Rails application service created from the local Dockerfile
   app:
     environment:
       - RAILS_PORT
@@ -26,3 +24,9 @@ services:
       - ${RAILS_PORT}:${RAILS_PORT}
     depends_on:
       - db
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync # Action sync is ideal for frameworks that support "Hot Reload" or equivalent functionality
+          path: ./app
+          target: /backend/app

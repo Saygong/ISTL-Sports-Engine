@@ -1,8 +1,9 @@
 # == Schema Information
 #
-# Table name: fields
+# Table name: court_fields
 #
 #  id          :integer          not null, primary key
+#  court_id    :integer
 #  name        :string
 #  description :string
 #  surface     :integer          default(0), not null
@@ -10,13 +11,17 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #
+# Indexes
+#
+#  index_court_fields_on_court_id  (court_id)
+#
 
-require "test_helper"
+require 'test_helper'
 
-class FieldTest < ActiveSupport::TestCase
+class Court::FieldTest < ActiveSupport::TestCase
   test 'creation' do
     assert_nothing_raised do
-      create :field
+      create :court_field
     end
   end
 end
