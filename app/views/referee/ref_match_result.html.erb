@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -60,6 +61,27 @@
                 </div>
               </div>
 
+              <div class="col-12 col-md-2">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Round</strong></div>
+                  <div class="detail-value"><%= @match.round %></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Start date</strong></div>
+                  <div class="detail-value"><%= @match.date&.to_date&.strftime("%d/%m/%Y") %></div>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <div class="detail-item">
+                  <div class="detail-label"><strong>Start time</strong></div>
+                  <div class="detail-value"><%= @match.date&.strftime("%H:%M") %></div>
+                </div>
+              </div>
+
               <div class="col-12 col-md-4">
                 <div class="detail-item">
                   <div class="detail-label"><strong>Stadium</strong></div>
@@ -80,16 +102,17 @@
                     <%= f.text_area :description,
                                     class: "form-control",
                                     rows: 3,
-                                    placeholder: "Example: 6-4, 6-7, 7-5. Notes: tie-break in set 2..." %>
-                    <div class="form-text">Saved into <code>match_results.description</code>.</div>
+                                    placeholder: "Example: 6-4, 6-7, 7-5..." %>
                   </div>
 
-                  <div class="col-12">
-                    <%= f.label :winner_id, "Winner", class: "form-label fw-semibold" %>
-                    <%= select_tag "match_result[winner_id]",
-                                   options_from_collection_for_select(@match.players, :id, :email),
-                                   include_blank: "Select the winner",
-                                   class: "form-select" %>
+                  <div class="col-12 col-md-8">
+                    <label for="winner" class="form-label fw-semibold">Winner</label>
+                    <select id="winner" class="form-select" name="winner">
+                      <option value="" selected disabled>Select the winner</option>
+                      <% @match.players.each do |p| %>
+                        <option value="<%= p.id %>"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></option>
+                      <% end %>
+                    </select>
                     <div class="form-text">Only participants can be selected.</div>
                   </div>
                 </div>
