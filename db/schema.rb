@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
+ActiveRecord::Schema[8.1].define(version: 2025_12_31_151925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -40,12 +40,21 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
-  create_table "fields", force: :cascade do |t|
+  create_table "court_fields", force: :cascade do |t|
+    t.bigint "court_id"
     t.datetime "created_at", null: false
     t.string "description"
     t.integer "max_seats"
     t.string "name"
     t.integer "surface", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["court_id"], name: "index_court_fields_on_court_id"
+  end
+
+  create_table "courts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 
@@ -122,6 +131,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
   end
 
   create_table "tournaments", force: :cascade do |t|
+    t.bigint "court_id"
     t.datetime "created_at", null: false
     t.string "description"
     t.datetime "end_date"
@@ -136,7 +146,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
     t.bigint "sport_id"
     t.datetime "start_date"
     t.datetime "updated_at", null: false
-    t.index ["field_id"], name: "index_tournaments_on_field_id"
+    t.index ["court_id"], name: "index_tournaments_on_court_id"
     t.index ["organizer_id"], name: "index_tournaments_on_organizer_id"
     t.index ["sport_id"], name: "index_tournaments_on_sport_id"
   end
@@ -179,6 +189,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
     t.index ["viewer_id"], name: "index_viewers_matches_on_viewer_id"
   end
 
+  add_foreign_key "court_fields", "courts"
   add_foreign_key "match_results", "matches"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users", column: "referee_id"
@@ -191,7 +202,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_12_31_133302) do
   add_foreign_key "teams_match_results", "teams"
   add_foreign_key "teams_matches", "matches"
   add_foreign_key "teams_matches", "teams"
-  add_foreign_key "tournaments", "fields"
+  add_foreign_key "tournaments", "courts"
   add_foreign_key "tournaments", "sports"
   add_foreign_key "tournaments", "users", column: "organizer_id"
   add_foreign_key "viewers_matches", "matches"
