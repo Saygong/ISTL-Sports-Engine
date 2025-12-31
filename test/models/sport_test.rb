@@ -10,7 +10,7 @@
 #  variant_kind :integer          default(0), not null
 #
 
-require "test_helper"
+require 'test_helper'
 
 class SportTest < ActiveSupport::TestCase
   test 'sport' do
