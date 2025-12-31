@@ -43,8 +43,9 @@
                       <p class="tournament-title mb-0"><%= t.name %></p>
                     </div>
                     <div class="tournament-meta">
-                      <span class="meta-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
                       <span class="meta-chip"><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></span>
+                      <span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
+                      <span class="meta-chip">Field: <%= t.field&.name || "—" %></span>
                     </div>
                   </div>
                 </button>
@@ -76,9 +77,11 @@
                         <thead class="table-light">
                         <tr>
                           <th scope="col">Participants</th>
+                          <th scope="col">Round</th>
                           <th scope="col">Start date</th>
                           <th scope="col">Start time</th>
-                          <th scope="col">Action</th>
+                          <th scope="col">Stadium</th>
+                          <th scope="col" class="action-end">Action</th>
                         </tr>
                         </thead>
                         <tbody>
