@@ -11,5 +11,6 @@
 #  updated_at  :datetime         not null
 #
 class Court < ApplicationRecord
+  has_many :tournaments
   has_many :fields, class_name: 'Court::Field', dependent: :destroy
 end
