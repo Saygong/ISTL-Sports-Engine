@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -54,9 +55,9 @@
                     </div>
 
                     <div class="col-12 col-md-6">
-                      <%= f.label :sport_key, "Sport type", class: "form-label", for: "tSport" %>
-                      <%= f.select :sport_key,
-                                   options_for_select(@sport_options, @tournament.sport_key),
+                      <%= f.label :sport_id, "Sport type", class: "form-label", for: "tSport" %>
+                      <%= f.select :sport_id,
+                                   options_from_collection_for_select(@sports, :id, :description, @tournament.sport_id),
                                    { include_blank: "Select sport" },
                                    { id: "tSport", class: "form-select", required: true }
                       %>
@@ -139,32 +140,17 @@
 
                 <div class="p-3">
                   <div class="row g-3">
-                    <div class="col-12 col-md-4">
-                      <%= f.label :referee_1_id, "Referee #1", class: "form-label", for: "ref1" %>
-                      <%= f.select :referee_1_id,
-                                   options_from_collection_for_select(@referees, :id, :full_name, @tournament.referee_1_id),
-                                   { include_blank: "None" },
-                                   { id: "ref1", class: "form-select" }
-                      %>
-                    </div>
-
-                    <div class="col-12 col-md-4">
-                      <%= f.label :referee_2_id, "Referee #2", class: "form-label", for: "ref2" %>
-                      <%= f.select :referee_2_id,
-                                   options_from_collection_for_select(@referees, :id, :full_name, @tournament.referee_2_id),
-                                   { include_blank: "None" },
-                                   { id: "ref2", class: "form-select" }
-                      %>
-                    </div>
-
-                    <div class="col-12 col-md-4">
-                      <%= f.label :referee_3_id, "Referee #3", class: "form-label", for: "ref3" %>
-                      <%= f.select :referee_3_id,
-                                   options_from_collection_for_select(@referees, :id, :full_name, @tournament.referee_3_id),
-                                   { include_blank: "None" },
-                                   { id: "ref3", class: "form-select" }
-                      %>
-                    </div>
+                    <% 3.times do |i| %>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label">Referee #<%= i + 1 %></label>
+                        <select name="referee_ids[]" class="form-select">
+                          <option value="">None</option>
+                          <% @referees.each do |r| %>
+                            <option value="<%= r.id %>"><%= "#{r.first_name} #{r.last_name}" %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    <% end %>
 
                     <div class="col-12">
                       <div class="form-text">
@@ -184,16 +170,11 @@
                 <div class="p-3">
                   <div class="row g-3 align-items-end">
                     <div class="col-12 col-md-6">
-                      <label for="matchCount" class="form-label">Number of matches</label>
-
-                      <!-- not a Tournament column: plain param -->
-                      <select id="matchCount" name="match_count" class="form-select" required>
-                        <option value="" selected disabled>Select amount</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                        <option value="8">8</option>
-                        <option value="16">16</option>
-                      </select>
+                      <%= f.label :match_count, "Number of matches", class: "form-label" %>
+                      <%= f.select :match_count,
+                                   [["2",2],["4",4],["8",8],["16",16]],
+                                   { include_blank: "Select amount" },
+                                   class: "form-select", required: true %>
 
                       <div class="form-text">
                         Example: 8 matches = 16 participants (individual) or 32 partecipants (16 teams).
@@ -205,7 +186,7 @@
 
               <!-- Actions -->
               <div class="actions-bar">
-                <a href="#" class="btn btn-outline-secondary">Cancel</a>
+                <%= link_to "Cancel", organizer_home_path, class: "btn btn-outline-secondary" %>
                 <%= f.submit "Save", class: "btn btn-primary" %>
               </div>
             </div>
