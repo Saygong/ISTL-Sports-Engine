@@ -2,19 +2,20 @@
 #
 # Table name: tournaments
 #
-#  id           :integer          not null, primary key
-#  created_at   :datetime         not null
-#  description  :string
-#  end_date     :datetime
-#  field_id     :integer
-#  name         :string
-#  organizer_id :integer
-#  sport_id     :integer
-#  start_date   :datetime
-#  updated_at   :datetime         not null
-#  max_age      :integer
-#  min_age      :integer
-#  gender       :integer          default(0), not null
+#  id                :integer          not null, primary key
+#  created_at        :datetime         not null
+#  description       :string
+#  end_date          :datetime
+#  field_id          :integer
+#  name              :string
+#  organizer_id      :integer
+#  sport_id          :integer
+#  start_date        :datetime
+#  updated_at        :datetime         not null
+#  max_age           :integer
+#  min_age           :integer
+#  gender            :integer          default(0), not null
+#  number_of_matches :integer
 #
 # Indexes
 #
