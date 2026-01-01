@@ -1,0 +1,153 @@
+<div class="referee-page">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <%= link_to "Homepage", referee_path, class: "nav-link active", aria: { current: "page" } %>
+          <%= link_to "Profile", profile_user_path, class: "nav-link" %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="page-narrow">
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Referee dashboard</h2>
+          <div class="page-subtitle">Tournaments and match status overview</div>
+        </div>
+      </div>
+
+      <div class="accordion" id="refereeTournamentsAccordion">
+        <% if @tournaments.empty? %>
+          <div class="text-center py-5 text-body-secondary">No tournaments assigned.</div>
+        <% else %>
+          <% @tournaments.each_with_index do |t, idx| %>
+            <% heading_id = "t#{idx}Heading" %>
+            <% collapse_id = "t#{idx}Collapse" %>
+
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="<%= heading_id %>">
+                <button class="accordion-button <%= idx == 0 ? "" : "collapsed" %>"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#<%= collapse_id %>">
+                  <div class="min-w-0">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                      <p class="tournament-title mb-0"><%= t.name %></p>
+                    </div>
+                    <div class="tournament-meta">
+                      <span class="meta-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
+                      <span class="meta-chip"><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></span>
+                    </div>
+                  </div>
+                </button>
+              </h2>
+
+              <div id="<%= collapse_id %>" class="accordion-collapse collapse <%= idx == 0 ? "show" : "" %>">
+                <div class="accordion-body">
+                  <% pending = [] %>
+                  <% finished = [] %>
+
+                  <% t.matches.each do |m| %>
+                    <% has_result = @results_by_match_id[m.id].present? %>
+                    <% (has_result ? finished : pending) << m %>
+                  <% end %>
+
+                  <section class="section-block mb-3">
+                    <div class="section-header">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="status-pill">
+                          <span class="dot dot--live" aria-hidden="true"></span>
+                          Pending
+                        </span>
+                        <p class="section-title mb-0">Pending matches</p>
+                      </div>
+                    </div>
+
+                    <div class="table-responsive">
+                      <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                          <th scope="col">Participants</th>
+                          <th scope="col">Start date</th>
+                          <th scope="col">Start time</th>
+                          <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if pending.empty? %>
+                          <tr><td colspan="4" class="text-center py-4 text-body-secondary">No pending matches.</td></tr>
+                        <% else %>
+                          <% pending.each do |m| %>
+                            <tr>
+                              <td>#<%= m.id %></td>
+                              <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
+                              <td><%= m.date&.strftime("%H:%M") %></td>
+                              <td class="action-end">
+                                <%= link_to "Insert result",
+                                            new_referee_match_result_path(match_id: m.id),
+                                            class: "btn btn-sm btn-outline-primary" %>
+                              </td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+
+                  <section class="section-block">
+                    <div class="section-header">
+                      <div class="d-flex align-items-center gap-2">
+                        <span class="status-pill">
+                          <span class="dot dot--done" aria-hidden="true"></span>
+                          Finished
+                        </span>
+                        <p class="section-title mb-0">Completed matches</p>
+                      </div>
+                    </div>
+
+                    <div class="table-responsive">
+                      <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                        <tr>
+                          <th scope="col">Match</th>
+                          <th scope="col">Date</th>
+                          <th scope="col">Result</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if finished.empty? %>
+                          <tr><td colspan="3" class="text-center py-4 text-body-secondary">No completed matches.</td></tr>
+                        <% else %>
+                          <% finished.each do |m| %>
+                            <% res = @results_by_match_id[m.id] %>
+                            <tr>
+                              <td>#<%= m.id %></td>
+                              <td><%= m.date&.strftime("%d/%m/%Y %H:%M") %></td>
+                              <td><%= res&.description.presence || "—" %></td>
+                            </tr>
+                          <% end %>
+                        <% end %>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+
+                </div>
+              </div>
+            </div>
+
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
