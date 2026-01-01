@@ -8,7 +8,7 @@ class DeviseFailure < Devise::FailureApp
     if scope == :user && message == :unconfirmed && action == 'unauthenticated'
       # Implicitly returns the path to the "unconfirmed" custom page
       # noinspection RubyResolve
-      unconfirmed_new_resources_user_path
+      unconfirmed_user_path
     else
       # Devise/Warden's default behavior
       super
