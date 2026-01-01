@@ -53,3 +53,10 @@ en:
     dashboard_welcome:
       welcome: "Welcome to Active Admin. This is the default dashboard page."
       call_to_action: "Start navigating through the panels to perform actions"
+
+  errors:
+    controllers:
+      referees:
+        unauthorized: "You must be a referee to access the referee homepage"
+      organizers:
+        unauthorized: "You must be an organizer to access the organizer homepage"
