@@ -84,6 +84,8 @@ Rails.application.routes.draw do
   end
 
   resource :organizer, only: [:show] do
+    resources :tournaments, only: [:new, :create], module: :organizers
+
     get :profile
   end
 
