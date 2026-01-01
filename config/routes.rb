@@ -66,16 +66,13 @@ Rails.application.routes.draw do
     get :profile
   end
 
-
   resources :tournaments, only: [:index, :new, :create, :show] do
     post 'subscribe', to: 'tournaments#subscribe'
     post 'unsubscribe', to: 'tournaments#unsubscribe'
   end
-  resource :organizers, only: [:show]
-  resource :referees, only: [:show]
 
   resources :matches do
-    resources :results, only: [:index, :new, :create], :module => :matches
+    resources :results, only: [:index, :new, :create], module: :matches
     resource :viewers_match, only: [:create, :destroy]
   end
 
@@ -86,6 +83,15 @@ Rails.application.routes.draw do
   # Defines singular resources for different user roles within the application.
 
   resource :player, only: [:show] do
+    resources :tournaments, only: [:show], module: :players do
+      post 'join', to: 'tournaments#join'
+    end
+
+    resources :matches, only: [:index], module: :players do
+      post 'book', to: 'matches#book'
+      post 'unbook', to: 'matches#unbook'
+    end
+
     get :profile
   end
 
