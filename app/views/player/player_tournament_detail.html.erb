@@ -1,65 +1,58 @@
 <div class="player-tournament-detail">
-  <!-- Navbar (recycled) -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
         <span class="navbar-toggler-icon"></span>
       </button>
+
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="#">Homepage</a>
-          <a class="nav-link active" href="#">Tournament Registrations</a>
-          <a class="nav-link" href="#">Spectate</a>
-          <a class="nav-link" href="#">Booked Matches</a>
-          <a class="nav-link" href="#">Profile</a>
+          <%= link_to "Homepage", player_home_path, class: "nav-link" %>
+          <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link active" %>
+          <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link" %>
+          <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_path, class: "nav-link" %>
         </div>
       </div>
     </div>
   </nav>
 
-  <!-- Outer container -->
   <div class="container py-4">
-    <!-- Shared width wrapper -->
     <div class="page-narrow mx-auto">
-      <!-- Page header -->
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
         <div class="min-w-0">
           <h2 class="mb-1">Tournament details</h2>
           <div class="text-body-secondary">View informations for a specific tournament</div>
         </div>
 
-        <!-- Eligibility + Actions -->
         <div class="header-actions">
           <span class="elig-chip" title="Eligibility status">
-            <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
-            Eligible
+            <span class="elig-dot <%= @eligible ? "elig-dot--ok" : "elig-dot--no" %>" aria-hidden="true"></span>
+            <%= @eligible ? "Eligible" : "Not eligible" %>
           </span>
 
-          <!-- Register button (ONLY for Individual tournaments) -->
-          <!-- Show this only if match type is Individual -->
-          <a class="btn btn-primary" href="#" title="Register to this tournament">
-            <span class="me-1" aria-hidden="true">✍️</span> Register
-          </a>
-
-          <!-- If match type is NOT Individual, do NOT render the button at all -->
+          <% if @is_individual %>
+            <% if @is_registered %>
+              <span class="btn btn-outline-secondary disabled" aria-disabled="true">Already registered</span>
+            <% else %>
+              <%= button_to player_tournament_register_path(@tournament),
+                            method: :post,
+                            class: "btn btn-primary",
+                            disabled: !@eligible,
+                            form: { data: { turbo_confirm: (@eligible ? "Register to #{@tournament.name}?" : nil) } } do %>
+                <span class="me-1" aria-hidden="true">✍️</span> Register
+              <% end %>
+            <% end %>
+          <% end %>
         </div>
       </div>
 
-      <!-- Tournament details card -->
       <section class="card shadow-sm mb-4">
         <div class="card-header d-flex flex-wrap align-items-center justify-content-between gap-2">
           <div class="d-flex align-items-center gap-2 flex-wrap">
-            <strong class="fs-5">Wimbledon</strong>
-            <span class="sport-chip">Tennis</span>
+            <strong class="fs-5"><%= @tournament.name %></strong>
+            <span class="sport-chip"><%= @tournament.sport.description.presence || @tournament.sport.variant_kind.humanize %></span>
           </div>
         </div>
 
@@ -68,166 +61,70 @@
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Name</div>
-                <div class="detail-value">Wimbledon</div>
+                <div class="detail-value"><%= @tournament.name %></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Sport</div>
-                <div class="detail-value">Tennis</div>
+                <div class="detail-value"><%= @tournament.sport.variant_kind.humanize %></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Start date</div>
-                <div class="detail-value">10/01/2026</div>
+                <div class="detail-value"><%= @tournament.start_date&.to_date&.strftime("%d/%m/%Y") %></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
-                <div class="detail-label">Number of rounds</div>
-                <div class="detail-value">6</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="detail-item">
-                <div class="detail-label">Participants</div>
-                <div class="detail-value">128</div>
-              </div>
-            </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="detail-item">
-                <div class="detail-label">Referee</div>
-                <div class="detail-value">Alice Verdi</div>
+                <div class="detail-label">Stadium</div>
+                <div class="detail-value"><%= @tournament.field&.name %></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Organizer</div>
-                <div class="detail-value">ISTL Committee</div>
+                <div class="detail-value">
+                  <%= @tournament.organizer&.organization_name.presence || "—" %>
+                </div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Gender of players</div>
-                <div class="detail-value">Mixed</div>
-              </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2">
-              <div class="detail-item">
-                <div class="detail-label">Min age</div>
-                <div class="detail-value">16</div>
-              </div>
-            </div>
-
-            <div class="col-6 col-md-3 col-lg-2">
-              <div class="detail-item">
-                <div class="detail-label">Max age</div>
-                <div class="detail-value">45</div>
+                <div class="detail-value"><%= @tournament.sport.gender.humanize %></div>
               </div>
             </div>
 
             <div class="col-12 col-md-6 col-lg-4">
               <div class="detail-item">
                 <div class="detail-label">Match type</div>
-                <div class="detail-value">Individual</div>
+                <div class="detail-value"><%= @tournament.sport.format_kind == "single" ? "Individual" : "Team (double)" %></div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- Teams section (ONLY if match type is Individual) -->
-      <section class="card shadow-sm">
-        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-          <div class="min-w-0">
-            <strong class="fs-5">Available teams</strong>
-            <div class="text-body-secondary small">Join a team that still has free slots</div>
+      <% unless @is_individual %>
+        <!-- TODO: requires a Team model to work -->
+        <section class="card shadow-sm">
+          <div class="card-header">
+            <strong class="fs-5">Teams</strong>
+            <span class="text-body-secondary small">Team joining requires team slots in DB</span>
           </div>
-          <span class="text-body-secondary small">Teams with 2 players are hidden</span>
-        </div>
-
-        <div class="card-body">
-          <div class="row g-3">
-            <!-- Team card (0/2) -->
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="team-card">
-                <div class="team-card-top">
-                  <div class="min-w-0">
-                    <div class="team-name">Team Alpha</div>
-                    <div class="team-meta">
-                      <span class="slot-chip">
-                        <span class="slot-dot slot-dot--empty" aria-hidden="true"></span>
-                        No member yet
-                      </span>
-                    </div>
-                  </div>
-                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Alpha">
-                    <span class="me-1" aria-hidden="true">➕</span> Join
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Team card (1/2) -->
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="team-card">
-                <div class="team-card-top">
-                  <div class="min-w-0">
-                    <div class="team-name">Team Bravo</div>
-                    <div class="team-meta">
-                      <span class="slot-chip">
-                        <span class="slot-dot slot-dot--half" aria-hidden="true"></span>
-                        Member: <span class="fw-semibold">M. Rossi</span>
-                      </span>
-                    </div>
-                  </div>
-                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Bravo">
-                    <span class="me-1" aria-hidden="true">➕</span> Join
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Team card (1/2) -->
-            <div class="col-12 col-md-6 col-lg-4">
-              <div class="team-card">
-                <div class="team-card-top">
-                  <div class="min-w-0">
-                    <div class="team-name">Team Delta</div>
-                    <div class="team-meta">
-                      <span class="slot-chip">
-                        <span class="slot-dot slot-dot--half" aria-hidden="true"></span>
-                        Member: <span class="fw-semibold">S. Neri</span>
-                      </span>
-                    </div>
-                  </div>
-                  <a class="btn btn-sm btn-outline-primary" href="#" title="Join Team Delta">
-                    <span class="me-1" aria-hidden="true">➕</span> Join
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <!-- Example empty state (if no teams available) -->
-            <!--
-            <div class="col-12">
-              <div class="text-center text-body-secondary py-4">
-                No joinable teams available right now.
-              </div>
-            </div>
-            -->
+          <div class="card-body text-body-secondary">
+            This tournament is doubles. To show “teams with 0–1 players and join button”, you need a Team-like model.
           </div>
-        </div>
-      </section>
+        </section>
+      <% end %>
+
     </div>
   </div>
 </div>

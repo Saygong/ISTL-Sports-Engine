@@ -1,27 +1,18 @@
 <div class="player-registrations-page booked-page">
-  <!-- Navbar (player) -->
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarNavAltMarkup"
-        aria-controls="navbarNavAltMarkup"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="#">Homepage</a>
-          <a class="nav-link active" aria-current="page" href="#">Tournament Registrations</a>
-          <a class="nav-link" href="#">Spectate</a>
-          <a class="nav-link" href="#">Booked Matches</a>
-          <a class="nav-link" href="#">Profile</a>
+          <%= link_to "Homepage", player_home_path, class: "nav-link" %>
+          <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link active", aria: { current: "page" } %>
+          <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link" %>
+          <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_path, class: "nav-link" %>
         </div>
       </div>
     </div>
@@ -29,7 +20,6 @@
 
   <div class="container py-4">
     <div class="page-narrow">
-      <!-- Header -->
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
         <div class="min-w-0">
           <h2 class="mb-1">Your registrations</h2>
@@ -37,7 +27,6 @@
         </div>
       </div>
 
-      <!-- Registrations card -->
       <section class="card shadow-sm">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
           <strong class="fs-5">Registered tournaments</strong>
@@ -56,74 +45,44 @@
             </thead>
 
             <tbody>
-            <!-- Registration 1 -->
-            <tr>
-              <td class="tournament-cell">
-                <div class="tournament-title">Wimbledon</div>
-                <div class="tournament-sub">
-                  <span class="sport-chip">Tennis</span>
-                </div>
-              </td>
-              <td>10/01/2026</td>
-              <td>Centre Court</td>
-              <td><span class="org-chip">ISTL Committee</span></td>
-              <td class="text-end">
-                      <span class="action-stack">
-                        <a class="btn btn-sm btn-outline-danger" href="#" title="Un-register from tournament">
-                          <span class="me-1" aria-hidden="true">✖</span> Un-register
-                        </a>
-                      </span>
-              </td>
-            </tr>
+            <% if @registrations.empty? %>
+              <tr>
+                <td colspan="5" class="text-center py-5 text-body-secondary">
+                  No registrations yet.
+                </td>
+              </tr>
+            <% else %>
+              <% @registrations.each do |t| %>
+                <tr>
+                  <td class="tournament-cell">
+                    <div class="tournament-title"><%= t.name %></div>
+                    <div class="tournament-sub">
+                      <span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
+                    </div>
+                  </td>
 
-            <!-- Registration 2 -->
-            <tr>
-              <td class="tournament-cell">
-                <div class="tournament-title">AP-2000</div>
-                <div class="tournament-sub">
-                  <span class="sport-chip">Table tennis</span>
-                </div>
-              </td>
-              <td>14/04/2026</td>
-              <td>Arena Hall</td>
-              <td><span class="org-chip">Club AP</span></td>
-              <td class="text-end">
-                      <span class="action-stack">
-                        <a class="btn btn-sm btn-outline-danger" href="#" title="Un-register from tournament">
-                          <span class="me-1" aria-hidden="true">✖</span> Un-register
-                        </a>
+                  <td><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></td>
+                  <td><%= t.field&.name %></td>
+                  <td>
+                      <span class="org-chip">
+                        <%= t.organizer&.organization_name.presence || [t.organizer&.first_name, t.organizer&.last_name].compact.join(" ").presence || "—" %>
                       </span>
-              </td>
-            </tr>
+                  </td>
 
-            <!-- Registration 3 -->
-            <tr>
-              <td class="tournament-cell">
-                <div class="tournament-title">Summer fest</div>
-                <div class="tournament-sub">
-                  <span class="sport-chip">Beach tennis</span>
-                </div>
-              </td>
-              <td>20/05/2026</td>
-              <td>Seaside Court</td>
-              <td><span class="org-chip">Summer Org</span></td>
-              <td class="text-end">
+                  <td class="text-end">
                       <span class="action-stack">
-                        <a class="btn btn-sm btn-outline-danger" href="#" title="Un-register from tournament">
-                          <span class="me-1" aria-hidden="true">✖</span> Un-register
-                        </a>
+                        <%= button_to "Unregister",
+                                      player_registration_path(t),
+                                      method: :delete,
+                                      class: "btn btn-sm btn-outline-danger",
+                                      form: { data: { turbo_confirm: "Unregister from #{t.name}?" } } %>
                       </span>
-              </td>
-            </tr>
-
-            <!-- Empty state example (remove if not needed)
-            <tr>
-              <td colspan="5" class="text-center py-5 text-body-secondary">
-                You have no registrations yet.
-              </td>
-            </tr>
-            -->
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
             </tbody>
+
           </table>
         </div>
       </section>

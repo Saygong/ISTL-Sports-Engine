@@ -49,8 +49,8 @@ class User < ApplicationRecord
          :registerable,
          :recoverable,
          :rememberable,
-         :validatable,
-         :confirmable
+         :validatable
+         #:confirmable
 
   # noinspection RubyResolve
   before_create unless: :uid? do

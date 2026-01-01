@@ -869,7 +869,7 @@
     background: rgba(220, 53, 69, 0.85);
 }
 
-/* Keep organizer readable, compact */
+/* Keep organizers readable, compact */
 .player-page .org-chip {
     display: inline-flex;
     align-items: center;

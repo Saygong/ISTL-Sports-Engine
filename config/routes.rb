@@ -30,16 +30,42 @@ Rails.application.routes.draw do
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
   # Defines the root path route ("/")
+  unauthenticated do
+    devise_scope :user do
+      root to: "devise/sessions#new"
+    end
+  end
+
+  authenticated :user do
+    root to: "tournaments#index", as: :authenticated_root
+  end
+
   namespace :resources do
     # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
     # integrate with the Devise workflow.
-    resources :users, only: [] do
+    resources :users do
+      get 'homepage', to:'users#homepage'
+      get 'profile', to: 'users#show'
       get 'unconfirmed', on: :new
       get 'passwords', on: :new
     end
 
-    resources :tournaments, only: [:index, :show]
   end
 
-  get '/profile', to: 'profile#show', as: :profile
+
+  resources :tournaments, only: [:index, :new, :create, :show] do
+    post 'subscribe', to: 'tournaments#subscribe'
+    post 'unsubscribe', to: 'tournaments#unsubscribe'
+  end
+  resource :organizers, only: [:show]
+  resource :referees, only: [:show]
+
+  resources :matches do
+    resources :results, only: [:index, :new, :create], :module => :matches
+    resource :viewers_match, only: [:create, :destroy]
+  end
+
+  # specific route to show all matches that a user is subscribed to
+  resources :players_tournaments, only: [:index], path: 'tournament_registrations'
+
 end
