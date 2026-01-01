@@ -3,9 +3,9 @@
 Rails.application.routes.draw do
   # Devise also ships with default routes
   devise_for :users, controllers: {
-    passwords:     'resources/users_passwords',
-    confirmations: 'resources/users_confirmations',
-    registrations: 'resources/users_registrations'
+    passwords:     'overrides/devise/passwords',
+    confirmations: 'overrides/devise/confirmations',
+    registrations: 'overrides/devise/registrations'
   }
 
   # Automatically added by running the active_admin:install generator
@@ -40,16 +40,24 @@ Rails.application.routes.draw do
     root to: "tournaments#index", as: :authenticated_root
   end
 
-  namespace :resources do
-    # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
-    # integrate with the Devise workflow.
-    resources :users do
-      get 'homepage', to:'users#homepage'
-      get 'profile', to: 'users#show'
-      get 'unconfirmed', on: :new
-      get 'passwords', on: :new
-    end
+  # namespace :resources do
+  #   # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
+  #   # integrate with the Devise workflow.
+  #   resources :users do
+  #     get 'homepage', to: 'users#homepage'
+  #     get 'profile', to: 'users#show'
+  #   end
+  # end
 
+  # Views will be customized using the appropriate type (e.g., players). UsersController is primarily used to
+  # integrate with the Devise workflow, or to group actions common to all types of users.
+  resource :user, only: [] do
+    # Unauthenticated access points
+    get :unconfirmed
+    get :passwords
+
+    # Authenticated access points
+    get :profile
   end
 
 
@@ -68,4 +76,18 @@ Rails.application.routes.draw do
   # specific route to show all matches that a user is subscribed to
   resources :players_tournaments, only: [:index], path: 'tournament_registrations'
 
+  # == Endpoints for all user types
+  # Defines singular resources for different user roles within the application.
+
+  resource :player, only: [:show] do
+    get :profile
+  end
+
+  resource :organizer, only: [:show] do
+    get :profile
+  end
+
+  resource :referee, only: [:show] do
+    get :profile
+  end
 end
