@@ -30,6 +30,7 @@
 #
 class Tournament < ApplicationRecord
   include WithGender
+  include WithComposition
 
   belongs_to :court
   belongs_to :sport
@@ -46,8 +47,9 @@ class Tournament < ApplicationRecord
 
   enum :format_kind, { single: 0, double: 1 }
 
-  def eligible_for?(user)
+  def eligible_for? user
     return false if user.nil?
+
     age = Date.current.year - birthdate.year
     age_ok =
       age >= age_limitation_lower &&
@@ -58,6 +60,4 @@ class Tournament < ApplicationRecord
 
     age_ok && gender_ok
   end
-
-
 end

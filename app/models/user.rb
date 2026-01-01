@@ -50,7 +50,8 @@ class User < ApplicationRecord
          :recoverable,
          :rememberable,
          :validatable
-         #:confirmable
+
+  # :confirmable
 
   # noinspection RubyResolve
   before_create unless: :uid? do
