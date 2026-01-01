@@ -99,3 +99,43 @@ Rails.application.routes.draw do
     get :profile
   end
 end
+
+
+# ORGANIZER
+# organizer fa login
+#   - arriva alla sua homepage
+#     - dentro la homepage c'è il bottone per creare un tournament
+#       - dentro la pagine di creazione c'è il form classico con crea + cancel
+#   - navbar:
+#     - homepage
+#     - create tournament
+#     - profile
+
+# REFEREE
+# referre fa login
+#   - arriva alla sua homepage
+#     - dentro alla sua homempage vede una lista di match dei tornei a cui è iscritto l'arbitro e che arbitra effettivamente
+#       - per ogni match può inserire i risultati
+#   - navbar:
+#     - homepage
+#     - profile
+
+# PLAYER
+# player fa login
+#   - arriva alla sua homepage
+#     - dentro alla sua homepage vede la lista di tornei
+#       - filtro per i tornei
+#       - per ogni tornei c'è il dettaglio
+#           - il dettaglio del torneo ha un bottone per registrarsi (eligible)
+#           - se è un torneo a team ci sono i join per team
+#   - navbar:
+#     - homepage
+#     - spectate -> book / unbook pages
+#     - booked matches
+#     - profile
+
+# NOTE
+#   - Quando il torneo ha gli slot riempiti:
+#       - la fase di registrazione si chiude in automatico e vengono creati i match
+#       - vengono creati i team
+#       - vengono distribuiti gli arbitri sui match
