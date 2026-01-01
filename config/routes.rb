@@ -29,15 +29,21 @@ Rails.application.routes.draw do
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
   # get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
 
-  # Defines the root path route ("/")
+  # == Authentication Endpoints
+  # Defining endpoints for authenticated and unauthenticated users
+
+  # Redirect unauthenticated users to the login page
   unauthenticated do
-    devise_scope :user do
-      root to: "devise/sessions#new"
+    as :user do
+      root to: 'devise/sessions#new'
     end
   end
 
-  authenticated :user do
-    root to: "tournaments#index", as: :authenticated_root
+  # Direct the user to their specific dashboard and name the path
+  [:player, :organizer, :referee].each do |role|
+    authenticated :user, proc { it.is_a? "User::#{role.to_s.camelize}".constantize } do
+      root to: "#{role}s#show", as: "authenticated_#{role}"
+    end
   end
 
   # namespace :resources do
