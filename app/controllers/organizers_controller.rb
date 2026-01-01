@@ -1,18 +1,26 @@
 class OrganizersController < ApplicationController
+  include Authentications::Organizer
+
   before_action :authenticate_user!
-  before_action :require_organizer!
 
+  require_organizer! only: [:show]
+
+  # Controller action to display the dashboard page for the connected organizer.
   def show
-    @tournaments = Tournament.includes(:matches).organized_by(current_user).order(start_date: :asc)
+    # noinspection RailsParamDefResolve
+    @tournaments = current_user
+                     .tournaments
+                     .includes(:matches)
+                     .order(start_date: :asc)
+
+    # Extract all matches from the tournament list and retrieve the corresponding results
+    @tournaments
+      .map(&:matches)
+      .flatten
+      .then { |matches| @results_by_match_id = Match::Result.where(match: matches) }
   end
 
-
-
-  private
-  def require_organizer!
-    unless current_user.is_a?(User::Organizer)
-      redirect_to root_path, alert: "You must be an organizer to access the organizer homepage."
-    end
+  def profile
+    redirect_to profile_user_path
   end
-
 end
