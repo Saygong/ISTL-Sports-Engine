@@ -16,7 +16,6 @@
 #  min_age           :integer
 #  gender            :integer          default(0), not null
 #  number_of_matches :integer
-#  format_kind       :integer          default(0), not null
 #  court_id          :integer
 #  composition       :integer          default(0), not null
 #

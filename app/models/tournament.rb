@@ -18,7 +18,6 @@
 #  min_age           :integer
 #  gender            :integer          default(0), not null
 #  number_of_matches :integer
-#  format_kind       :integer          default(0), not null
 #  court_id          :integer
 #  composition       :integer          default(0), not null
 #
@@ -44,8 +43,6 @@ class Tournament < ApplicationRecord
 
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
-
-  enum :format_kind, { single: 0, double: 1 }
 
   def eligible_for? user
     return false if user.nil?
