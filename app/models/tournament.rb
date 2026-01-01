@@ -57,6 +57,4 @@ class Tournament < ApplicationRecord
 
     age_ok && gender_ok
   end
-
-
 end
