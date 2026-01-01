@@ -40,15 +40,14 @@ Rails.application.routes.draw do
     root to: "tournaments#index", as: :authenticated_root
   end
 
-  namespace :resources do
-    # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
-    # integrate with the Devise workflow.
-    resources :users do
-      get 'homepage', to:'users#homepage'
-      get 'profile', to: 'users#show'
-      get 'unconfirmed', on: :new
-      get 'passwords', on: :new
-    end
+  # namespace :resources do
+  #   # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
+  #   # integrate with the Devise workflow.
+  #   resources :users do
+  #     get 'homepage', to: 'users#homepage'
+  #     get 'profile', to: 'users#show'
+  #   end
+  # end
 
   # Views will be customized using the appropriate type (e.g., players). UsersController is primarily used to
   # integrate with the Devise workflow, or to group actions common to all types of users.
