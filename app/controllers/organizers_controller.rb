@@ -9,9 +9,9 @@ class OrganizersController < ApplicationController
   def show
     # noinspection RailsParamDefResolve
     @tournaments = current_user
-                     .tournaments
-                     .includes(:matches)
-                     .order(start_date: :asc)
+                   .tournaments
+                   .includes(:matches)
+                   .order(start_date: :asc)
 
     # Extract all matches from the tournament list and retrieve the corresponding results
     @tournaments
