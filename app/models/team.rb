@@ -16,6 +16,8 @@
 #  index_teams_on_tournament_id  (tournament_id)
 #
 class Team < ApplicationRecord
+  include WithComposition
+
   belongs_to :tournament
 
   has_many :players_teams, dependent: :destroy
@@ -26,9 +28,4 @@ class Team < ApplicationRecord
 
   has_many :teams_match_results, dependent: :destroy
   has_many :match_results, through: :teams_match_results
-
-  enum :composition, {
-    single: 0,
-    double: 1,
-  }
 end

@@ -27,7 +27,7 @@ class Match < ApplicationRecord
 
   has_one :match_result,
           class_name: 'Match::Result',
-          dependent: :destroy
+          dependent:  :destroy
 
   has_many :viewers_matches, dependent: :destroy
   has_many :viewers, through: :viewers_matches
