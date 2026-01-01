@@ -26,6 +26,14 @@
   </nav>
 
   <div class="container py-4">
+
+    <!-- Actions common to all users -->
+    <section class="float-end">
+      <h6>Actions</h6>
+      <%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %>
+    </section>
+
+
     <!-- Page header -->
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
       <div>
