@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -18,6 +19,7 @@
 
   <div class="container py-4">
     <div class="page-narrow">
+      <!-- Header -->
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
         <div class="min-w-0">
           <h2 class="mb-1">Create tournament</h2>
@@ -25,6 +27,7 @@
         </div>
       </div>
 
+      <!-- Form card -->
       <section class="card shadow-sm">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
           <strong class="fs-5">Tournament form</strong>
@@ -33,7 +36,7 @@
         <div class="card-body">
           <%= form_with model: @tournament, url: organizer_tournaments_path, local: true do |f| %>
             <div class="d-grid gap-3">
-
+              <!-- Core info -->
               <section class="section-block">
                 <div class="section-header">
                   <p class="section-title mb-0">General info</p>
@@ -42,48 +45,154 @@
                 <div class="p-3">
                   <div class="row g-3">
                     <div class="col-12 col-md-6">
-                      <%= f.label :name, class: "form-label fw-semibold" %>
-                      <%= f.text_field :name, class: "form-control", placeholder: "e.g. Wimbledon" %>
+                      <%= f.label :name, "Tournament name", class: "form-label", for: "tName" %>
+                      <%= f.text_field :name,
+                                       id: "tName",
+                                       class: "form-control",
+                                       placeholder: "e.g. Wimbledon",
+                                       required: true
+                      %>
                     </div>
 
                     <div class="col-12 col-md-6">
-                      <%= f.label :sport_id, "Sport", class: "form-label fw-semibold" %>
-                      <%= f.collection_select :sport_id, @sports, :id, :description, { include_blank: "Select sport" }, { class: "form-select" } %>
+                      <%= f.label :sport_id, "Sport type", class: "form-label", for: "tSport" %>
+                      <%= f.select :sport_id,
+                                   options_from_collection_for_select(@sports, :id, :description, @tournament.sport_id),
+                                   { include_blank: "Select sport" },
+                                   { id: "tSport", class: "form-select", required: true }
+                      %>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                      <%= f.label :start_date, "Start date", class: "form-label", for: "tStart" %>
+                      <%= f.date_field :start_date, id: "tStart", class: "form-control", required: true %>
+                    </div>
+
+                    <div class="col-12 col-md-6">
+                      <%= f.label :field_id, "Stadium", class: "form-label", for: "tStadium" %>
+                      <%= f.select :field_id,
+                                   options_from_collection_for_select(@fields, :id, :name, @tournament.field_id),
+                                   { include_blank: "Select stadium" },
+                                   { id: "tStadium", class: "form-select", required: true }
+                      %>
+                    </div>
+
+                    <!-- Age restrictions -->
+                    <div class="col-12 col-md-3">
+                      <%= f.label :min_age, "Min age", class: "form-label", for: "minAge" %>
+                      <%= f.number_field :min_age,
+                                         id: "minAge",
+                                         class: "form-control",
+                                         min: 0,
+                                         step: 1,
+                                         placeholder: "e.g. 16",
+                                         required: true
+                      %>
+                    </div>
+
+                    <div class="col-12 col-md-3">
+                      <%= f.label :max_age, "Max age", class: "form-label", for: "maxAge" %>
+                      <%= f.number_field :max_age,
+                                         id: "maxAge",
+                                         class: "form-control",
+                                         min: 0,
+                                         step: 1,
+                                         placeholder: "e.g. 45",
+                                         required: true
+                      %>
+                    </div>
+
+                    <!-- Gender -->
+                    <div class="col-12 col-md-3">
+                      <%= f.label :gender, "Participants gender", class: "form-label", for: "tGender" %>
+                      <%= f.select :gender,
+                                   options_for_select(@gender_options, @tournament.gender),
+                                   { include_blank: "Select gender" },
+                                   { id: "tGender", class: "form-select", required: true }
+                      %>
+                    </div>
+
+                    <!-- Individual vs Team based -->
+                    <div class="col-12 col-md-3">
+                      <%= f.label :match_mode, "Match mode", class: "form-label", for: "matchMode" %>
+                      <%= f.select :match_mode,
+                                   options_for_select(@match_mode_options, @tournament.match_mode),
+                                   { include_blank: "Select mode" },
+                                   { id: "matchMode", class: "form-select", required: true }
+                      %>
                     </div>
 
                     <div class="col-12">
-                      <%= f.label :description, class: "form-label fw-semibold" %>
-                      <%= f.text_area :description, class: "form-control", rows: 3, placeholder: "Result description..." %>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                      <%= f.label :start_date, class: "form-label fw-semibold" %>
-                      <%= f.datetime_local_field :start_date, class: "form-control" %>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                      <%= f.label :end_date, class: "form-label fw-semibold" %>
-                      <%= f.datetime_local_field :end_date, class: "form-control" %>
-                    </div>
-
-                    <div class="col-12 col-md-6">
-                      <%= f.label :field_id, "Field (stadium)", class: "form-label fw-semibold" %>
-                      <%= f.collection_select :field_id, @fields, :id, :name, { include_blank: "Select field" }, { class: "form-select" } %>
+                      <div class="form-text">
+                        Note: validate that <strong>min age</strong> ≤ <strong>max age</strong> on the backend.
+                      </div>
                     </div>
                   </div>
                 </div>
               </section>
 
+              <!-- Referees -->
+              <section class="section-block">
+                <div class="section-header">
+                  <p class="section-title mb-0">Referees</p>
+                  <span class="text-body-secondary small">Select up to 3</span>
+                </div>
+
+                <div class="p-3">
+                  <div class="row g-3">
+                    <% 3.times do |i| %>
+                      <div class="col-12 col-md-4">
+                        <label class="form-label">Referee #<%= i + 1 %></label>
+                        <select name="referee_ids[]" class="form-select">
+                          <option value="">None</option>
+                          <% @referees.each do |r| %>
+                            <option value="<%= r.id %>"><%= "#{r.first_name} #{r.last_name}" %></option>
+                          <% end %>
+                        </select>
+                      </div>
+                    <% end %>
+
+                    <div class="col-12">
+                      <div class="form-text">
+                        Tip: prevent duplicates with backend validation (or JS if you later allow it).
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Matches config -->
+              <section class="section-block">
+                <div class="section-header">
+                  <p class="section-title mb-0">Match configuration</p>
+                </div>
+
+                <div class="p-3">
+                  <div class="row g-3 align-items-end">
+                    <div class="col-12 col-md-6">
+                      <%= f.label :match_count, "Number of matches", class: "form-label" %>
+                      <%= f.select :match_count,
+                                   [["2",2],["4",4],["8",8],["16",16]],
+                                   { include_blank: "Select amount" },
+                                   class: "form-select", required: true %>
+
+                      <div class="form-text">
+                        Example: 8 matches = 16 participants (individual) or 32 partecipants (16 teams).
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+
+              <!-- Actions -->
               <div class="actions-bar">
                 <%= link_to "Cancel", organizer_home_path, class: "btn btn-outline-secondary" %>
-                <%= f.submit "Create", class: "btn btn-primary" %>
+                <%= f.submit "Save", class: "btn btn-primary" %>
               </div>
-
             </div>
           <% end %>
         </div>
       </section>
-
     </div>
   </div>
 </div>

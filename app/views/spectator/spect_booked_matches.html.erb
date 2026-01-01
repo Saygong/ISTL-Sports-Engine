@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -39,6 +40,7 @@
             <tr>
               <th scope="col">Participants</th>
               <th scope="col">Tournament</th>
+              <th scope="col">Round</th>
               <th scope="col">Start date</th>
               <th scope="col">Start time</th>
               <th scope="col">Stadium</th>
@@ -82,6 +84,7 @@
                     </div>
                   </td>
 
+                  <td><span class="badge text-bg-secondary"><%= m.round %></span></td>
                   <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
                   <td><%= m.date&.strftime("%H:%M") %></td>
                   <td><%= m.tournament.field&.name %></td>
