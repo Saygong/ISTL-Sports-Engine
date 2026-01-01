@@ -1,0 +1,112 @@
+<div class="player-page">
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <%= link_to "Homepage", player_path, class: "nav-link active" %>
+          <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link" %>
+          <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link" %>
+          <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_path, class: "nav-link" %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+    <div class="page-narrow">
+      <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+        <div class="min-w-0">
+          <h2 class="mb-1">Player homepage</h2>
+          <div class="page-subtitle">Browse tournaments and check your eligibility</div>
+        </div>
+      </div>
+
+      <section class="card shadow-sm filters-card mb-3">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Filters</strong>
+        </div>
+
+        <div class="card-body">
+          <%= form_with url: player_home_path, method: :get, local: true do %>
+            <div class="row g-3 align-items-end">
+              <div class="col-12 col-md-4">
+                <label for="filterName" class="form-label">Name</label>
+                <%= text_field_tag :name, params[:name], class: "form-control", id: "filterName", placeholder: "e.g. Wimbledon" %>
+              </div>
+
+              <div class="col-12 col-md-4">
+                <label for="filterSport" class="form-label">Sport</label>
+                <%= select_tag :sport_id,
+                               options_from_collection_for_select(@sports, :id, :description, params[:sport_id]),
+                               include_blank: "All sports",
+                               class: "form-select",
+                               id: "filterSport" %>
+              </div>
+
+              <div class="col-12 col-md-4 d-flex gap-2">
+                <%= submit_tag "Apply", class: "btn btn-primary" %>
+                <%= link_to "Reset", player_home_path, class: "btn btn-outline-secondary" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </section>
+
+      <section class="card shadow-sm table-card">
+        <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+          <strong class="fs-5">Tournaments</strong>
+        </div>
+
+        <div class="table-responsive">
+          <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+            <tr>
+              <th scope="col">Tournament</th>
+              <th scope="col">Sport</th>
+              <th scope="col">Start date</th>
+              <th scope="col">Eligibility</th>
+              <th scope="col" class="text-end">Action</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% if @tournaments.empty? %>
+              <tr>
+                <td colspan="5" class="text-center py-5 text-body-secondary">
+                  No tournaments found.
+                </td>
+              </tr>
+            <% else %>
+              <% @tournaments.each do |t| %>
+                <% is_individual = (t.sport.format_kind == "single") %>
+                <% eligible = true %>
+                <tr>
+                  <th scope="row"><%= t.name %></th>
+                  <td><span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span></td>
+                  <td><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></td>
+                  <td>
+                      <span class="elig-pill">
+                        <span class="elig-dot <%= eligible ? "elig-dot--ok" : "elig-dot--no" %>" aria-hidden="true"></span>
+                        <%= eligible ? "Eligible" : "Not eligible" %>
+                      </span>
+                  </td>
+                  <td class="text-end">
+                    <%= link_to "Details", player_tournament_path(t), class: "action-btn btn btn-sm btn-outline-primary" %>
+                  </td>
+                </tr>
+              <% end %>
+            <% end %>
+            </tbody>
+
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
