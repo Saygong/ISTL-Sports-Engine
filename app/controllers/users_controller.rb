@@ -38,7 +38,7 @@ class UsersController < ApplicationController
     # Nothing to do
   end
 
-  # Controller action to prepare data for the user profile page.
+  # Controller action for the user profile page.
   def profile
     @user = current_user
 
