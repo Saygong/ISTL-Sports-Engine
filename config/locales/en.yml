@@ -57,6 +57,8 @@ en:
   errors:
     controllers:
       referees:
-        unauthorized: "You must be a referee to access the referee homepage"
+        unauthorized: "You must be a referee to access referee features"
       organizers:
-        unauthorized: "You must be an organizer to access the organizer homepage"
+        unauthorized: "You must be an organizer to access organizer features"
+      players:
+        unauthorized: "You must be a player to access player features"
