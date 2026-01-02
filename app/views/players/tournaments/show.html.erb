@@ -139,7 +139,7 @@
               </tr>
             <% else %>
               <% @matches.each do |m| %>
-                <% max_seats = m.tournament.field&.max_seats.to_i %>
+                <% max_seats = m.field&.max_seats.to_i %>
                 <% used = m.viewers.size %>
                 <% available = [max_seats - used, 0].max %>
                 <% reserved = @booked_match_ids.include?(m.id) %>
