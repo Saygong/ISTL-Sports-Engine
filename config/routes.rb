@@ -66,6 +66,8 @@ Rails.application.routes.draw do
     end
 
     resources :matches, only: [:index], module: :players do
+      get :joined, on: :collection
+
       post :book, to: 'matches#book'
       post :unbook, to: 'matches#unbook'
     end
