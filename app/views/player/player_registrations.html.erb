@@ -1,18 +1,18 @@
-<div class="player-registrations-page booked-page">
+<div class="booked-page player-registrations-page">
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Homepage", player_home_path, class: "nav-link" %>
+          <%= link_to "Homepage", player_path, class: "nav-link" %>
           <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link active", aria: { current: "page" } %>
-          <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link" %>
-          <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
-          <%= link_to "Profile", profile_path, class: "nav-link" %>
+          <%= link_to "Booked Matches", player_matches_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_user_path, class: "nav-link" %>
         </div>
       </div>
     </div>
@@ -22,61 +22,74 @@
     <div class="page-narrow">
       <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
         <div class="min-w-0">
-          <h2 class="mb-1">Your registrations</h2>
-          <div class="page-subtitle">Tournaments you registered to (you can un-register here)</div>
+          <h2 class="mb-1">Your matches</h2>
+          <div class="page-subtitle">Matches you are scheduled to play</div>
         </div>
       </div>
 
       <section class="card shadow-sm">
         <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-          <strong class="fs-5">Registered tournaments</strong>
+          <strong class="fs-5">Upcoming matches</strong>
+          <span class="text-body-secondary small">No actions available here</span>
         </div>
 
         <div class="table-responsive">
           <table class="table table-hover align-middle mb-0">
             <thead class="table-light">
             <tr>
+              <th scope="col">Participants</th>
               <th scope="col">Tournament</th>
+              <th scope="col">Round</th>
               <th scope="col">Start date</th>
+              <th scope="col">Start time</th>
               <th scope="col">Stadium</th>
               <th scope="col">Organizer</th>
-              <th scope="col" class="text-end">Action</th>
             </tr>
             </thead>
 
             <tbody>
-            <% if @registrations.empty? %>
+            <% if @matches.empty? %>
               <tr>
-                <td colspan="5" class="text-center py-5 text-body-secondary">
-                  No registrations yet.
-                </td>
+                <td colspan="7" class="text-center py-5 text-body-secondary">No scheduled matches yet.</td>
               </tr>
             <% else %>
-              <% @registrations.each do |t| %>
+              <% @matches.each do |m| %>
                 <tr>
-                  <td class="tournament-cell">
-                    <div class="tournament-title"><%= t.name %></div>
-                    <div class="tournament-sub">
-                      <span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
+                  <td>
+                    <% participants = @participants_by_match_id[m.id] %>
+                    <div class="participants">
+                      <div class="team">
+                        <% participants[:left].each do |label| %>
+                          <span class="player"><%= label %></span>
+                        <% end %>
+                      </div>
+                      <div class="vs">vs</div>
+                      <div class="team">
+                        <% participants[:right].each do |label| %>
+                          <span class="player"><%= label %></span>
+                        <% end %>
+                      </div>
                     </div>
                   </td>
 
-                  <td><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></td>
-                  <td><%= t.field&.name %></td>
-                  <td>
-                      <span class="org-chip">
-                        <%= t.organizer&.organization_name.presence || [t.organizer&.first_name, t.organizer&.last_name].compact.join(" ").presence || "—" %>
-                      </span>
+                  <td class="tournament-cell">
+                    <div class="tournament-title"><%= m.tournament.name %></div>
+                    <div class="tournament-sub">
+                      <span class="sport-chip"><%= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
+                    </div>
                   </td>
 
-                  <td class="text-end">
-                      <span class="action-stack">
-                        <%= button_to "Unregister",
-                                      player_registration_path(t),
-                                      method: :delete,
-                                      class: "btn btn-sm btn-outline-danger",
-                                      form: { data: { turbo_confirm: "Unregister from #{t.name}?" } } %>
-                      </span>
+                  <td><span class="badge text-bg-secondary"><%= m.round.present? ? "Round #{m.round}" : "—" %></span></td>
+                  <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
+                  <td><%= m.date&.strftime("%H:%M") %></td>
+                  <td><%= m.tournament.court&.name %></td>
+
+                  <td>
+                    <span class="org-chip">
+                      <%= m.tournament.organizer&.organization_name.presence ||
+                            [m.tournament.organizer&.first_name, m.tournament.organizer&.last_name].compact.join(" ").presence ||
+                            "—" %>
+                    </span>
                   </td>
                 </tr>
               <% end %>
