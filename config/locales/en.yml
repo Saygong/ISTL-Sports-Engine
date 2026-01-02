@@ -55,6 +55,9 @@ en:
       call_to_action: "Start navigating through the panels to perform actions"
 
   errors:
+    models:
+      tournament:
+        min_age_gt_max_age: "The minimum age cannot be higher than the maximum age"
     controllers:
       referees:
         unauthorized: "You must be a referee to access referee features"
@@ -62,6 +65,7 @@ en:
         unauthorized: "You must be an organizer to access organizer features"
       players:
         unauthorized: "You must be a player to access player features"
+
   notices:
     controllers:
       players:
