@@ -1,20 +1,18 @@
 class Matches::ResultsController < ApplicationController
-    before_action :authenticate_user!
-    before_action :require_referee!
+  before_action :authenticate_user!
+  before_action :require_referee!
 
-    def new
-      @match = Match.includes(:teams).find(params[:id])
-    end
+  def new
+    @match = Match.includes(:teams).find(params[:id])
+  end
 
-    def create
+  def create; end
 
-    end
+  private
 
-    private
-    def require_referee!
-      unless current_user.is_a?(User::Referee)
-        redirect_to root_path, alert: "You must be a referee to access the referee homepage."
-      end
-    end
+  def require_referee!
+    return if current_user.is_a?(User::Referee)
 
+    redirect_to root_path, alert: 'You must be a referee to access the referee homepage.'
+  end
 end

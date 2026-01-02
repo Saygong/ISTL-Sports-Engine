@@ -11,22 +11,22 @@ module Players
     # GET /player/matches
     def index
       @matches = current_user.viewed_matches
-                   .includes(:tournament, :referee, teams: :players)
-                   .order(date: :asc)
+                             .includes(:tournament, :referee, teams: :players)
+                             .order(date: :asc)
       @participants_by_match_id = build_participants_by_match_id(@matches)
     end
 
     # POST /player/matches/:match_id/book
     def book
       ViewersMatch.find_or_create_by!(match_id: @match.id, viewer_id: current_user.id)
-      redirect_back fallback_location: player_tournament_path(@match.tournament), notice: "Match booked successfully."
+      redirect_back fallback_location: player_tournament_path(@match.tournament), notice: 'Match booked successfully.'
     end
 
     # POST /player/matches/:match_id/unbook
     def unbook
       vm = ViewersMatch.find_by(match_id: @match.id, viewer_id: current_user.id)
       vm&.destroy
-      redirect_back fallback_location: player_matches_path, notice: "Booking removed."
+      redirect_back fallback_location: player_matches_path, notice: 'Booking removed.'
     end
 
     private
@@ -35,7 +35,7 @@ module Players
       @match = Match.find(params[:match_id])
     end
 
-    def build_participants_by_match_id(matches)
+    def build_participants_by_match_id matches
       matches.index_with do |m|
         teams = m.teams.to_a
         left_players  = teams[0]&.players.to_a

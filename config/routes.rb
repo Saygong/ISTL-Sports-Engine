@@ -86,12 +86,12 @@ Rails.application.routes.draw do
 
   resource :player, only: [:show] do
     resources :tournaments, only: [:show], module: :players do
-      post 'join', to: 'tournaments#join' #TODO vedere se  togliere il to:... e mettere on: :member
+      post :join, to: 'tournaments#join'
     end
 
     resources :matches, only: [:index], module: :players do
-      post 'book', to: 'matches#book' #TODO vedere se  togliere il to:... e mettere on: :member
-      post 'unbook', to: 'matches#unbook' #TODO vedere se  togliere il to:... e mettere on: :member
+      post :book, to: 'matches#book'
+      post :unbook, to: 'matches#unbook'
     end
 
     get :registrations
@@ -115,9 +115,7 @@ Rails.application.routes.draw do
 =end
 
   resource :referee, only: [:show] do
-    # Page to insert/edit result for one assigned match
-    get  "matches/:match_id/result/new", to: "referees#new_match_result",    as: :new_match_result
-    post "matches/:match_id/result",     to: "referees#create_match_result", as: :match_results
+    resources :matches, only: [:new, :create], module: :referees
 
     get :profile
   end

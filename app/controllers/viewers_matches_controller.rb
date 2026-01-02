@@ -2,28 +2,26 @@ class ViewersMatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_match
 
-
-  #POST - Create a record for match viewer
+  # POST - Create a record for match viewer
   def create
     ViewersMatch.create!(
-      match_id: @match,
+      match_id:  @match,
       viewer_id: current_user
     )
 
-    redirect_to @match, notice: "Match booked successfully."
+    redirect_to @match, notice: 'Match booked successfully.'
   end
 
-  #DELETE - Delete a match viewer entry
+  # DELETE - Delete a match viewer entry
   def destroy
     viewers_match = ViewersMatch.find_by!(
-      match_id: @match,
+      match_id:  @match,
       viewer_id: current_user
     )
 
     viewers_match.destroy
-    redirect_to @match, notice: "Booking removed."
+    redirect_to @match, notice: 'Booking removed.'
   end
-
 
   private
 

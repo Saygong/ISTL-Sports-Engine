@@ -12,12 +12,16 @@ class PlayersController < ApplicationController
 
     scope = Tournament.all.order(start_date: :asc)
 
-    scope = scope.where("tournaments.name ILIKE ?", "%#{params[:name]}%") if params[:name].present?
+    scope = scope.where('tournaments.name ILIKE ?', "%#{params[:name]}%") if params[:name].present?
     scope = scope.where(sport_id: params[:sport_id]) if params[:sport_id].present?
 
     if params[:start_date].present?
       # treat it as "same day"
-      day = Date.parse(params[:start_date]) rescue nil
+      day = begin
+        Date.parse(params[:start_date])
+      rescue StandardError
+        nil
+      end
       scope = scope.where(start_date: day.beginning_of_day..day.end_of_day) if day
     end
 
@@ -33,11 +37,11 @@ class PlayersController < ApplicationController
   def registrations
     @matches =
       Match
-        .joins(teams: :players_teams)
-        .where(players_teams: { player_id: current_user.id })
-        .distinct
-        .includes(tournament: [:sport, :court, :organizer], teams: :players)
-        .order(date: :asc, round: :asc)
+      .joins(teams: :players_teams)
+      .where(players_teams: { player_id: current_user.id })
+      .distinct
+      .includes(tournament: [:sport, :court, :organizer], teams: :players)
+      .order(date: :asc, round: :asc)
 
     @participants_by_match_id = build_participants_by_match_id(@matches)
   end
@@ -46,10 +50,9 @@ class PlayersController < ApplicationController
     redirect_to profile_user_path
   end
 
-
   private
 
-  def build_participants_by_match_id(matches)
+  def build_participants_by_match_id matches
     matches.index_with do |m|
       teams = m.teams.to_a
       left_players  = teams[0]&.players.to_a

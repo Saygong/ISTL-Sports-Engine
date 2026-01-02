@@ -43,11 +43,11 @@ class UsersController < ApplicationController
     @user = current_user
 
     # Check if the registered user is a player (STI)
-    if current_user.is_a? User::Player
-      # noinspection RubyResolve
-      @matches_won = Match::Result.won_by(current_user).count
-      @matches_lost = Match::Result.lost_by(current_user).count
-    end
+    return unless current_user.is_a? User::Player
+
+    # noinspection RubyResolve
+    @matches_won = Match::Result.won_by(current_user).count
+    @matches_lost = Match::Result.lost_by(current_user).count
   end
 
   private

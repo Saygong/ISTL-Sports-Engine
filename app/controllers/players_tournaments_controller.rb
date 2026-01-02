@@ -1,10 +1,8 @@
 class PlayersTournamentsController < ApplicationController
   before_action :require_authentication!
 
-
-  #GET - Show all tournaments the current user is subscribed to
+  # GET - Show all tournaments the current user is subscribed to
   def index
-    @tournaments = Tournament.subscribed_to(current_user) #TODO
+    @tournaments = Tournament.subscribed_to(current_user) # TODO
   end
-
 end

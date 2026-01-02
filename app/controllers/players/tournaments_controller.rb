@@ -20,7 +20,7 @@ module Players
       @is_registered = already_registered_in_tournament?
       @booked_match_ids = current_user.viewers_matches.where(match_id: @matches.map(&:id)).pluck(:match_id).to_set
       @participants_by_match_id = build_participants_by_match_id(@matches)
-      @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : "—" }
+      @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
 
       # @teams = @tournament.teams.includes(:players).order(:id)
     end
@@ -28,7 +28,7 @@ module Players
     # POST /player/tournaments/:tournament_id/join
     def join
       unless eligible_for_tournament?(@tournament, current_user)
-        redirect_to player_tournament_path(@tournament), alert: "You are not eligible for this tournament."
+        redirect_to player_tournament_path(@tournament), alert: 'You are not eligible for this tournament.'
         return
       end
 
@@ -36,7 +36,7 @@ module Players
       # PlayersTournament.subscribe(current_user, @tournament.id)
 
       if already_registered_in_tournament?
-        redirect_to player_tournament_path(@tournament), notice: "You are already registered."
+        redirect_to player_tournament_path(@tournament), notice: 'You are already registered.'
         return
       end
 
@@ -46,11 +46,10 @@ module Players
         join_double_tournament!
       end
 
-      redirect_to player_tournament_path(@tournament), notice: "Registration completed."
+      redirect_to player_tournament_path(@tournament), notice: 'Registration completed.'
     rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
       redirect_to player_tournament_path(@tournament), alert: e.message
     end
-
 
     private
 
@@ -69,8 +68,8 @@ module Players
         @tournament.teams
                    .where(composition: :single)
                    .left_joins(:players_teams)
-                   .group("teams.id")
-                   .having("COUNT(players_teams.id) < 1")
+                   .group('teams.id')
+                   .having('COUNT(players_teams.id) < 1')
                    .first
 
       team ||= @tournament.teams.create!(composition: :single, name: "Player #{current_user.id}")
@@ -80,22 +79,18 @@ module Players
 
     def join_double_tournament!
       team_id = params[:team_id].presence
-      raise ActiveRecord::RecordNotFound, "Please select a team." if team_id.blank?
+      raise ActiveRecord::RecordNotFound, 'Please select a team.' if team_id.blank?
 
       team = @tournament.teams.find(team_id)
 
-      if team.single?
-        raise ActiveRecord::RecordInvalid, "This team is for singles."
-      end
+      raise ActiveRecord::RecordInvalid, 'This team is for singles.' if team.single?
 
-      if team.players.count >= 2
-        raise ActiveRecord::RecordInvalid, "This team is already full."
-      end
+      raise ActiveRecord::RecordInvalid, 'This team is already full.' if team.players.count >= 2
 
       PlayersTeam.create!(player: current_user, team: team)
     end
 
-    def build_participants_by_match_id(matches)
+    def build_participants_by_match_id matches
       matches.index_with do |m|
         teams = m.teams.to_a
         left_players  = teams[0]&.players.to_a
