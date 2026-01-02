@@ -69,9 +69,9 @@
                     </div>
 
                     <div class="col-12 col-md-6">
-                      <%= f.label :field_id, "Stadium", class: "form-label", for: "tStadium" %>
-                      <%= f.select :field_id,
-                                   options_from_collection_for_select(@courts, :id, :name, @tournament.field_id),
+                      <%= f.label :court_id, "Stadium", class: "form-label", for: "tStadium" %>
+                      <%= f.select :court_id,
+                                   options_from_collection_for_select(@courts, :id, :name, @tournament.court_id),
                                    { include_blank: "Select stadium" },
                                    { id: "tStadium", class: "form-select", required: true }
                       %>
@@ -112,11 +112,11 @@
                       %>
                     </div>
 
-                    <!-- Individual vs Team based -->
+                    <!-- Single or Double based -->
                     <div class="col-12 col-md-3">
-                      <%= f.label :match_mode, "Match mode", class: "form-label", for: "matchMode" %>
-                      <%= f.select :match_mode,
-                                   options_for_select(@match_mode_options, @tournament.composition),
+                      <%= f.label :composition, "Match mode", class: "form-label", for: "matchMode" %>
+                      <%= f.select :composition,
+                                   options_for_select(@composition_options, @tournament.composition),
                                    { include_blank: "Select mode" },
                                    { id: "matchMode", class: "form-select", required: true }
                       %>
@@ -170,11 +170,12 @@
                 <div class="p-3">
                   <div class="row g-3 align-items-end">
                     <div class="col-12 col-md-6">
-                      <%= f.label :match_count, "Number of matches", class: "form-label" %>
-                      <%= f.select :match_count,
+                      <%= f.label :number_of_matches, "Number of matches", class: "form-label" %>
+                      <%= f.select :number_of_matches,
                                    [["2",2],["4",4],["8",8],["16",16]],
                                    { include_blank: "Select amount" },
-                                   class: "form-select", required: true %>
+                                   class: "form-select", required: true
+                      %>
 
                       <div class="form-text">
                         Example: 8 matches = 16 participants (individual) or 32 partecipants (16 teams).
@@ -195,4 +196,35 @@
       </section>
     </div>
   </div>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+          const selects = Array.from(document.querySelectorAll('select[name="referee_ids[]"]'));
+          const form = document.querySelector("form");
+
+          function refreshDisabledOptions() {
+              const selected = new Set(selects.map(s => s.value).filter(v => v));
+
+              selects.forEach(sel => {
+                  Array.from(sel.options).forEach(opt => {
+                      if (!opt.value) return; // allow "None"
+                      // Disable if chosen somewhere else (but keep enabled if it's the current select's value)
+                      opt.disabled = selected.has(opt.value) && sel.value !== opt.value;
+                  });
+              });
+          }
+
+          selects.forEach(sel => sel.addEventListener("change", refreshDisabledOptions));
+          refreshDisabledOptions();
+
+          form.addEventListener("submit", (e) => {
+              const anySelected = selects.some(s => s.value && s.value.trim() !== "");
+              if (!anySelected) {
+                  e.preventDefault();
+                  alert("Please select at least 1 referee.");
+              }
+          });
+      });
+  </script>
+
 </div>
