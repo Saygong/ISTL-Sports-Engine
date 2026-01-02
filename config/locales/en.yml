@@ -62,3 +62,9 @@ en:
         unauthorized: "You must be an organizer to access organizer features"
       players:
         unauthorized: "You must be a player to access player features"
+  notices:
+    controllers:
+      players:
+        matches:
+          book: "Match booked successfully"
+          unbook: "Booking removed"
