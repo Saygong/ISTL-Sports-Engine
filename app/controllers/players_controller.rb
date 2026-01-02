@@ -4,32 +4,26 @@ class PlayersController < ApplicationController
   include Authentications::Player
 
   before_action :authenticate_user!
-  require_player! only: [:show]
 
-  # GET /player
+  require_player!
+
+  # ...
   def show
     @sports = Sport.all
 
-    scope = Tournament.all.order(start_date: :asc)
+    # ...
+    @tournaments = Tournament.filter_by name:       params[:name],
+                                        sport_id:   params[:sport_id],
+                                        start_date: params[:start_date]
 
-    scope = scope.where('tournaments.name ILIKE ?', "%#{params[:name]}%") if params[:name].present?
-    scope = scope.where(sport_id: params[:sport_id]) if params[:sport_id].present?
-
-    if params[:start_date].present?
-      # treat it as "same day"
-      day = begin
-        Date.parse(params[:start_date])
-      rescue StandardError
-        nil
+    # ...
+    @tournaments
+      .joinable_by(current_user)
+      .then do |joinable_tournaments|
+        @eligibility_by_tournament_id = @tournaments
+                                        .map { { it.id => joinable_tournaments.include?(it) } }
+                                        .reduce(&:merge)
       end
-      scope = scope.where(start_date: day.beginning_of_day..day.end_of_day) if day
-    end
-
-    @tournaments = scope
-
-    @eligibility_by_tournament_id = @tournaments.index_with do |t|
-      eligible_for_tournament?(t, current_user)
-    end
   end
 
   # GET /player/registrations
