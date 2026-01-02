@@ -46,15 +46,6 @@ Rails.application.routes.draw do
     end
   end
 
-  # namespace :resources do
-  #   # Views will be customized using the appropriate type (e.g., players). User controllers are primarily used to
-  #   # integrate with the Devise workflow.
-  #   resources :users do
-  #     get 'homepage', to: 'users#homepage'
-  #     get 'profile', to: 'users#show'
-  #   end
-  # end
-
   # Views will be customized using the appropriate type (e.g., players). UsersController is primarily used to
   # integrate with the Devise workflow, or to group actions common to all types of users.
   resource :user, only: [] do
@@ -65,21 +56,6 @@ Rails.application.routes.draw do
     # The profile is shared between all user types
     get :profile
   end
-
-=begin
-  resources :tournaments, only: [:index, :new, :create, :show] do
-    post 'subscribe', to: 'tournaments#subscribe'
-    post 'unsubscribe', to: 'tournaments#unsubscribe'
-  end
-
-  resources :matches do
-    resources :results, only: [:index, :new, :create], module: :matches
-    resource :viewers_match, only: [:create, :destroy]
-  end
-
-  # specific route to show all matches that a user is subscribed to
-  resources :players_tournaments, only: [:index], path: 'tournament_registrations'
-=end
 
   # == Endpoints for all user types
   # Defines singular resources for different user roles within the application.
@@ -103,16 +79,6 @@ Rails.application.routes.draw do
     resources :tournaments, only: [:new, :create], controller: "organizers"
     get :profile
   end
-
-
-=begin
-# OLD
-  resource :organizer, only: [:show] do
-    resources :tournaments, only: [:new, :create], module: :organizers
-
-    get :profile
-  end
-=end
 
   resource :referee, only: [:show] do
     resources :matches, only: [:new, :create], module: :referees
