@@ -5,48 +5,53 @@ module Players
     include Authentications::Player
 
     before_action :authenticate_user!
-    before_action :set_match, only: [:book, :unbook]
 
     require_player!
 
-    # GET /player/matches
     def index
-      @matches = current_user.viewed_matches
-                             .includes(:tournament, :referee, teams: :players)
-                             .order(date: :asc)
-      @participants_by_match_id = build_participants_by_match_id(@matches)
+      @matches = current_user
+                 .viewed_matches
+                 .includes(teams: :players)
+                 .order(date: :asc)
+
+      @participants_by_match_id = @matches
+                                  .map(&:participants_by_match_id)
+                                  .reduce(:merge)
     end
 
-    # POST /player/matches/:match_id/book
+    # ...
     def book
-      ViewersMatch.find_or_create_by!(match_id: @match.id, viewer_id: current_user.id)
-      redirect_back fallback_location: player_tournament_path(@match.tournament), notice: 'Match booked successfully.'
+      Match
+        .find(params[:match_id])
+        .tap { ViewersMatch.find_or_create_by!(match: it.id, viewer_id: current_user.id) }
+        .then do
+          redirect_back fallback_location: player_matches_path,
+                        notice:            I18n.t('notices.controllers.players.matches.book')
+        end
     end
 
-    # POST /player/matches/:match_id/unbook
+    # ...
     def unbook
-      vm = ViewersMatch.find_by(match_id: @match.id, viewer_id: current_user.id)
-      vm&.destroy
-      redirect_back fallback_location: player_matches_path, notice: 'Booking removed.'
+      Match
+        .find(params[:match_id])
+        .then do |match|
+          ViewersMatch
+            .find_by(match_id: match.id, viewer_id: current_user.id)
+            &.then(&:destroy!)
+        end
+
+      redirect_back fallback_location: player_matches_path,
+                    notice:            I18n.t('notices.controllers.players.matches.unbook')
     end
 
-    private
+    def joined
+      @matches = Match
+                 .includes(teams: :players)
+                 .where(players: { id: current_user.id })
 
-    def set_match
-      @match = Match.find(params[:match_id])
-    end
-
-    def build_participants_by_match_id matches
-      matches.index_with do |m|
-        teams = m.teams.to_a
-        left_players  = teams[0]&.players.to_a
-        right_players = teams[1]&.players.to_a
-
-        {
-          left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
-          right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-        }
-      end
+      @participants_by_match_id = @matches
+                                  .map(&:participants_by_match_id)
+                                  .reduce(:merge)
     end
   end
 end
