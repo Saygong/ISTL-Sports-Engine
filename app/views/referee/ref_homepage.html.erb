@@ -9,8 +9,8 @@
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Homepage", referee_home_path, class: "nav-link active", aria: { current: "page" } %>
-          <%= link_to "Profile", profile_path, class: "nav-link" %>
+          <%= link_to "Homepage", referee_path, class: "nav-link active", aria: { current: "page" } %>
+          <%= link_to "Profile", profile_user_path, class: "nav-link" %>
         </div>
       </div>
     </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="tournament-meta">
                       <span class="meta-chip"><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></span>
-                      <span class="meta-chip">🏟️ <%= t.field&.name %></span>
+                      <span class="meta-chip">🏟️ <%= t.court&.name %></span>
                       <span class="sport-chip"><%= t.sport&.description.presence || t.sport&.variant_kind&.humanize %></span>
                     </div>
                   </div>
@@ -95,29 +95,30 @@
                           <% pending.each do |m| %>
                             <tr>
                               <td>
+                                <% participants = @participants_by_match_id[m.id] %>
                                 <div class="participants">
                                   <div class="team">
-                                    <% m.players.first(1).each do |p| %>
-                                      <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                                    <% participants[:left].each do |label| %>
+                                      <span class="player"><%= label %></span>
                                     <% end %>
                                   </div>
                                   <div class="vs">vs</div>
                                   <div class="team">
-                                    <% m.players.drop(1).first(1).each do |p| %>
-                                      <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                                    <% participants[:right].each do |label| %>
+                                      <span class="player"><%= label %></span>
                                     <% end %>
                                   </div>
                                 </div>
                               </td>
 
-                              <td><span class="badge text-bg-secondary"><%= "Round #{1}" %></span></td>
+                              <td><span class="badge text-bg-secondary"><%= @round_by_match_id[m.id] %></span></td>
                               <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
                               <td><%= m.date&.strftime("%H:%M") %></td>
-                              <td><%= t.field&.name %></td>
+                              <td><%= t.court&.name %></td>
 
                               <td class="action-end">
                                 <%= link_to "Insert result",
-                                            new_referee_match_result_path(m),
+                                            new_referee_match_result_path(match_id: m.id),
                                             class: "btn btn-sm btn-outline-primary" %>
                               </td>
                             </tr>
