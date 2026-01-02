@@ -9,8 +9,8 @@
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Homepage", referee_home_path, class: "nav-link" %>
-          <%= link_to "Profile", profile_path, class: "nav-link" %>
+          <%= link_to "Homepage", referee_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_user_path, class: "nav-link" %>
         </div>
       </div>
     </div>
@@ -44,16 +44,17 @@
                 <div class="detail-item">
                   <div class="detail-label"><strong>Participants</strong></div>
                   <div class="detail-value">
+                    <% participants = @participants %>
                     <div class="participants mt-1">
                       <div class="team">
-                        <% @match.players.first(1).each do |p| %>
-                          <span class="player"><%= [p.first_name, p.last_name].compact.join(" ").presence || p.email %></span>
+                        <% participants[:left].each do |label| %>
+                          <span class="player"><%= label %></span>
                         <% end %>
                       </div>
                       <div class="vs">vs</div>
                       <div class="team">
-                        <% @match.players.drop(1).first(1).each do |p| %>
-                          <span class="player"><%= [p.first_name, p.last_name].compact.join(" ").presence || p.email %></span>
+                        <% participants[:right].each do |label| %>
+                          <span class="player"><%= label %></span>
                         <% end %>
                       </div>
                     </div>
@@ -85,7 +86,7 @@
               <div class="col-12 col-md-4">
                 <div class="detail-item">
                   <div class="detail-label"><strong>Stadium</strong></div>
-                  <div class="detail-value"><%= @match.tournament.field&.name %></div>
+                  <div class="detail-value"><%= @match.tournament.court&.name %></div>
                 </div>
               </div>
             </div>
@@ -106,11 +107,11 @@
                   </div>
 
                   <div class="col-12 col-md-8">
-                    <label for="winner" class="form-label fw-semibold">Winner</label>
-                    <select id="winner" class="form-select" name="winner">
+                    <label for="winner_team_id" class="form-label fw-semibold">Winner</label>
+                    <select id="winner_team_id" class="form-select" name="winner_team_id" required>
                       <option value="" selected disabled>Select the winner</option>
-                      <% @match.players.each do |p| %>
-                        <option value="<%= p.id %>"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></option>
+                      <% @winner_team_options.each do |label, id| %>
+                        <option value="<%= id %>"><%= label %></option>
                       <% end %>
                     </select>
                     <div class="form-text">Only participants can be selected.</div>
@@ -118,7 +119,7 @@
                 </div>
 
                 <div class="actions-bar">
-                  <%= link_to "Cancel", referee_home_path, class: "btn btn-outline-secondary" %>
+                  <%= link_to "Cancel", referee_path, class: "btn btn-outline-secondary" %>
                   <%= f.submit "Save", class: "btn btn-primary" %>
                 </div>
               </div>
