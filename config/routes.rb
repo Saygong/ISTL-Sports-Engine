@@ -66,6 +66,7 @@ Rails.application.routes.draw do
     get :profile
   end
 
+=begin
   resources :tournaments, only: [:index, :new, :create, :show] do
     post 'subscribe', to: 'tournaments#subscribe'
     post 'unsubscribe', to: 'tournaments#unsubscribe'
@@ -78,6 +79,7 @@ Rails.application.routes.draw do
 
   # specific route to show all matches that a user is subscribed to
   resources :players_tournaments, only: [:index], path: 'tournament_registrations'
+=end
 
   # == Endpoints for all user types
   # Defines singular resources for different user roles within the application.
@@ -96,10 +98,19 @@ Rails.application.routes.draw do
   end
 
   resource :organizer, only: [:show] do
+    resources :tournaments, only: [:new, :create], controller: "organizers"
+    get :profile
+  end
+
+
+=begin
+# OLD
+  resource :organizer, only: [:show] do
     resources :tournaments, only: [:new, :create], module: :organizers
 
     get :profile
   end
+=end
 
   resource :referee, only: [:show] do
     get :profile
