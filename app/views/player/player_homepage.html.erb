@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">ISTL Sports</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+              aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -49,6 +50,14 @@
                                id: "filterSport" %>
               </div>
 
+              <div class="col-12 col-md-4">
+                <label for="filterStartDate" class="form-label">Start date</label>
+                <%= date_field_tag :start_date,
+                                   params[:start_date],
+                                   class: "form-control",
+                                   id: "filterStartDate" %>
+              </div>
+
               <div class="col-12 col-md-4 d-flex gap-2">
                 <%= submit_tag "Apply", class: "btn btn-primary" %>
                 <%= link_to "Reset", player_home_path, class: "btn btn-outline-secondary" %>
@@ -70,6 +79,7 @@
               <th scope="col">Tournament</th>
               <th scope="col">Sport</th>
               <th scope="col">Start date</th>
+              <th scope="col">Organizer</th>
               <th scope="col">Eligibility</th>
               <th scope="col" class="text-end">Action</th>
             </tr>
@@ -85,16 +95,30 @@
             <% else %>
               <% @tournaments.each do |t| %>
                 <% is_individual = (t.sport.format_kind == "single") %>
-                <% eligible = true %>
+                <% eligible = @eligibility_by_tournament_id[t.id] %>
                 <tr>
                   <th scope="row"><%= t.name %></th>
-                  <td><span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span></td>
+                  <td>
+                    <span class="sport-chip"><%= t.sport.description.presence || t.sport.variant_kind.humanize %></span>
+                  </td>
                   <td><%= t.start_date&.to_date&.strftime("%d/%m/%Y") %></td>
                   <td>
+                    <span class="org-chip">
+                      <%= t.organizer&.organization_name.presence || [t.organizer&.first_name, t.organizer&.last_name].compact.join(" ").presence || "—" %>
+                    </span>
+                  </td>
+                  <td>
+                    <% if eligible %>
                       <span class="elig-pill">
-                        <span class="elig-dot <%= eligible ? "elig-dot--ok" : "elig-dot--no" %>" aria-hidden="true"></span>
-                        <%= eligible ? "Eligible" : "Not eligible" %>
+                        <span class="elig-dot elig-dot--ok" aria-hidden="true"></span>
+                        Eligible
                       </span>
+                    <% else %>
+                      <span class="elig-pill">
+                        <span class="elig-dot elig-dot--no" aria-hidden="true"></span>
+                        Not eligible
+                      </span>
+                    <% end %>
                   </td>
                   <td class="text-end">
                     <%= link_to "Details", player_tournament_path(t), class: "action-btn btn btn-sm btn-outline-primary" %>
