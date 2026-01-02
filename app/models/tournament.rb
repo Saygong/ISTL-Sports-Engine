@@ -47,12 +47,12 @@ class Tournament < ApplicationRecord
   validates :min_age, presence: true
   validates :max_age, presence: true
 
-  # ...
+  # Custom validation to ensure age range is logically correct before saving
   validate do
-    errors.add(:max_age, 'todo') if min_age > max_age
+    errors.add(:base, I18n.t('errors.models.tournament.min_age_gt_max_age')) if min_age > max_age
   end
 
-  # ...
+  # Scope that accepts a hash of search parameters, name, sport, and date.
   scope :filter_by, lambda { |**cols|
     day = (Date.parse(cols[:start_date]) if cols[:start_date])
 
@@ -63,11 +63,18 @@ class Tournament < ApplicationRecord
       .then { day.present? ? where(start_date: day.beginning_of_day..day.end_of_day) : it }
   }
 
-  # ...
+  # All tournaments where a specific player's profile meets the requirements.
   scope :joinable_by, lambda { |player|
     # noinspection SqlNoDataSourceInspection
     where('min_age >= ?', player.years_from_birth)
       .where('max_age <= ?', player.years_from_birth)
       .where(gender: player.gender)
+  }
+
+  # All tournaments a specific player has already participated in.
+  scope :joined_by, lambda { |player|
+    Tournament
+      .joins(teams: :players)
+      .where(players: { id: player.id })
   }
 end
