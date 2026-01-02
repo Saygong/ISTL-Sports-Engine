@@ -57,4 +57,11 @@ class User < ApplicationRecord
   before_create unless: :uid? do
     self.uid = email
   end
+
+  validates :birthdate, presence: true
+
+  def years_from_birth
+    # noinspection RubyNilAnalysis
+    (Date.current.year - birthdate.year)
+  end
 end
