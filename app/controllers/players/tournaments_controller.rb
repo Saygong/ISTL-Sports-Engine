@@ -5,24 +5,31 @@ module Players
     include Authentications::Player
 
     before_action :authenticate_user!
-    before_action :require_player!
     before_action :set_tournament
+
+    require_player!
 
     # GET /player/tournaments/:id
     def show
+      Tournament
+        .joinable_by(current_user)
+        .where(id: params[:id])
+        .exists?
       @tournament = Tournament.find(params[:id])
       @matches = @tournament.matches
                             .includes(:referee, { teams: :players }, :viewers)
                             .order(:round, :date)
-      @eligible = eligible_for_tournament?(@tournament, current_user)
-      @is_individual = @tournament.single?
-      # OLD @is_registered = current_user.joined? @tournament
+
+      # ...
+      @eligible = Tournament
+                  .joinable_by(current_user)
+                  .where(id: params[:id])
+                  .exists?
+
       @is_registered = already_registered_in_tournament?
       @booked_match_ids = current_user.viewers_matches.where(match_id: @matches.map(&:id)).pluck(:match_id).to_set
       @participants_by_match_id = build_participants_by_match_id(@matches)
       @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
-
-      # @teams = @tournament.teams.includes(:players).order(:id)
     end
 
     # POST /player/tournaments/:tournament_id/join
