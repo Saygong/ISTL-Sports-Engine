@@ -89,7 +89,7 @@
                       <tbody>
                       <% if t.matches.empty? %>
                         <tr>
-                          <td colspan="6" class="text-center py-4 text-body-secondary">No matches.</td>
+                          <td colspan="7" class="text-center py-4 text-body-secondary">No matches.</td>
                         </tr>
                       <% end %>
 
@@ -98,23 +98,22 @@
 
                         <tr>
                           <td>
+                            <% participants = @participants_by_match_id[m.id] || { left: [], right: [] } %>
                             <div class="participants">
                               <div class="team">
-                                <%# TODO gestisci la pagina per team se singolo o doppio: ancora usa @ meglio non avere logiche complesse qui %>
-                                <% m.teams.map(&:players).flatten.first(1).each do |p| %>
-                                  <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                                <% participants[:left].each do |label| %>
+                                  <span class="player"><%= label %></span>
                                 <% end %>
                               </div>
                               <div class="vs">vs</div>
                               <div class="team">
-                                <%# TODO gestisci la pagina per team se singolo o doppio: ancora usa @ meglio non avere logiche complesse qui %>
-                                <% m.teams.map(&:players).flatten.drop(1).first(1).each do |p| %>
-                                  <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                                <% participants[:right].each do |label| %>
+                                  <span class="player"><%= label %></span>
                                 <% end %>
                               </div>
                             </div>
                           </td>
-                          <td><span class="badge text-bg-secondary"><%= "Round #{1}" %></span></td>
+                          <td><span class="badge text-bg-secondary"><%= m.round ? "Round #{m.round}" : "—" %></span></td>
                           <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
                           <td><%= m.date&.strftime("%H:%M") %></td>
                           <td><%= t.court&.name %></td>
@@ -123,12 +122,10 @@
                           </td>
 
                           <td class="action-end">
-                            <%# TODO gestire i team non i players usa pure @ qualcosa poi ci pensa il controller %>
                             <% if result.present? %>
-                              <% winner = result.players_match_results.find_by(player_status: :winner)&.player %>
                               <span class="winner-chip">
                                 <span class="winner-dot" aria-hidden="true"></span>
-                                <%= winner ? "#{winner.first_name&.first}. #{winner.last_name}" : "Recorded" %>
+                                <%= @winner_by_match_id[m.id] %>
                               </span>
                             <% else %>
                               <span class="text-body-secondary">—</span>
