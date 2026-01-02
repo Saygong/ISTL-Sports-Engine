@@ -17,9 +17,25 @@
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-link" href="#">Homepage</a>
-          <a class="nav-link" href="#">Matches</a>
-          <a class="nav-link active" aria-current="page" href="<%= profile_user_path %>">Profile</a>
+          <% u = defined?(current_user) && current_user.present? ? current_user : @user %>
+          <% case u %>
+          <% when User::Player %>
+            <%= link_to "Homepage", player_path, class: "nav-link" %>
+            <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link" %>
+            <%= link_to "Booked Matches", player_matches_path, class: "nav-link" %>
+
+          <% when User::Organizer %>
+            <%= link_to "Homepage", organizer_path, class: "nav-link" %>
+            <%= link_to "Create tournament", new_organizer_tournament_path, class: "nav-link" %>
+
+          <% when User::Referee %>
+            <%= link_to "Homepage", referee_path, class: "nav-link" %>
+
+          <% else %>
+            <%= link_to "Homepage", root_path, class: "nav-link" %>
+          <% end %>
+
+          <%= link_to "Profile", profile_user_path, class: "nav-link active", aria: { current: "page" } %>
         </div>
       </div>
     </div>
