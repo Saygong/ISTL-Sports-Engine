@@ -9,11 +9,10 @@
 
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <%= link_to "Homepage", player_home_path, class: "nav-link active" %>
+          <%= link_to "Homepage", player_path, class: "nav-link active" %>
           <%= link_to "Tournament Registrations", player_registrations_path, class: "nav-link" %>
-          <%= link_to "Spectate", spectator_tournaments_path, class: "nav-link" %>
-          <%= link_to "Booked Matches", spectator_booked_matches_path, class: "nav-link" %>
-          <%= link_to "Profile", profile_path, class: "nav-link" %>
+          <%= link_to "Booked Matches", player_matches_path, class: "nav-link" %>
+          <%= link_to "Profile", profile_user_path, class: "nav-link" %>
         </div>
       </div>
     </div>
@@ -34,7 +33,7 @@
         </div>
 
         <div class="card-body">
-          <%= form_with url: player_home_path, method: :get, local: true do %>
+          <%= form_with url: player_path, method: :get, local: true do %>
             <div class="row g-3 align-items-end">
               <div class="col-12 col-md-4">
                 <label for="filterName" class="form-label">Name</label>
@@ -60,7 +59,7 @@
 
               <div class="col-12 col-md-4 d-flex gap-2">
                 <%= submit_tag "Apply", class: "btn btn-primary" %>
-                <%= link_to "Reset", player_home_path, class: "btn btn-outline-secondary" %>
+                <%= link_to "Reset", player_path, class: "btn btn-outline-secondary" %>
               </div>
             </div>
           <% end %>
@@ -94,7 +93,7 @@
               </tr>
             <% else %>
               <% @tournaments.each do |t| %>
-                <% is_individual = (t.sport.format_kind == "single") %>
+                <% is_individual = t.single? %>
                 <% eligible = @eligibility_by_tournament_id[t.id] %>
                 <tr>
                   <th scope="row"><%= t.name %></th>
