@@ -11,11 +11,8 @@ module Players
 
     # GET /player/tournaments/:id
     def show
-      Tournament
-        .joinable_by(current_user)
-        .where(id: params[:id])
-        .exists?
       @tournament = Tournament.find(params[:id])
+
       @matches = @tournament.matches
                             .includes(:referee, { teams: :players }, :viewers)
                             .order(:round, :date)
@@ -26,8 +23,17 @@ module Players
                   .where(id: params[:id])
                   .exists?
 
-      @is_registered = already_registered_in_tournament?
-      @booked_match_ids = current_user.viewers_matches.where(match_id: @matches.map(&:id)).pluck(:match_id).to_set
+      # ...
+      @is_registered = Tournament
+                       .joined_by(current_user)
+                       .where(id: params[:id])
+                       .exists?
+
+      # ...
+      @booked_match_ids = current_user
+                          .viewed_matches
+                          .map(&:id)
+
       @participants_by_match_id = build_participants_by_match_id(@matches)
       @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
     end
@@ -42,7 +48,7 @@ module Players
       # TODO: implement your real subscription/registration creation here
       # PlayersTournament.subscribe(current_user, @tournament.id)
 
-      if already_registered_in_tournament?
+      if Tournament.joined_by(current_user).exists?
         redirect_to player_tournament_path(@tournament), notice: 'You are already registered.'
         return
       end
@@ -62,12 +68,6 @@ module Players
 
     def set_tournament
       @tournament = Tournament.includes(:sport, :court, :organizer).find(params[:id] || params[:tournament_id])
-    end
-
-    def already_registered_in_tournament?
-      PlayersTeam.joins(:team)
-                 .where(player_id: current_user.id, teams: { tournament_id: @tournament.id })
-                 .exists?
     end
 
     def join_single_tournament!
