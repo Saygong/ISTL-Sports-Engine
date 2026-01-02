@@ -5,8 +5,9 @@ module Players
     include Authentications::Player
 
     before_action :authenticate_user!
-    before_action :require_player!
     before_action :set_match, only: [:book, :unbook]
+
+    require_player!
 
     # GET /player/matches
     def index
