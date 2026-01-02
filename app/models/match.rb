@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: matches
@@ -39,4 +40,14 @@ class Match < ApplicationRecord
 
   has_many :teams_matches, dependent: :destroy
   has_many :teams, through: :teams_matches
+
+  # ...
+  def participants_by_match_id
+    return unless teams.many?
+
+    { id => {
+      left:  teams.first.players,
+      right: teams.last.players
+    } }
+  end
 end

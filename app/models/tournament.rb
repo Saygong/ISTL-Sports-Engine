@@ -44,15 +44,30 @@ class Tournament < ApplicationRecord
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
 
-  def eligible_for_tournament?(tournament, user)
-    return false if user.nil? || user.birthdate.nil?
+  validates :min_age, presence: true
+  validates :max_age, presence: true
 
-    age = ((Date.current - user.birthdate.to_date).to_i / 365.25).floor
-
-    min_ok = tournament.min_age.blank? || age >= tournament.min_age
-    max_ok = tournament.max_age.blank? || age <= tournament.max_age
-    gender_ok = tournament.gender.blank? || user.gender == tournament.gender
-
-    min_ok && max_ok && gender_ok
+  # ...
+  validate do
+    errors.add(:max_age, 'todo') if min_age > max_age
   end
+
+  # ...
+  scope :filter_by, lambda { |**cols|
+    day = (Date.parse(cols[:start_date]) if cols[:start_date])
+
+    # noinspection SqlNoDataSourceInspection
+    all
+      .then { cols[:name].present? ? it.where('tournaments.name ILIKE ?', "%#{cols[:name]}%") : it }
+      .then { cols[:sport_id].present? ? where(sport_id: cols[:sport_id]) : it }
+      .then { day.present? ? where(start_date: day.beginning_of_day..day.end_of_day) : it }
+  }
+
+  # ...
+  scope :joinable_by, lambda { |player|
+    # noinspection SqlNoDataSourceInspection
+    where('min_age >= ?', player.years_from_birth)
+      .where('max_age <= ?', player.years_from_birth)
+      .where(gender: player.gender)
+  }
 end
