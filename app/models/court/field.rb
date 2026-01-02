@@ -21,6 +21,8 @@ class Court
   class Field < ApplicationRecord
     belongs_to :court
 
+    has_many :matches
+
     enum :surface, { grass: 0, hard: 1 }
   end
 end
