@@ -44,17 +44,15 @@ class Tournament < ApplicationRecord
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
 
-  def eligible_for? user
-    return false if user.nil?
+  def eligible_for_tournament?(tournament, user)
+    return false if user.nil? || user.birthdate.nil?
 
-    age = Date.current.year - birthdate.year
-    age_ok =
-      age >= age_limitation_lower &&
-      age <= age_limitation_higher
+    age = ((Date.current - user.birthdate.to_date).to_i / 365.25).floor
 
-    gender_ok =
-      gender_limitation.blank? || user.gender == gender_limitation
+    min_ok = tournament.min_age.blank? || age >= tournament.min_age
+    max_ok = tournament.max_age.blank? || age <= tournament.max_age
+    gender_ok = tournament.gender.blank? || user.gender == tournament.gender
 
-    age_ok && gender_ok
+    min_ok && max_ok && gender_ok
   end
 end
