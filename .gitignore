@@ -4,6 +4,9 @@
 # belong in git's global ignore instead:
 # `$XDG_CONFIG_HOME/git/ignore` or `~/.config/git/ignore`
 
+# Ignore ngrok config file - contains credentials & secrets
+ngrok-traffic-policy.yml
+
 # Ignore IDE settings.
 .idea
 
