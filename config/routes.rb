@@ -62,7 +62,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resource :player, only: [:show] do
     resources :tournaments, only: [:show], module: :players do
-      post :join, to: 'tournaments#join'
+      post :join, on: :member
     end
 
     resources :matches, only: [:index], module: :players do
