@@ -29,13 +29,21 @@ class Team < ApplicationRecord
   has_many :teams_match_results, dependent: :destroy
   has_many :match_results, through: :teams_match_results
 
+  # Automatically generate a team name based on player names if there is no name
   before_save if: -> { players.present? }, unless: :name_changed? do
     self.name = players
                 .map { "#{it.first_name} #{it.last_name}" }
                 .join(' - ')
   end
 
-  # ...
+  # Before allowing a new team to register, make sure the tournament has not exceeded its maximum capacity
+  validate on: :create do
+    if tournament.teams.count >= tournament.capacity
+      errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))
+    end
+  end
+
+  # Returns the teams a player can join
   scope :joinable, lambda {
     # noinspection SqlNoDataSourceInspection
     joins(:tournament, :players_teams)
@@ -51,7 +59,7 @@ class Team < ApplicationRecord
       end
   }
 
-  # ...
+  # Refine the joinable scope to exclude teams that the specific player is already a member of
   scope :joinable_by, lambda { |player|
     joinable
       .where.not(players_teams: { player_id: player.id })
