@@ -33,6 +33,8 @@ ActiveAdmin.register Court::Field do
             case attr
             when :surface
               f.input attr, include_blank: false
+            when :court_id
+              f.input :court
             else
               f.input attr
             end
