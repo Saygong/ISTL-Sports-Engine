@@ -44,6 +44,9 @@ class Tournament < ApplicationRecord
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
 
+  validates :number_of_matches,
+            inclusion: { in: [2, 4, 8, 16] }
+
   validates :min_age,
             :max_age,
             :number_of_matches,
