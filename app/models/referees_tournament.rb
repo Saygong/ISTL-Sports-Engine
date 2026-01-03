@@ -18,4 +18,7 @@
 class RefereesTournament < ApplicationRecord
   belongs_to :referee, class_name: 'User::Referee'
   belongs_to :tournament
+
+  # Prevents multiple referees from being associated with the same tournament
+  validates :referee, uniqueness: { scope: :tournament }
 end
