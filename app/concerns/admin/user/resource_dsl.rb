@@ -41,7 +41,7 @@ module Admin
 
           define_singleton_method :user_form do
             form do |f|
-              f.semantic_errors *::User.column_names.map(&:to_sym)
+              f.semantic_errors(*f.object.errors.to_hash.keys)
 
               f.inputs do
                 if f.object.new_record?
