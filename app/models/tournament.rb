@@ -79,4 +79,11 @@ class Tournament < ApplicationRecord
       .joins(teams: :players)
       .where(players: { id: player.id })
   }
+
+  # Calculate the total team capacity based on the tournament format. Assuming each match requires exactly two teams,
+  # the capacity is double the number of scheduled matches.
+  def teams_capacity
+    number_of_matches * 2
+  end
+
 end
