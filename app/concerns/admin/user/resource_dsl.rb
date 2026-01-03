@@ -6,7 +6,8 @@ module Admin
       def self.extended base
         base.instance_exec do
           define_singleton_method :user_permit_params do
-            permit_params :email, :password, :password_confirmation
+            [:email, :password, :password_confirmation, :first_name, :last_name, :gender, :birthdate]
+              .then { permit_params *it }
           end
 
           define_singleton_method :user_filter do
@@ -40,6 +41,8 @@ module Admin
 
           define_singleton_method :user_form do
             form do |f|
+              f.semantic_errors *::User.column_names.map(&:to_sym)
+
               f.inputs do
                 if f.object.new_record?
                   f.input :email
@@ -49,6 +52,13 @@ module Admin
 
                 f.input :password
                 f.input :password_confirmation
+              end
+
+              f.inputs I18n.t('active_admin.models.user.form.details') do
+                f.input :first_name
+                f.input :last_name
+                f.input :gender
+                f.input :birthdate, as: :datepicker
               end
 
               f.actions

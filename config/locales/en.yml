@@ -53,6 +53,10 @@ en:
     dashboard_welcome:
       welcome: "Welcome to Active Admin. This is the default dashboard page."
       call_to_action: "Start navigating through the panels to perform actions"
+    models:
+      user:
+        form:
+          details: "Details"
 
   errors:
     models:
