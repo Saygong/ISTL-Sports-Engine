@@ -62,6 +62,8 @@ en:
     models:
       tournament:
         min_age_gt_max_age: "The minimum age cannot be higher than the maximum age"
+      team:
+        tournament_teams_capacity: "This tournament is full and more teams can be created"
     controllers:
       referees:
         unauthorized: "You must be a referee to access referee features"
@@ -73,6 +75,8 @@ en:
   notices:
     controllers:
       players:
+        tournaments:
+          join: "Registration completed"
         matches:
           book: "Match booked successfully"
           unbook: "Booking removed"
