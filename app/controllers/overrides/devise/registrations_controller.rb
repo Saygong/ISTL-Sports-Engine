@@ -7,6 +7,18 @@ module Overrides
         # This forces the resulting object to be an instance of User::Player, since it is the only kind of us er that can
         # register autonomously.
         hash[:type] = 'User::Player'
+
+        # Additional fields in the form
+        if params[:user]
+          hash[:gender] = User.genders.invert[params[:user][:gender].to_i]
+
+          [:first_name, :last_name, :birthdate]
+            .each do |attribute|
+              hash[attribute] = params[:user][attribute]
+            end
+        end
+
+        # Finally, call the original method after composing the hash to create the user resource
         super
       end
 
