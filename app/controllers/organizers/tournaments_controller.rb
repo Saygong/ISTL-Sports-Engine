@@ -25,7 +25,7 @@ module Organizers
         .then do |referees|
           params[:tournament].then do |tournament|
             # noinspection RubyMismatchedArgumentType
-            Tournament.create! organizer_id:      current_user,
+            Tournament.create! organizer:         current_user,
                                name:              tournament[:name],
                                sport:             Sport.find(tournament[:sport_id].to_i),
                                start_date:        Date.parse(tournament[:start_date].to_s),
