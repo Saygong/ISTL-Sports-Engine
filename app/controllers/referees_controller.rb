@@ -1,13 +1,9 @@
+# frozen_string_literal: true
+
 class RefereesController < ApplicationController
   include Authentications::Referee
 
   before_action :authenticate_user!
-  before_action only: [:new_match_result, :create_match_result] do
-    @match = current_user
-             .refereed_matches
-             .includes(tournament: [:sport, :court], teams: :players)
-             .find(params[:match_id])
-  end
 
   require_referee!
 
@@ -37,16 +33,24 @@ class RefereesController < ApplicationController
     @winner_by_match_id = build_winner_by_match_id(@results_by_match_id)
   end
 
-  # GET /referee/matches/:match_id/result/new
+  # ...
   def new_match_result
+    @match = current_user
+             .refereed_matches
+             .find(params[:match_id])
+
     @participants = participants_for_match(@match)
 
     # In data model, the winner is a TEAM (teams_match_results), not a single player
     @winner_team_options = @match.teams.map { |t| [team_label(t), t.id] }
   end
 
-  # POST /referee/matches/:match_id/result
+  # ...
   def create_match_result
+    @match = current_user
+             .refereed_matches
+             .find(params[:match_id])
+
     # Prevent duplicates
     if Match::Result.exists?(match_id: @match.id)
       redirect_to referee_path, alert: 'A result already exists for this match.'
@@ -54,6 +58,7 @@ class RefereesController < ApplicationController
     end
 
     winner_team_id = params[:winner_team_id].presence
+
     if winner_team_id.blank?
       flash.now[:alert] = 'Please select a winner.'
       @participants = participants_for_match(@match)
@@ -67,7 +72,7 @@ class RefereesController < ApplicationController
     Match::Result.transaction do
       result = Match::Result.create!(
         match:       @match,
-        description: match_result_params[:description]
+        description: params[:description]
       )
 
       @match.teams.each do |team|
@@ -88,10 +93,6 @@ class RefereesController < ApplicationController
   end
 
   private
-
-  def match_result_params
-    params.require(:match_result).permit(:description)
-  end
 
   def build_participants_by_match_id matches
     matches.index_with { |m| participants_for_match(m) }
