@@ -29,6 +29,7 @@ class Team < ApplicationRecord
   has_many :teams_match_results, dependent: :destroy
   has_many :match_results, through: :teams_match_results
 
+  # ...
   scope :joinable, lambda {
     # noinspection SqlNoDataSourceInspection
     joins(:tournament, :players_teams)
@@ -42,5 +43,11 @@ class Team < ApplicationRecord
                           .having('COUNT(*) < 2')
                           .select('teams.id')))
       end
+  }
+
+  # ...
+  scope :joinable_by, lambda { |player|
+    joinable
+      .where.not(players_teams: { player_id: player.id })
   }
 end
