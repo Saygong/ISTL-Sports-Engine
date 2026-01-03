@@ -36,7 +36,7 @@
             <% if @is_registered %>
               <span class="btn btn-outline-secondary disabled" aria-disabled="true">Already registered</span>
             <% else %>
-              <%= button_to player_tournament_join_path(@tournament),
+              <%= button_to join_player_tournament_path(@tournament),
                             method: :post,
                             class: "btn btn-primary",
                             disabled: !@eligible,
