@@ -1,0 +1,8 @@
+on_http_request:
+  - actions:
+      - type: basic-auth
+        config:
+          credentials:
+            - simone.biondo:**Redacted**
+            - enrico.miatto:**Redacted**
+            - andrea.gentilini:**Redacted**
