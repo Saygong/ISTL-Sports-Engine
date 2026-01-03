@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Rails.application.routes.draw do
+Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Devise also ships with default routes
   devise_for :users, controllers: {
     passwords:     'overrides/devise/passwords',
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   # Direct the user to their specific dashboard and name the path
   [:player, :organizer, :referee].each do |role|
-    authenticated :user, proc { it.is_a? "User::#{role.to_s.camelize}".constantize } do
+    authenticated(:user, proc { it.is_a? "User::#{role.to_s.camelize}".constantize }) do
       root to: "#{role}s#show", as: "authenticated_#{role}"
     end
   end
@@ -88,7 +88,6 @@ Rails.application.routes.draw do
     get :profile
   end
 end
-
 
 # ORGANIZER
 # organizer fa login
