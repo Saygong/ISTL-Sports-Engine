@@ -44,8 +44,10 @@ class Tournament < ApplicationRecord
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
 
-  validates :min_age, presence: true
-  validates :max_age, presence: true
+  validates :min_age,
+            :max_age,
+            :number_of_matches,
+            presence: true
 
   # Custom validation to ensure age range is logically correct before saving
   validate do
