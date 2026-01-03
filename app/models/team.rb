@@ -29,6 +29,12 @@ class Team < ApplicationRecord
   has_many :teams_match_results, dependent: :destroy
   has_many :match_results, through: :teams_match_results
 
+  before_save if: -> { players.present? }, unless: :name_changed? do
+    self.name = players
+                .map { "#{it.first_name} #{it.last_name}" }
+                .join(' - ')
+  end
+
   # ...
   scope :joinable, lambda {
     # noinspection SqlNoDataSourceInspection
