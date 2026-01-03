@@ -42,5 +42,24 @@ class User
 
     has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
     has_many :viewed_matches, through: :viewers_matches, source: :match
+
+    # ...
+    def join! tournament, team_id: nil
+      tournament.with_lock do
+        if Team.joinable_by(self).exists?
+          # ...
+          Team
+            .joinable_by(self)
+            .find(team_id)
+            .players_teams
+            .create! player: self
+        else
+          # ...
+          Team.create! tournament:  tournament,
+                       composition: tournament.composition,
+                       players:     [self]
+        end
+      end
+    end
   end
 end
