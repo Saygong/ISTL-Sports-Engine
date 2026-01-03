@@ -38,7 +38,7 @@ class Team < ApplicationRecord
 
   # Before allowing a new team to register, make sure the tournament has not exceeded its maximum capacity
   validate on: :create do
-    if tournament.teams.count >= tournament.capacity
+    if tournament.teams.count >= tournament.teams_capacity
       errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))
     end
   end
