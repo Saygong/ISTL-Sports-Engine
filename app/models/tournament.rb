@@ -56,7 +56,7 @@ class Tournament < ApplicationRecord
 
   # Scope that accepts a hash of search parameters, name, sport, and date.
   scope :filter_by, lambda { |**cols|
-    day = (Date.parse(cols[:start_date]) if cols[:start_date])
+    day = Date.parse(cols[:start_date]) rescue nil # rubocop:disable Style/RescueModifier
 
     # noinspection SqlNoDataSourceInspection
     all
