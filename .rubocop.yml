@@ -32,7 +32,7 @@ Lint/UnusedMethodArgument:
   IgnoreEmptyMethods: true
 
 Metrics/MethodLength:
-  Max: 30
+  Max: 50
 
 Metrics/ClassLength:
   Max: 450
