@@ -28,4 +28,19 @@ class Team < ApplicationRecord
 
   has_many :teams_match_results, dependent: :destroy
   has_many :match_results, through: :teams_match_results
+
+  scope :joinable, lambda {
+    # noinspection SqlNoDataSourceInspection
+    joins(:tournament, :players_teams)
+      .where(composition: :double)
+      .where(tournament: { composition: :double })
+      .then do |scope|
+        scope
+          .where(players_teams: { player_id: nil })
+          .or(where(id: scope
+                          .group('teams.id')
+                          .having('COUNT(*) < 2')
+                          .select('teams.id')))
+      end
+  }
 end
