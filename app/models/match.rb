@@ -41,7 +41,12 @@ class Match < ApplicationRecord
   has_many :teams_matches, dependent: :destroy
   has_many :teams, through: :teams_matches
 
-  # ...
+  validates :date, presence: true
+
+  # Organizes the players of a match into a mapped hash based on the match ID. It is used to perform easy searches on
+  # opposite sides.
+  #
+  # @return [Hash, nil] A nested hash containing left and right player collections.
   def participants_by_match_id
     return unless teams.many?
 
