@@ -62,7 +62,8 @@ class Tournament < ApplicationRecord
   enum :status, {
     waiting:   0,
     started:   1,
-    completed: 2
+    completed: 2,
+    expired:   3
   }
 
   # Scope that accepts a hash of search parameters, name, sport, and date.
@@ -134,16 +135,4 @@ class Tournament < ApplicationRecord
       started!
     end
   end
-
-  # ...
-  # def create_match! player
-  #   ActiveRecord::Base.transaction do
-  #     matches
-  #       .create!
-  #       .teams
-  #       .create!(composition: composition)
-  #       .players_teams
-  #       .create! player: player
-  #   end
-  # end
 end
