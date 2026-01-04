@@ -5,3 +5,4 @@
 //= link controllers/application.js
 //= link controllers/hello_controller.js
 //= link controllers/index.js
+//= link controllers/hide_on_click_controller.js
