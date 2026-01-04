@@ -94,45 +94,13 @@ class Tournament < ApplicationRecord
 
   # Calculate the total team capacity based on the tournament format. Assuming each match requires exactly two teams,
   # the capacity is double the number of scheduled matches.
-  def teams_capacity
-    number_of_matches * 2
+  #
+  #   # true  if teams.count >= number_of_matches * 2
+  #   # false otherwise
+  # @return [Boolean]
+  def full?
+    teams.count >= number_of_matches * 2
   end
 
   # probabile validation per expired -> il tournament non ha seeded match e start date < now
-
-  # ...
-  # Questo andrà in un change di stato.
-  def match_seeding!
-    # ... ready?
-    return nil unless teams.count == teams_capacity
-    return nil unless waiting?
-
-    # ...
-    matches_per_day = court
-                      .fields
-                      .count
-
-    transaction do
-      # noinspection RubyNilAnalysis
-      number_of_matches
-        .times do |index|
-          # ...
-          selected_teams = teams
-                           .offset(index * 2) # It's like between?(index * 2, (index * 2) + 1)
-                           .limit(2)
-
-          (start_date + (index / matches_per_day).days)
-            .advance(12.hours)
-            .then do |date|
-              matches.create! teams: selected_teams,
-                              field: court.fields[index % matches_per_day],
-                              date:  date,
-                              round: 0
-            end
-        end
-
-      # ...
-      started!
-    end
-  end
 end
