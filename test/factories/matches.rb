@@ -22,5 +22,8 @@ FactoryBot.define do
   factory :match do
     association :tournament, factory: :tournament
     association :referee, factory: :user_referee
+    association :field, factory: :court_field
+
+    date { Faker::Date.in_date_period }
   end
 end
