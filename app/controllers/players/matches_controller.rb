@@ -23,7 +23,7 @@ module Players
     def book
       Match
         .find(params[:match_id])
-        .tap { ViewersMatch.find_or_create_by!(match: it.id, viewer_id: current_user.id) }
+        .tap { ViewersMatch.find_or_create_by!(match_id: it.id, viewer_id: current_user.id) }
         .then do
           redirect_back fallback_location: player_matches_path,
                         notice:            I18n.t('notices.controllers.players.matches.book')
