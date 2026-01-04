@@ -43,11 +43,10 @@ class User
     has_many :viewers_matches, dependent: :destroy, inverse_of: :viewer
     has_many :viewed_matches, through: :viewers_matches, source: :match
 
-    # ...
+    # Allows a player to participate in the tournament by joining an existing eligible team or creating a new one.
     def join! tournament, team_id: nil
       tournament.instance_exec(self) do |player|
         with_lock do
-          # ...
           if teams.joinable_by(player).exists?
             teams
               .find(team_id)
@@ -57,9 +56,6 @@ class User
                          composition: composition,
                          players:     [player]
           end
-
-          # ...
-          match_seeding!
         end
       end
     end
