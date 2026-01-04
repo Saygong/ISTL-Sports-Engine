@@ -45,19 +45,21 @@ class User
 
     # ...
     def join! tournament, team_id: nil
-      tournament.with_lock do
-        if Team.joinable_by(self).exists?
+      tournament.instance_exec(self) do |player|
+        with_lock do
           # ...
-          Team
-            .joinable_by(self)
-            .find(team_id)
-            .players_teams
-            .create! player: self
-        else
+          if teams.joinable_by(player).exists?
+            teams
+              .find(team_id)
+              .then { it.update! players: it.players + [player] }
+          else
+            Team.create! tournament:  self,
+                         composition: composition,
+                         players:     [player]
+          end
+
           # ...
-          Team.create! tournament:  tournament,
-                       composition: tournament.composition,
-                       players:     [self]
+          match_seeding!
         end
       end
     end

@@ -13,8 +13,4 @@
 class Court < ApplicationRecord
   has_many :tournaments
   has_many :fields, class_name: 'Court::Field', dependent: :destroy
-
-
-  # TODO: add owner field, every field (better if is called court) must have an owner
-  # TODO: add a method "owned_fields" that given a user (that must be organizer) returns all his fields
 end
