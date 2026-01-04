@@ -44,7 +44,7 @@ class Match < ApplicationRecord
 
   validates :date, presence: true
 
-  # ...
+  # Games played by the indicated player.
   scope :played_by, lambda { |player|
     joins(teams: :players)
       .where(players: { id: player.id })
