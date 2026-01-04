@@ -10,7 +10,7 @@
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
           <%= link_to "Homepage", player_path, class: "nav-link" %>
-          <%= link_to "Tournament Registrations", joined_player_matches_path, class: "nav-link" %>
+          <%= link_to "Tournament Registrations", registrations_player_path, class: "nav-link" %>
           <%= link_to "Booked Matches", player_matches_path, class: "nav-link active", aria: { current: "page" } %>
           <%= link_to "Profile", profile_user_path, class: "nav-link" %>
         </div>
@@ -99,7 +99,7 @@
                   <td class="text-end">
                       <span class="action-stack">
                         <%= button_to "Unbook",
-                                      unbook_player_match_path(m),
+                                      player_match_unbook_path(m),
                                       method: :delete,
                                       class: "btn btn-sm btn-outline-danger",
                                       form: { data: { turbo_confirm: "Unbook this match?" } } %>
