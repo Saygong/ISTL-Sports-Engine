@@ -166,7 +166,7 @@
                     </div>
                   </td>
 
-                  <td><span class="badge text-bg-secondary"><%= m_round_label = (@round_by_match_id && @round_by_match_id[m.id]) || "Round -" %></span></td>
+                  <td><span class="badge text-bg-secondary"><%= (@round_by_match_id && @round_by_match_id[m.id]) || "Round -" %></span></td>
                   <td><%= m.date&.to_date&.strftime("%d/%m/%Y") %></td>
                   <td><%= m.date&.strftime("%H:%M") %></td>
                   <td><%= m.tournament.court&.name %></td>
