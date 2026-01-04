@@ -95,18 +95,17 @@ class RefereesController < ApplicationController
   private
 
   def build_participants_by_match_id matches
-    matches.index_with { |m| participants_for_match(m) }
+    matches.map { |m| participants_for_match(m) }
   end
 
   def participants_for_match match
-    teams = match.teams.to_a
-    left_players  = teams[0]&.players.to_a
-    right_players = teams[1]&.players.to_a
+    left_players  = match.teams.first.players
+    right_players = match.teams.last.players
 
-    {
+    { match.id => {
       left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
       right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-    }
+    } }
   end
 
   def team_label team
