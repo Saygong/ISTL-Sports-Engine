@@ -28,7 +28,7 @@ module Tournaments
         # Prepare all the variables needed for seeding the initial matches
         args = [@fields_count, @referees_count, @matches_per_day]
 
-        tournament.instance_exec(args) do |fields_count, referees_count, matches_per_day|
+        tournament.instance_exec(*args) do |fields_count, referees_count, matches_per_day|
           number_of_matches
             .times do |index|
               # Pair teams in sequence (0-1, 2-3, 4-5, etc.) based on their registration/ranking order
@@ -40,11 +40,11 @@ module Tournaments
               execution_date = (start_date + (index / matches_per_day).days).beginning_of_day + 12.hours
 
               # Create the match record with the calculated parameters
-              matches.create! teams: selected_teams,
-                              field: court.fields[index % fields_count],
+              matches.create! teams:   selected_teams,
+                              field:   court.fields[index % fields_count],
                               referee: tournament.referees[index % referees_count],
-                              date:  execution_date,
-                              round: 0 # First round identifier
+                              date:    execution_date,
+                              round:   0 # First round identifier
             end
         end
       end
