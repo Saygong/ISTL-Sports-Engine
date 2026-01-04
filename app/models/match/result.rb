@@ -21,6 +21,14 @@ class Match
     has_many :teams_match_results, dependent: :destroy, inverse_of: :match_result
     has_many :teams, through: :teams_match_results
 
+    # Retrieve the winner for this result
+    def winner
+      teams_match_results
+        .winner
+        .first!
+        .sole
+    end
+
     { won_by: :winner, lost_by: :loser }.each do |key, value|
       scope key, lambda { |player|
         joins(teams_match_results: { team: :players })
