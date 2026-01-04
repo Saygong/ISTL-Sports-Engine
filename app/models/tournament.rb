@@ -80,7 +80,8 @@ class Tournament < ApplicationRecord
   # All tournaments where a specific player's profile meets the requirements.
   scope :joinable_by, lambda { |player|
     # noinspection SqlNoDataSourceInspection
-    where('min_age <= ?', player.years_from_birth)
+    waiting
+      .where('min_age <= ?', player.years_from_birth)
       .where('max_age >= ?', player.years_from_birth)
       .where(gender: player.gender)
   }
