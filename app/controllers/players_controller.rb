@@ -47,15 +47,14 @@ class PlayersController < ApplicationController
   private
 
   def build_participants_by_match_id matches
-    matches.index_with do |m|
-      teams = m.teams.to_a
-      left_players  = teams[0]&.players.to_a
-      right_players = teams[1]&.players.to_a
+    matches.map do |m|
+      left_players  = m.teams.first.players.to_a
+      right_players = m.teams.last.players.to_a
 
-      {
+      { m.id => {
         left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
         right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-      }
-    end
+      } }
+    end.reduce(&:merge)
   end
 end

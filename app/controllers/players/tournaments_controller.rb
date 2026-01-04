@@ -5,17 +5,16 @@ module Players
     include Authentications::Player
 
     before_action :authenticate_user!
-    before_action :set_tournament
 
     require_player!
 
-    # GET /player/tournaments/:id
+    # ...
     def show
       @tournament = Tournament.find(params[:id])
 
-      @matches = @tournament.matches
-                            .includes(:referee, { teams: :players }, :viewers)
-                            .order(:round, :date)
+      @matches = @tournament
+                 .matches
+                 .order(:round, :date)
 
       # ...
       @eligible = Tournament
@@ -59,10 +58,10 @@ module Players
         left_players  = teams[0]&.players.to_a
         right_players = teams[1]&.players.to_a
 
-        {
+        { m.id => {
           left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
           right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-        }
+        } }
       end
     end
   end
