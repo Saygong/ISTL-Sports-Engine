@@ -50,7 +50,7 @@ class User::PlayerTest < ActiveSupport::TestCase
           .tap(&:save!)
           .then do |player|
             assert_includes player.teams, team
-            assert_includes team.players, player
+            assert_includes team.reload.players, player
           end
       end
   end

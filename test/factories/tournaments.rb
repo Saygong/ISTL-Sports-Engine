@@ -32,5 +32,10 @@ FactoryBot.define do
     association :court, factory: :court
     association :organizer, factory: :user_organizer
     association :sport, factory: :sport
+
+    min_age { Faker::Number.between(from: 20, to: 40) }
+    max_age { Faker::Number.between(from: 45, to: 60) }
+
+    number_of_matches { [2, 4, 8, 16].sample }
   end
 end
