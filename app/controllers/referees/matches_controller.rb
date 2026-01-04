@@ -2,8 +2,6 @@
 
 module Referees
   class MatchesController < ApplicationController
-    def new; end
-
-    def create; end
+    # Noithing to do
   end
 end

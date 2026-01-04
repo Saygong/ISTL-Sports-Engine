@@ -83,7 +83,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   resource :referee, only: [:show] do
-    resources :matches, only: [:new, :create], module: :referees
+    resources :matches, only: [], module: :referees do
+      resources :results, only: [:new, :create], module: :matches
+    end
 
     get :profile
   end

@@ -118,7 +118,7 @@
 
                               <td class="action-end">
                                 <%= link_to "Insert result",
-                                            new_referee_match_result_path(match_id: m.id),
+                                            new_referee_match_result_path(m),
                                             class: "btn btn-sm btn-outline-primary" %>
                               </td>
                             </tr>
@@ -159,13 +159,13 @@
                               <td>
                                 <div class="participants">
                                   <div class="team">
-                                    <% m.players.first(1).each do |p| %>
+                                    <% m.teams.first.players.each do |p| %>
                                       <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
                                     <% end %>
                                   </div>
                                   <div class="vs">vs</div>
                                   <div class="team">
-                                    <% m.players.drop(1).first(1).each do |p| %>
+                                    <% m.teams.last.players.each do |p| %>
                                       <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
                                     <% end %>
                                   </div>

@@ -7,7 +7,7 @@ class RefereesController < ApplicationController
 
   require_referee!
 
-  # GET /referee
+  # ...
   def show
     # Tournaments where this referee has at least one match
     @tournaments =
@@ -33,61 +33,6 @@ class RefereesController < ApplicationController
     @winner_by_match_id = build_winner_by_match_id(@results_by_match_id)
   end
 
-  # ...
-  def new_match_result
-    @match = current_user
-             .refereed_matches
-             .find(params[:match_id])
-
-    @participants = participants_for_match(@match)
-
-    # In data model, the winner is a TEAM (teams_match_results), not a single player
-    @winner_team_options = @match.teams.map { |t| [team_label(t), t.id] }
-  end
-
-  # ...
-  def create_match_result
-    @match = current_user
-             .refereed_matches
-             .find(params[:match_id])
-
-    # Prevent duplicates
-    if Match::Result.exists?(match_id: @match.id)
-      redirect_to referee_path, alert: 'A result already exists for this match.'
-      return
-    end
-
-    winner_team_id = params[:winner_team_id].presence
-
-    if winner_team_id.blank?
-      flash.now[:alert] = 'Please select a winner.'
-      @participants = participants_for_match(@match)
-      @winner_team_options = @match.teams.map { |t| [team_label(t), t.id] }
-      render :new_match_result, status: :unprocessable_entity
-      return
-    end
-
-    winner_team = @match.teams.find(winner_team_id)
-
-    Match::Result.transaction do
-      result = Match::Result.create!(
-        match:       @match,
-        description: params[:description]
-      )
-
-      @match.teams.each do |team|
-        result.teams_match_results.create!(
-          team:        team,
-          team_status: (team.id == winner_team.id ? 'winner' : 'loser')
-        )
-      end
-    end
-
-    redirect_to referee_path, notice: 'Result saved.'
-  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotFound => e
-    redirect_to referee_path, alert: e.message
-  end
-
   def profile
     redirect_to profile_user_path
   end
@@ -95,7 +40,9 @@ class RefereesController < ApplicationController
   private
 
   def build_participants_by_match_id matches
-    matches.map { |m| participants_for_match(m) }
+    matches
+      .map { |m| participants_for_match(m) }
+      .reduce(&:merge)
   end
 
   def participants_for_match match
