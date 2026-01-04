@@ -1,0 +1,7 @@
+<!-- app/views/application/_flashes.html.erb -->
+
+<% flash.each do |type, messages| %>
+  <% Array(messages).each do |message| %>
+    <%= render "application/flash", type:, message: %>
+  <% end %>
+<% end %>
