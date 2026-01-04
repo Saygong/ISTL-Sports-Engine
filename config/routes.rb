@@ -69,7 +69,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       get :joined, on: :collection
 
       post :book, to: 'matches#book'
-      post :unbook, to: 'matches#unbook'
+      delete :unbook, to: 'matches#unbook'
     end
 
     get :registrations
