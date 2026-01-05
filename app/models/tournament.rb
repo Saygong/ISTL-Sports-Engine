@@ -106,10 +106,10 @@ class Tournament < ApplicationRecord
     teams.count >= number_of_matches * 2
   end
 
-  # ...
+  # This follows the geometric progression of a complete binary tree.
   def total_number_of_matches
     # noinspection RubyMismatchedArgumentType
-    (2 ** (depth + 1)) - 1
+    (2**(depth + 1)) - 1
   end
 
   # In a bracket tournament, depth is the number of rounds needed to determine a winner.
