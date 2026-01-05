@@ -41,25 +41,19 @@ class RefereesController < ApplicationController
 
   def build_participants_by_match_id matches
     matches
-      .map { |m| participants_for_match(m) }
+      .map { |m| m.participants_by_match_id || { left: [] } }
+      .compact
       .reduce(&:merge)
-  end
-
-  def participants_for_match match
-    left_players  = match.teams.first.players
-    right_players = match.teams.last.players
-
-    { match.id => {
-      left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
-      right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-    } }
+      .transform_values do |hash|
+        { left:  hash[:left].map { "#{it.first_name} #{it.last_name}" },
+          right: hash[:right].map { "#{it.first_name} #{it.last_name}" } }
+      end
   end
 
   def team_label team
-    players = team.players.to_a
-    return "Team ##{team.id}" if players.empty?
+    return "Team ##{team.id}" if team.players.empty?
 
-    players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }.join(' / ')
+    team.players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }.join(' / ')
   end
 
   def build_winner_by_match_id results_by_match_id
