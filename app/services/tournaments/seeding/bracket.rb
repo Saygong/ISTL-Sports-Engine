@@ -19,34 +19,76 @@ module Tournaments
         @fields_count = tournament.court.fields.count
         @referees_count = tournament.referees.count
 
+        # Bottleneck capacity based on available resources
         [@fields_count, @referees_count]
           .min
           .then { @matches_per_day = it }
+
+        # Generate a chronological list of dates, then reverse it. This allows the recursion (starting from the final)
+        # to choose the most recent dates first.
+        @dates_desc = tournament
+                      .total_number_of_matches
+                      .times
+                      .map { (tournament.start_date + (it / @matches_per_day).days).beginning_of_day + 12.hours }
+                      .reverse
       end
 
       def start_seed tournament
-        # Prepare all the variables needed for seeding the initial matches
-        args = [@fields_count, @referees_count, @matches_per_day]
+        # Recursive helper to build binary tree structure
+        recursive_helper = proc do |hash|
+          # Pattern matching to extract recursive state. Pointers are simply integers that are used to access the
+          # correct elements in the field, referrer, and date arrays.
+          hash => { root:, round:, tree_layer:, max_depth:, f_pointer:, r_pointer:, n_pointer: }
 
-        tournament.instance_exec(*args) do |fields_count, referees_count, matches_per_day|
-          number_of_matches
-            .times do |index|
-              # Pair teams in sequence (0-1, 2-3, 4-5, etc.) based on their registration/ranking order
-              selected_teams = teams
-                               .offset(index * 2) # It's like between?(index * 2, (index * 2) + 1)
-                               .limit(2)
+          if tree_layer <= max_depth
+            node = Match.create! tournament: @tournament,
+                                 field:      tournament.court.fields[f_pointer % @fields_count],
+                                 referee:    tournament.referees[r_pointer % @referees_count],
+                                 match:      root, # Link to the next match
+                                 round:      round,
+                                 date:       @dates_desc[n_pointer]
 
-              # For consistency, matches are pinned at 12:00
-              execution_date = (start_date + (index / matches_per_day).days).beginning_of_day + 12.hours
+            node.tap do
+              # There is no need to perform a recursion step when the final layer is equal to the maximum depth
+              if tree_layer < max_depth
+                spawn_children = proc do |internal_f_pointer, internal_r_pointer, internal_n_pointer|
+                  { root:       node,
+                    round:      round - 1,
+                    tree_layer: tree_layer + 1,
+                    max_depth:  max_depth,
+                    f_pointer:  internal_f_pointer,
+                    r_pointer:  internal_r_pointer,
+                    n_pointer:  internal_n_pointer }.then { recursive_helper.call it }
+                end
 
-              # Create the match record with the calculated parameters
-              matches.create! teams:   selected_teams,
-                              field:   court.fields[index % fields_count],
-                              referee: tournament.referees[index % referees_count],
-                              date:    execution_date,
-                              round:   0 # First round identifier
+                spawn_children.call(f_pointer + 1, r_pointer + 1, (n_pointer * 2) + 2)
+                spawn_children.call(f_pointer + 2, r_pointer + 2, (n_pointer * 2) + 1)
+              end
             end
+          end
         end
+
+        # Initialize recursion to the final (highest) round
+        { root:       nil,
+          round:      @tournament.depth,
+          tree_layer: 0,
+          max_depth:  @tournament.depth,
+          f_pointer:  0,
+          r_pointer:  0,
+          n_pointer:  0 }.then { recursive_helper.call it }
+
+        # Only the first round features teams at the start of the tournament
+        Match
+          .where(tournament: @tournament)
+          .where(round: 0)
+          .each_with_index do |match, index|
+            # Pair teams in sequence (0-1, 2-3, 4-5, etc.) based on their registration/ranking order
+            @tournament
+              .teams
+              .offset(index * 2)
+              .limit(2)
+              .then { |teams| match.update! teams: teams }
+          end
       end
 
       def after_seed tournament

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_04_110559) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_05_102342) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -70,11 +70,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_110559) do
     t.bigint "court_field_id"
     t.datetime "created_at", null: false
     t.datetime "date"
+    t.bigint "match_id"
     t.bigint "referee_id"
     t.integer "round"
     t.bigint "tournament_id"
     t.datetime "updated_at", null: false
     t.index ["court_field_id"], name: "index_matches_on_court_field_id"
+    t.index ["match_id"], name: "index_matches_on_match_id"
     t.index ["referee_id"], name: "index_matches_on_referee_id"
     t.index ["tournament_id"], name: "index_matches_on_tournament_id"
   end
@@ -195,6 +197,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_04_110559) do
   add_foreign_key "court_fields", "courts"
   add_foreign_key "match_results", "matches"
   add_foreign_key "matches", "court_fields"
+  add_foreign_key "matches", "matches"
   add_foreign_key "matches", "tournaments"
   add_foreign_key "matches", "users", column: "referee_id"
   add_foreign_key "players_teams", "teams"
