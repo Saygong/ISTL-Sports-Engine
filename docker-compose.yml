@@ -8,25 +8,10 @@ services:
     environment:
       - POSTGRES_USER
       - POSTGRES_PASSWORD
+      - POSTGRES_DB
     image: postgres:16.11-alpine
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
     # Map the named volume to PostgreSQL's internal data directory
     volumes:
       - db-data:/var/lib/postgresql/data
-
-  app:
-    environment:
-      - RAILS_PORT
-      - RAILS_MASTER_KEY
-    build:
-      context: .
-    image: ${IMAGE_NAME}
-    ports:
-      - ${RAILS_PORT}:${RAILS_PORT}
-    depends_on:
-      - db
-    restart: on-failure
-    develop:
-      watch:
-        - action: sync # Action sync is ideal for frameworks that support "Hot Reload" or equivalent functionality
-          path: ./app
-          target: /backend/app
