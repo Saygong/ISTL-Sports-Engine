@@ -73,8 +73,8 @@ class Match < ApplicationRecord
   # @return [Hash] A nested hash containing left and right player collections.
   def participants_by_match_id
     { id => {
-      left:  teams&.first&.players || [],
-      right: teams&.last&.players || []
+      left:  teams&.[](0)&.players || [],
+      right: teams&.[](1)&.players || []
     } }
   end
 end
