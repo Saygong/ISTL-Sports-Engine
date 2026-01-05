@@ -4,7 +4,7 @@ module Tournaments
   module Seeding
     # This class handles the initial draw generation for a single-elimination tournament. It distributes matches among
     # the available courts and calculates start times based on the facility's daily capacity.
-    class Bracket < Base
+    class Bracket < ::Seeding::Base
       def seed? tournament
         # Check if the tournament is eligible for bracket generation
         return false unless tournament.full?
@@ -41,7 +41,7 @@ module Tournaments
           hash => { root:, round:, tree_layer:, max_depth:, f_pointer:, r_pointer:, n_pointer: }
 
           if tree_layer <= max_depth
-            node = Match.create! tournament: @tournament,
+            node = Match.create! tournament: tournament,
                                  field:      tournament.court.fields[f_pointer % @fields_count],
                                  referee:    tournament.referees[r_pointer % @referees_count],
                                  match:      root, # Link to the next match
@@ -70,20 +70,20 @@ module Tournaments
 
         # Initialize recursion to the final (highest) round
         { root:       nil,
-          round:      @tournament.depth,
+          round:      tournament.depth,
           tree_layer: 0,
-          max_depth:  @tournament.depth,
+          max_depth:  tournament.depth,
           f_pointer:  0,
           r_pointer:  0,
           n_pointer:  0 }.then { recursive_helper.call it }
 
         # Only the first round features teams at the start of the tournament
         Match
-          .where(tournament: @tournament)
+          .where(tournament: tournament)
           .where(round: 0)
           .each_with_index do |match, index|
             # Pair teams in sequence (0-1, 2-3, 4-5, etc.) based on their registration/ranking order
-            @tournament
+            tournament
               .teams
               .offset(index * 2)
               .limit(2)
