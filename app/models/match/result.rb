@@ -25,8 +25,8 @@ class Match
     def winner
       teams_match_results
         .winner
-        .first!
         .sole
+        .team
     end
 
     { won_by: :winner, lost_by: :loser }.each do |key, value|
