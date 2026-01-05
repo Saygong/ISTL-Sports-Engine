@@ -17,10 +17,10 @@ default: &default
   encoding: unicode
 
   # Required to connect to the correct database.
-  host: <%= ENV['NGROK_HOST'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) %>
-  port: <%= ENV['NGROK_PORT'] %>
-  username: <%= ENV['POSTGRES_USER'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :username) %>
-  password: <%= ENV['POSTGRES_PASSWORD'] || Rails.application.credentials.dig(Rails.env.to_sym, :db, :password) %>
+  host: <%= ENV.fetch('NGROK_HOST') %>
+  port: <%= ENV.fetch('NGROK_PORT') %>
+  username: <%= ENV.fetch('POSTGRES_USER') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
 
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
@@ -30,7 +30,7 @@ default: &default
 
 development:
   <<: *default
-  database: <%= ENV['POSTGRES_DB_NAME'] || Rails.application.credentials.dig(:development, :db, :name) %>
+  database: <%= ENV.fetch('POSTGRES_DB')%>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -64,7 +64,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: <%= ENV['DB_NAME'] || Rails.application.credentials.dig(:test, :db, :name) %>
+  database: <%= ENV.fetch('POSTGRES_DB') %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -88,4 +88,4 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV['DB_NAME'] || Rails.application.credentials.dig(:production, :db, :name) %>
+  database: <%= ENV.fetch('POSTGRES_DB') %>
