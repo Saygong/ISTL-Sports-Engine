@@ -1,7 +1,4 @@
 # Define named volumes for persistent data storage across container restarts
-volumes:
-  db-data:
-    external: false
 
 services:
 
