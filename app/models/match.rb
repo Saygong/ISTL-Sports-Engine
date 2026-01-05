@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: matches
@@ -33,7 +34,7 @@ class Match < ApplicationRecord
              class_name:  'Court::Field',
              foreign_key: 'court_field_id'
 
-  # ...
+  # The next match that should be played
   belongs_to :match, optional: true
 
   has_one :match_result,
@@ -46,7 +47,7 @@ class Match < ApplicationRecord
   has_many :teams_matches, dependent: :destroy
   has_many :teams, through: :teams_matches
 
-  # ...
+  # The matches from which this match originated
   has_many :matches, dependent: :destroy
 
   validates :date, presence: true
@@ -57,12 +58,14 @@ class Match < ApplicationRecord
       .where(players: { id: player.id })
   }
 
-  # ...
+  # Incomplete games with fewer than two teams playing against each other
   scope :incomplete, lambda {
     left_joins(teams: :players)
       .group(:id)
       .having("COUNT(#{User.table_name}.id) < 2")
   }
+
+  alias next_match match
 
   # Organizes the players of a match into a mapped hash based on the match ID. It is used to perform easy searches on
   # opposite sides.
