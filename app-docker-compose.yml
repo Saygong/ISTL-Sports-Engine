@@ -4,19 +4,16 @@ volumes:
     external: false
 
 services:
-  db:
-    environment:
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
-    image: postgres:16.11-alpine
-    # Map the named volume to PostgreSQL's internal data directory
-    volumes:
-      - db-data:/var/lib/postgresql/data
 
   app:
     environment:
       - RAILS_PORT
       - RAILS_MASTER_KEY
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_DB_NAME
+      - POSTGRES_USERNAME
+      - POSTGRES_PASSWORD
     build:
       context: .
     ports:
