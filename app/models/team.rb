@@ -39,8 +39,8 @@ class Team < ApplicationRecord
   # Create initial matches as soon as the tournament has reached full capacity
   after_create if: -> { tournament.waiting? && tournament.full? } do
     Tournaments::Seeding::Bracket
-      .new(tournament)
-      .seed!
+      .new
+      .seed! tournament
   end
 
   # Before allowing a new team to register, make sure the tournament has not exceeded its maximum capacity
