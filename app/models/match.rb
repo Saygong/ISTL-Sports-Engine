@@ -70,13 +70,11 @@ class Match < ApplicationRecord
   # Organizes the players of a match into a mapped hash based on the match ID. It is used to perform easy searches on
   # opposite sides.
   #
-  # @return [Hash, nil] A nested hash containing left and right player collections.
+  # @return [Hash] A nested hash containing left and right player collections.
   def participants_by_match_id
-    return unless teams.many?
-
     { id => {
-      left:  teams.first.players,
-      right: teams.last.players
+      left:  teams&.first&.players || [],
+      right: teams&.last&.players || []
     } }
   end
 end
