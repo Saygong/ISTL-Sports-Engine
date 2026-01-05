@@ -3,6 +3,8 @@
 services:
 
   app:
+    env_file:
+      - .env
     environment:
       - RAILS_PORT
       - RAILS_MASTER_KEY
