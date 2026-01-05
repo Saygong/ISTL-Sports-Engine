@@ -21,7 +21,6 @@
 #  index_matches_on_referee_id      (referee_id)
 #  index_matches_on_tournament_id   (tournament_id)
 #
-
 class Match < ApplicationRecord
   belongs_to :tournament
 
