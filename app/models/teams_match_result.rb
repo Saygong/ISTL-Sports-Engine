@@ -25,5 +25,12 @@ class TeamsMatchResult < ApplicationRecord
     loser:  1
   }
 
+  # Callback to automatically assign scores to winners
+  after_create if: :winner? do
+    Matches::Seeding::Bracket
+      .new
+      .seed! match_result.match.next_match
+  end
+
   validates :team_status, presence: true
 end
