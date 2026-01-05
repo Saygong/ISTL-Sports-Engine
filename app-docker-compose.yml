@@ -1,0 +1,29 @@
+# Define named volumes for persistent data storage across container restarts
+volumes:
+  db-data:
+    external: false
+
+services:
+  db:
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    image: postgres:16.11-alpine
+    # Map the named volume to PostgreSQL's internal data directory
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+  app:
+    environment:
+      - RAILS_PORT
+      - RAILS_MASTER_KEY
+    build:
+      context: .
+    ports:
+      - ${RAILS_PORT}:${RAILS_PORT}
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync # Action sync is ideal for frameworks that support "Hot Reload" or equivalent functionality
+          path: ./app
+          target: /backend/app
