@@ -29,6 +29,9 @@
 #  index_tournaments_on_sport_id      (sport_id)
 #
 class Tournament < ApplicationRecord
+  NUMBER_OF_MATCHES = [2, 4, 8, 16]
+                      .freeze
+
   include WithGender
   include WithComposition
 
@@ -46,7 +49,7 @@ class Tournament < ApplicationRecord
   has_many :referees, through: :referees_tournaments
 
   validates :number_of_matches,
-            inclusion: { in: [2, 4, 8, 16] }
+            inclusion: { in: NUMBER_OF_MATCHES }
 
   validates :min_age,
             :max_age,
@@ -101,6 +104,20 @@ class Tournament < ApplicationRecord
   # @return [Boolean]
   def full?
     teams.count >= number_of_matches * 2
+  end
+
+  # ...
+  def total_number_of_matches
+    # noinspection RubyMismatchedArgumentType
+    (2 ** (depth + 1)) - 1
+  end
+
+  # In a bracket tournament, depth is the number of rounds needed to determine a winner.
+  def depth
+    # noinspection RubyMismatchedArgumentType
+    Math
+      .log2(number_of_matches)
+      .ceil
   end
 
   # probabile validation per expired -> il tournament non ha seeded match e start date < now
