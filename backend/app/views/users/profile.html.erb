@@ -1,0 +1,206 @@
+<div class="profile-page">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">ISTL Sports</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+          <% u = defined?(current_user) && current_user.present? ? current_user : @user %>
+          <% case u %>
+          <% when User::Player %>
+            <%= link_to "Homepage", player_path, class: "nav-link" %>
+            <%= link_to "Tournament Registrations", registrations_player_path, class: "nav-link" %>
+            <%= link_to "Booked Matches", player_matches_path, class: "nav-link" %>
+
+          <% when User::Organizer %>
+            <%= link_to "Homepage", organizer_path, class: "nav-link" %>
+            <%= link_to "Create tournament", new_organizer_tournament_path, class: "nav-link" %>
+
+          <% when User::Referee %>
+            <%= link_to "Homepage", referee_path, class: "nav-link" %>
+
+          <% else %>
+            <%= link_to "Homepage", root_path, class: "nav-link" %>
+          <% end %>
+
+          <%= link_to "Profile", profile_user_path, class: "nav-link active", aria: { current: "page" } %>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-4">
+
+    <!-- Actions common to all users -->
+    <section class="float-end">
+      <%= link_to 'Sign out', destroy_user_session_path, data: { turbo_method: :delete } %>
+    </section>
+
+
+    <!-- Page header -->
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+      <div>
+        <h2 class="mb-1">Profile</h2>
+        <div class="text-body-secondary">Your personal info and performance stats</div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      <!-- Left column: profile card -->
+      <div class="col-12 col-lg-4">
+        <section class="card shadow-sm">
+          <div class="card-body">
+            <div class="d-flex align-items-center gap-3">
+              <div class="avatar" aria-hidden="true">
+                <% initials =
+                     [@user.first_name, @user.last_name]
+                       .compact
+                       .map { |s| s.to_s.strip.first }
+                       .join
+                       .upcase
+                   initials = initials.present? ? initials : @user.email.to_s.first(2).upcase
+                %>
+                <span class="avatar-initials"><%= initials %></span>
+              </div>
+
+              <div class="min-w-0">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                  <h3 class="mb-0 fs-4 text-truncate">
+                    <%= [@user.first_name, @user.last_name].compact.join(' ').presence || @user.email %>
+                  </h3>
+
+                  <% role =
+                       case @user
+                       when User::Player   then "Player"
+                       when User::Organizer then "Organizer"
+                       when User::Referee  then "Referee"
+                       else "User"
+                       end
+                  %>
+                  <span class="badge text-bg-primary"><%= role %></span>
+                </div>
+
+                <div class="text-body-secondary small text-truncate"><%= @user.email %></div>
+
+                <%# Phone is NOT in your users schema. If you store it in data, show it; otherwise hide. %>
+                <% phone = @user.respond_to?(:data) ? @user.data&.dig("phone") : nil %>
+                <% if phone.present? %>
+                  <div class="text-body-secondary small text-truncate"><%= phone %></div>
+                <% end %>
+              </div>
+            </div>
+
+            <hr class="my-4" />
+
+            <% # noinspection RubyNilAnalysis
+               age =
+                 if @user.birthdate.present?
+                   today = Date.current
+                   dob = @user.birthdate.to_date
+                   a = today.year - dob.year
+                   a -= 1 if (today.month < dob.month) || (today.month == dob.month && today.day < dob.day)
+                   a
+                 end
+            %>
+
+            <div class="row g-3">
+              <div class="col-6">
+                <div class="detail-item">
+                  <div class="detail-label">Name</div>
+                  <div class="detail-value"><%= @user.first_name.presence || "-" %></div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="detail-item">
+                  <div class="detail-label">Surname</div>
+                  <div class="detail-value"><%= @user.last_name.presence || "-" %></div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="detail-item">
+                  <div class="detail-label">Email</div>
+                  <div class="detail-value"><%= @user.email %></div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="detail-item">
+                  <div class="detail-label">Gender</div>
+                  <%# WithGender likely defines enum/humanization; fallback to raw %>
+                  <div class="detail-value">
+                    <%= (@user.respond_to?(:gender) && @user.gender.present?) ? @user.gender.to_s.humanize : "-" %>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="detail-item">
+                  <div class="detail-label">Age</div>
+                  <div class="detail-value"><%= age.present? ? age : "-" %></div>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="detail-item">
+                  <div class="detail-label">Date of birth</div>
+                  <div class="detail-value">
+                    <%= @user.birthdate.present? ? l(@user.birthdate.to_date) : "-" %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right column: stats (ONLY for players) -->
+      <div class="col-12 col-lg-8">
+        <% if @user.is_a?(User::Player) %>
+          <section class="card shadow-sm mb-4">
+            <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <strong class="fs-5">Performance</strong>
+            </div>
+
+            <div class="card-body">
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <div class="stat-card stat-card--win">
+                    <div class="stat-top">
+                      <span class="stat-icon" aria-hidden="true">🏆</span>
+                      <span class="stat-label">Matches won</span>
+                    </div>
+                    <div class="stat-value"><%= @matches_won || 0 %></div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                  <div class="stat-card stat-card--loss">
+                    <div class="stat-top">
+                      <span class="stat-icon" aria-hidden="true">🛡️</span>
+                      <span class="stat-label">Matches lost</span>
+                    </div>
+                    <div class="stat-value"><%= @matches_lost || 0 %></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

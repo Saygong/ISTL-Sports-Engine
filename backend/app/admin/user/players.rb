@@ -1,0 +1,14 @@
+# frozen_string_literal: true
+
+# noinspection RubyResolve
+ActiveAdmin.register User::Player do
+  extend Admin::User::ResourceDSL
+
+  menu parent: 'Users'
+
+  user_permit_params
+  user_filter
+  user_index
+  user_show
+  user_form
+end
