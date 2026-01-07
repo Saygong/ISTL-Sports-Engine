@@ -1,0 +1,47 @@
+AllCops:
+  NewCops: enable
+
+# Overwrite or add rules to create your own house style
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+
+Style/MethodDefParentheses:
+  EnforcedStyle: require_no_parentheses_except_multiline
+
+Style/SymbolArray:
+  EnforcedStyle: brackets
+
+Style/Documentation:
+  Enabled: false
+
+Layout/HashAlignment:
+  EnforcedColonStyle: table
+
+Layout/IndentationConsistency:
+  EnforcedStyle: normal
+
+Layout/IndentationWidth:
+  Width: 2
+
+Layout/BlockAlignment:
+  EnforcedStyleAlignWith: start_of_block
+
+Lint/UnusedMethodArgument:
+  Enabled: true
+  IgnoreEmptyMethods: true
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/ClassLength:
+  Max: 450
+
+Metrics/AbcSize:
+  Enabled: false
+
+Naming/MethodName:
+  EnforcedStyle: snake_case
+
+Naming/VariableName:
+  EnforcedStyle: snake_case

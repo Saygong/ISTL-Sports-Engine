@@ -1,0 +1,26 @@
+attributes: false
+
+filename: assets/erd-bachman
+filetype: png
+title: istl-sports-engine
+
+disconnected: true
+indirect: false
+inheritance: true
+markup: true
+notation: bachman
+orientation: vertical
+polymorphism: false
+sort: true
+warn: true
+exclude: null
+only: null
+only_recursion_depth: null
+prepend_primary: false
+cluster: false
+splines: spline
+
+fonts:
+ normal: "Arial"
+ bold: "Arial Bold"
+ italic: "Arial Italic"
