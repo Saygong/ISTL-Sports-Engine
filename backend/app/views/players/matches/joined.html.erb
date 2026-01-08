@@ -56,17 +56,25 @@
               <% @matches.each do |m| %>
                 <tr>
                   <td>
-                    <% participants = @participants_by_match_id[m.id] %>
+                    <% participants = @participants_by_match_id[m.id] || { left: [], right: [] }%>
                     <div class="participants">
                       <div class="team">
-                        <% participants[:left].each do |label| %>
-                          <span class="player"><%= label %></span>
+                        <% if participants[:left].any? %>
+                          <% participants[:left].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                       <div class="vs">vs</div>
                       <div class="team">
-                        <% participants[:right].each do |label| %>
-                          <span class="player"><%= label %></span>
+                        <% if participants[:right].any? %>
+                          <% participants[:right].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                     </div>
@@ -74,9 +82,9 @@
 
                   <td class="tournament-cell">
                     <div class="tournament-title"><%= m.tournament.name %></div>
-                    <div class="tournament-sub">
-                      <span class="sport-chip"><%= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
-                    </div>
+                    <!--<div class="tournament-sub">
+                      <span class="sport-chip"><%#= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
+                    </div>-->
                   </td>
 
                   <td><span class="badge text-bg-secondary"><%= m.round.present? ? "Round #{m.round}" : "—" %></span></td>
