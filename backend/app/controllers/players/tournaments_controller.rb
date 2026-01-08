@@ -12,25 +12,25 @@ module Players
       @tournament = Tournament.find(params[:id])
 
       @matches = @tournament
-                 .matches
-                 .order(:round, :date)
+                   .matches
+                   .order(:round, :date)
 
       # ...
       @eligible = Tournament
-                  .joinable_by(current_user)
-                  .where(id: params[:id])
-                  .exists?
+                    .joinable_by(current_user)
+                    .where(id: params[:id])
+                    .exists?
 
       # ...
       @is_registered = Tournament
-                       .joined_by(current_user)
-                       .where(id: params[:id])
-                       .exists?
+                         .joined_by(current_user)
+                         .where(id: params[:id])
+                         .exists?
 
       # ...
       @booked_match_ids = current_user
-                          .viewed_matches
-                          .map(&:id)
+                            .viewed_matches
+                            .map(&:id)
 
       @participants_by_match_id = build_participants_by_match_id(@matches)
       @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
@@ -44,24 +44,31 @@ module Players
         .find(params[:id])
         .tap { current_user.join! it, team_id: params[:team_id] }
         .then do |tournament|
-          redirect_to player_tournament_path(tournament),
-                      notice: I18n.t('notices.controllers.players.tournaments.join')
-        end
+        redirect_to player_tournament_path(tournament),
+                    notice: I18n.t('notices.controllers.players.tournaments.join')
+      end
     end
 
     private
 
     def build_participants_by_match_id matches
-      matches.index_with do |m|
+      matches.map do |m|
+        # two “sides” from the teams; format as initials + last name
         teams = m.teams.to_a
+
         left_players  = teams[0]&.players.to_a
         right_players = teams[1]&.players.to_a
 
-        { m.id => {
-          left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
-          right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
-        } }
+        {
+          m.id => {
+            left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
+            right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
+          }
+        }
+
+
       end
+             .reduce({}, :merge)
     end
   end
 end

@@ -11,19 +11,19 @@ class RefereesController < ApplicationController
     # Tournaments where this referee has at least one match
     @tournaments =
       Tournament
-      .joins(:matches)
-      .where(matches: { referee_id: current_user.id })
-      .distinct
-      .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
-      .order(start_date: :asc)
+        .joins(:matches)
+        .where(matches: { referee_id: current_user.id })
+        .distinct
+        .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
+        .order(start_date: :asc)
 
     matches = @tournaments.flat_map(&:matches).select { |m| m.referee_id == current_user.id }
 
     @results_by_match_id =
       Match::Result
-      .includes(teams_match_results: { team: :players })
-      .where(match_id: matches.map(&:id))
-      .index_by(&:match_id)
+        .includes(teams_match_results: { team: :players })
+        .where(match_id: matches.map(&:id))
+        .index_by(&:match_id)
 
     @participants_by_match_id = build_participants_by_match_id(matches)
     @round_by_match_id        = matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
@@ -39,14 +39,20 @@ class RefereesController < ApplicationController
   private
 
   def build_participants_by_match_id matches
-    matches
-      .map { |m| m.participants_by_match_id || { left: [] } }
-      .compact
-      .reduce(&:merge)
-      .transform_values do |hash|
-        { left:  hash[:left].map { "#{it.first_name} #{it.last_name}" },
-          right: hash[:right].map { "#{it.first_name} #{it.last_name}" } }
-      end
+    matches.map do |m|
+      # two “sides” from the teams; format as initials + last name
+      teams = m.teams.to_a
+
+      left_players  = teams[0]&.players.to_a
+      right_players = teams[1]&.players.to_a
+
+      {
+        m.id => {
+          left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
+          right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
+        }
+      }
+    end.reduce({}, :merge)
   end
 
   def team_label team

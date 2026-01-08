@@ -8,17 +8,17 @@ class OrganizersController < ApplicationController
   def show
     # noinspection RailsParamDefResolve
     @tournaments = current_user
-                   .tournaments
-                   .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
-                   .order(start_date: :asc)
+                     .tournaments
+                     .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
+                     .order(start_date: :asc)
 
     matches = @tournaments.flat_map(&:matches)
 
     # Hash: match_id => Match::Result
     @results_by_match_id = Match::Result
-                           .includes(teams_match_results: { team: :players })
-                           .where(match_id: matches.map(&:id))
-                           .index_by(&:match_id)
+                             .includes(teams_match_results: { team: :players })
+                             .where(match_id: matches.map(&:id))
+                             .index_by(&:match_id)
     # Precompute labels
     @participants_by_match_id = build_participants_by_match_id(matches)
     @winner_by_match_id = build_winner_by_match_id(@results_by_match_id)
@@ -31,7 +31,7 @@ class OrganizersController < ApplicationController
   private
 
   def build_participants_by_match_id matches
-    matches.index_with do |m|
+    matches.map do |m|
       # two “sides” from the teams; format as initials + last name
       teams = m.teams.to_a
 
@@ -39,10 +39,15 @@ class OrganizersController < ApplicationController
       right_players = teams[1]&.players.to_a
 
       {
-        left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
-        right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
+        m.id => {
+          left:  left_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" },
+          right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
+        }
       }
+
+
     end
+           .reduce({}, :merge)
   end
 
   def build_winner_by_match_id results_by_match_id
