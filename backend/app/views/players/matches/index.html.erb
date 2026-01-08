@@ -61,17 +61,25 @@
 
                 <tr>
                   <td>
-                    <% participants = @participants_by_match_id[m.id] %>
+                    <% participants = @participants_by_match_id[m.id] || { left: [], right: [] }%>
                     <div class="participants">
                       <div class="team">
-                        <% participants[:left].each do |p| %>
-                          <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                        <% if participants[:left].any? %>
+                          <% participants[:left].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                       <div class="vs">vs</div>
                       <div class="team">
-                        <% participants[:right].each do |p| %>
-                          <span class="player"><%= "#{p.first_name.to_s.first}. #{p.last_name}" %></span>
+                        <% if participants[:right].any? %>
+                          <% participants[:right].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                     </div>
@@ -79,9 +87,9 @@
 
                   <td class="tournament-cell">
                     <div class="tournament-title"><%= m.tournament.name %></div>
-                    <div class="tournament-sub">
-                      <span class="sport-chip"><%= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
-                    </div>
+                    <!--<div class="tournament-sub">
+                      <span class="sport-chip"><%#= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
+                    </div>-->
                   </td>
 
                   <td><span class="badge text-bg-secondary"><%= m.round %></span></td>
@@ -99,7 +107,7 @@
                   <td class="text-end">
                       <span class="action-stack">
                         <%= button_to "Unbook",
-                                      player_match_unbook_path(m),
+                                      player_match_unbook_path(m),boo
                                       method: :delete,
                                       class: "btn btn-sm btn-outline-danger",
                                       form: { data: { turbo_confirm: "Unbook this match?" } } %>
