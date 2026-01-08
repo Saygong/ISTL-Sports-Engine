@@ -34,6 +34,12 @@ module Players
 
       @participants_by_match_id = build_participants_by_match_id(@matches)
       @round_by_match_id = @matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }
+
+      @joinable_teams =
+        @tournament
+          .teams
+          .joinable_by(current_user)
+          .includes(:players)
     end
 
     # Manages the logic behind a player joining a specific tournament. Ensures that the user can actually participate in
@@ -66,9 +72,7 @@ module Players
           }
         }
 
-
-      end
-             .reduce({}, :merge)
+      end.reduce({}, :merge)
     end
   end
 end
