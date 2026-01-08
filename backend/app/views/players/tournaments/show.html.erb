@@ -221,17 +221,70 @@
       </section>
 
       <% unless @tournament.single? %>
-        <!-- TODO: requires a Team model to work -->
         <section class="card shadow-sm">
-          <div class="card-header">
-            <strong class="fs-5">Teams</strong>
-            <span class="text-body-secondary small">Team joining requires team slots in DB</span>
+          <div class="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div class="min-w-0">
+              <strong class="fs-5">Available teams</strong>
+              <div class="text-body-secondary small">Join a team that still has free slots</div>
+            </div>
           </div>
-          <div class="card-body text-body-secondary">
-            This tournament is doubles. To show “teams with 0–1 players and join button”, you need a Team-like model.
+
+          <div class="card-body">
+            <div class="row g-3">
+              <% if @joinable_teams.present? %>
+                <% @joinable_teams.each do |team| %>
+                  <% players = team.players.compact %>
+                  <% member  = players.first %>
+                  <% filled  = players.size %>
+                  <% dot_class = filled.zero? ? "slot-dot--empty" : "slot-dot--half" %>
+
+                  <div class="col-12 col-md-6 col-lg-4">
+                    <div class="team-card">
+                      <div class="team-card-top">
+                        <div class="min-w-0">
+                          <div class="team-name"><%= team.name %></div>
+
+                          <div class="team-meta">
+                            <span class="slot-chip">
+                              <span class="slot-dot <%= dot_class %>" aria-hidden="true"></span>
+
+                              <% if member.present? %>
+                                Member:
+                                <span class="fw-semibold">
+                                  <%= [member.referee.first_name.to_s.first, ".", member.referee.last_name].compact.join("").presence || "—" %>
+                                </span>
+                              <% else %>
+                                No member yet
+                              <% end %>
+                            </span>
+                          </div>
+                        </div>
+
+                        <%= button_to join_player_tournament_path(@tournament),
+                                      method: :post,
+                                      params: { team_id: team.id },
+                                      class: "btn btn-sm btn-outline-primary",
+                                      form: { data: { turbo: true } },
+                                      title: "Join #{team.name}" do %>
+                          <span class="me-1" aria-hidden="true">➕</span> Join
+                        <% end %>
+
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              <% else %>
+                <div class="col-12">
+                  <div class="text-center text-body-secondary py-4">
+                    No joinable teams available right now.
+                  </div>
+                </div>
+              <% end %>
+            </div>
           </div>
         </section>
       <% end %>
+
 
     </div>
   </div>
