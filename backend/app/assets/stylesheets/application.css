@@ -455,6 +455,28 @@
     white-space: nowrap;
 }
 
+/* Winner chip (compact) */
+.referee-page .winner-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.25rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--org-soft-border);
+    background: rgba(25, 135, 84, 0.08);
+    font-weight: 700;
+    font-size: 0.875rem;
+    white-space: nowrap;
+}
+
+.referee-page .winner-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background: rgba(25, 135, 84, 0.85);
+}
+
+
 /* Section blocks inside accordion */
 .referee-page .section-block {
     border: 1px solid var(--ref-soft-border);
