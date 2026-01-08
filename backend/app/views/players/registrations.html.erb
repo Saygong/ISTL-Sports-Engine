@@ -51,23 +51,31 @@
             <tbody>
             <% if @matches.empty? %>
               <tr>
-                <td colspan="7" class="text-center py-5 text-body-secondary">No scheduled matches yet.</td>
+                <td colspan="8" class="text-center py-5 text-body-secondary">No scheduled matches yet.</td>
               </tr>
             <% else %>
               <% @matches.each do |m| %>
                 <tr>
                   <td>
-                    <% participants = @participants_by_match_id[m.id] %>
+                    <% participants = @participants_by_match_id[m.id] || { left: [], right: [] }%>
                     <div class="participants">
                       <div class="team">
-                        <% participants[:left].each do |label| %>
-                          <span class="player"><%= label %></span>
+                        <% if participants[:left].any? %>
+                          <% participants[:left].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                       <div class="vs">vs</div>
                       <div class="team">
-                        <% participants[:right].each do |label| %>
-                          <span class="player"><%= label %></span>
+                        <% if participants[:right].any? %>
+                          <% participants[:right].each do |label| %>
+                            <span class="player"><%= label %></span>
+                          <% end %>
+                        <% else %>
+                          <span class="player text-body-secondary">—</span>
                         <% end %>
                       </div>
                     </div>
@@ -75,7 +83,7 @@
 
                   <td class="tournament-cell">
                     <div class="tournament-title"><%= m.tournament.name %></div>
-<!--                    <div class="tournament-sub">
+                    <!--                    <div class="tournament-sub">
                       <span class="sport-chip"><%#= m.tournament.sport.description.presence || m.tournament.sport.variant_kind.humanize %></span>
                     </div>-->
                   </td>
@@ -94,7 +102,7 @@
                   </td>
                   <td>
                     <span class="org-chip">
-                      <%= [m.referee.first_name, m.referee.last_name].compact.join(" ").presence %>
+                      <%= [m.referee.first_name.to_s.first, ".", m.referee.last_name].compact.join("").presence || "—" %>
                     </span>
                   </td>
                 </tr>
