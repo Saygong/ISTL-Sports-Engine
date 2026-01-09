@@ -251,7 +251,7 @@
                               <% if member.present? %>
                                 Member:
                                 <span class="fw-semibold">
-                                  <%= [member.referee.first_name.to_s.first, ".", member.referee.last_name].compact.join("").presence || "—" %>
+                                  <%= [member.first_name.to_s.first, ".", member.last_name].compact.join("").presence || "—" %>
                                 </span>
                               <% else %>
                                 No member yet

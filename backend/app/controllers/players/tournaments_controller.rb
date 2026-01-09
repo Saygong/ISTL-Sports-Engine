@@ -39,7 +39,6 @@ module Players
         @tournament
           .teams
           .joinable_by(current_user)
-          .includes(:players)
     end
 
     # Manages the logic behind a player joining a specific tournament. Ensures that the user can actually participate in
