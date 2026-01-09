@@ -98,12 +98,25 @@ class Tournament < ApplicationRecord
 
   # Calculate the total team capacity based on the tournament format. Assuming each match requires exactly two teams,
   # the capacity is double the number of scheduled matches.
-  #
-  #   # true  if teams.count >= number_of_matches * 2
-  #   # false otherwise
+  #   # single tournament
+  #   #   true  if players.count >= number_of_matches * 2
+  #   #   false otherwise
+  #   # double tournament
+  #   #   true  if players.count >= number_of_matches * 4
+  #   #   false otherwise
   # @return [Boolean]
   def full?
-    teams.count >= number_of_matches * 2
+    teams
+      .map(&:players)
+      .flatten
+      .count
+      .then do |players|
+        players >= if single?
+                     number_of_matches * 2
+                   else
+                     number_of_matches * 4
+                   end
+      end
   end
 
   # This follows the geometric progression of a complete binary tree.
