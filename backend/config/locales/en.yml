@@ -63,7 +63,7 @@ en:
       tournament:
         min_age_gt_max_age: "The minimum age cannot be higher than the maximum age"
       team:
-        tournament_teams_capacity: "This tournament is full and more teams can be created"
+        tournament_teams_capacity: "This tournament is full and no more teams can be created"
     controllers:
       referees:
         unauthorized: "You must be a referee to access referee features"
