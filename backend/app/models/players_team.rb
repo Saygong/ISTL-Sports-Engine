@@ -18,4 +18,11 @@
 class PlayersTeam < ApplicationRecord
   belongs_to :player, class_name: 'User::Player'
   belongs_to :team
+
+  # Create initial matches as soon as the tournament has reached full capacity
+  after_create if: -> { team.tournament.waiting? && team.tournament.full? } do
+    Tournaments::Seeding::Bracket
+      .new
+      .seed! team.tournament
+  end
 end

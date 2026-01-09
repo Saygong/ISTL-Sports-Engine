@@ -36,13 +36,6 @@ class Team < ApplicationRecord
                 .join(' - ')
   end
 
-  # Create initial matches as soon as the tournament has reached full capacity
-  after_create if: -> { tournament.waiting? && tournament.full? } do
-    Tournaments::Seeding::Bracket
-      .new
-      .seed! tournament
-  end
-
   # Before allowing a new team to register, make sure the tournament has not exceeded its maximum capacity
   validate if: -> { tournament.full? }, on: :create do
     errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))

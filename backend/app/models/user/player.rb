@@ -45,17 +45,22 @@ class User
 
     # Allows a player to participate in the tournament by joining an existing eligible team or creating a new one.
     def join! tournament, team_id: nil
-      tournament.instance_exec(self) do |player|
-        with_lock do
-          if teams.joinable_by(player).exists?
-            teams
-              .find(team_id)
-              .then { it.update! players: it.players + [player] }
-          else
-            Team.create! tournament:  self,
-                         composition: composition,
-                         players:     [player]
-          end
+      tournament.with_lock do
+        if tournament.single?
+          # ...
+          tournament
+            .teams
+            .left_joins(:players)
+            .where(players: { id: nil })
+            .first!
+            .then { it.update! players: [self] }
+        else
+          # ...
+          tournament
+            .teams
+            .joinable_by(self)
+            .find(team_id)
+            .then { it.update! players: it.players + [self] }
         end
       end
     end
