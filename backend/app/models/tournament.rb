@@ -48,6 +48,13 @@ class Tournament < ApplicationRecord
   has_many :referees_tournaments, dependent: :destroy
   has_many :referees, through: :referees_tournaments
 
+  # ...
+  after_create if: -> { teams.empty? } do
+    (number_of_matches * 2)
+      .times
+      .each { teams.create! }
+  end
+
   validates :number_of_matches,
             inclusion: { in: NUMBER_OF_MATCHES }
 
