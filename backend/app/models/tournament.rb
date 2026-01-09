@@ -52,7 +52,7 @@ class Tournament < ApplicationRecord
   after_create if: -> { teams.empty? } do
     (number_of_matches * 2)
       .times
-      .each { teams.create! }
+      .each { teams.create! composition: composition }
   end
 
   validates :number_of_matches,
