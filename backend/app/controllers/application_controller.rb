@@ -9,9 +9,15 @@ class ApplicationController < ActionController::Base
   # Changes to the importmap will invalidate the etag for HTML responses
   stale_when_importmap_changes
 
-  # ...
-  rescue_from ActiveRecord::RecordInvalid do |exception|
-    redirect_back fallback_location: root_path,
-                  alert:             exception.record.errors.full_messages.to_sentence
+  # Simple error handling by redirecting to predefined error pages
+  rescue_from StandardError do |exception|
+    case exception
+    in ActiveRecord::RecordNotFound
+      redirect_to '/404'
+    in ActiveRecord::RecordInvalid
+      redirect_to '/422'
+    else
+      redirect_to '/500'
+    end
   end
 end
