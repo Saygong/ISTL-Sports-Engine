@@ -41,6 +41,17 @@ class Team < ApplicationRecord
     errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))
   end
 
+  # ...
+  scope :full, lambda {
+    # noinspection SqlNoDataSourceInspection
+    joins(:tournament, :players_teams)
+      .where(composition: :double)
+      .where(tournament: { composition: :double })
+      .group('teams.id')
+      .having('COUNT(*) >= 2')
+      .distinct
+  }
+
   # Refine the joinable scope to exclude teams that the specific player is already a member of
   scope :joinable_by, lambda { |player|
     # ...
@@ -62,6 +73,6 @@ class Team < ApplicationRecord
                     .group('teams.id')
                     .having('COUNT(*) < 2')
                     .select('teams.id')).where.not(players_teams: { player_id: player })
-      )
+      ).distinct
   }
 end
