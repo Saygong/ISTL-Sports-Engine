@@ -52,6 +52,10 @@ gem 'sassc-rails'
 # [https://graphql-ruby.org/]
 gem 'graphql'
 
+# Middleware that will make Rack-based apps CORS compatible
+# [https://github.com/cyu/rack-cors]
+gem 'rack-cors'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
