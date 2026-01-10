@@ -41,22 +41,6 @@ class Team < ApplicationRecord
     errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))
   end
 
-  # Returns the teams a player can join: todo delete
-  scope :joinable, lambda {
-    # noinspection SqlNoDataSourceInspection
-    joins(:tournament, :players_teams)
-      .where(composition: :double)
-      .where(tournament: { composition: :double })
-      .then do |scope|
-        scope
-          .where(players_teams: { player_id: nil })
-          .or(where(id: scope
-                          .group('teams.id')
-                          .having('COUNT(*) < 2')
-                          .select('teams.id')))
-      end
-  }
-
   # Refine the joinable scope to exclude teams that the specific player is already a member of
   scope :joinable_by, lambda { |player|
     # noinspection SqlNoDataSourceInspection
