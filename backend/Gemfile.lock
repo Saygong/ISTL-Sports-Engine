@@ -160,6 +160,8 @@ GEM
     formtastic_i18n (0.7.0)
     globalid (1.3.0)
       activesupport (>= 6.1)
+    graphiql-rails (1.10.5)
+      railties
     graphql (2.5.16)
       base64
       fiber-storage
@@ -459,6 +461,7 @@ DEPENDENCIES
   devise_token_auth
   factory_bot_rails
   faker
+  graphiql-rails
   graphql
   image_processing
   importmap-rails
