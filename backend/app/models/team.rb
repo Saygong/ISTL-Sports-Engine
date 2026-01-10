@@ -43,17 +43,25 @@ class Team < ApplicationRecord
 
   # Refine the joinable scope to exclude teams that the specific player is already a member of
   scope :joinable_by, lambda { |player|
+    # ...
+    subscribed_tournament = Tournament
+                            .joins(teams: :players)
+                            .where(players: { id: player })
+
     # noinspection SqlNoDataSourceInspection
     left_joins(:tournament, :players_teams)
       .where(composition: :double)
       .where(tournament: { composition: :double })
-      .then do |scope|
-        scope
-          .where(players_teams: { player_id: nil })
-          .or(
-            where(id: scope.group('teams.id').having('COUNT(*) < 2').select('teams.id'))
-              .where.not(players_teams: { player_id: player })
-          )
-      end
+      .where(players_teams: { player_id: nil })
+      .where.not(tournament: { id: subscribed_tournament })
+      .or(
+        where(id: joins(:tournament, :players_teams)
+                    .where(composition: :double)
+                    .where(tournament: { composition: :double })
+                    .where.not(tournament: { id: subscribed_tournament })
+                    .group('teams.id')
+                    .having('COUNT(*) < 2')
+                    .select('teams.id')).where.not(players_teams: { player_id: player })
+      )
   }
 end
