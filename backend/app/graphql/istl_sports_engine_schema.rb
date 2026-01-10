@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
 class IstlSportsEngineSchema < GraphQL::Schema
-  mutation(Types::MutationType)
-  query(Types::QueryType)
+  mutation Types::MutationType
+  query Types::QueryType
 
   # For batch-loading (see https://graphql-ruby.org/dataloader/overview.html)
   use GraphQL::Dataloader
 
   # GraphQL-Ruby calls this when something goes wrong while running a query:
-  def self.type_error(err, context)
+  def self.type_error err, context # rubocop:disable Lint/UselessMethodDefinition
     # if err.is_a?(GraphQL::InvalidNullError)
     #   # report to your bug tracker here
     #   return nil
@@ -17,10 +17,10 @@ class IstlSportsEngineSchema < GraphQL::Schema
   end
 
   # Union and Interface Resolution
-  def self.resolve_type(abstract_type, obj, ctx)
-    # TODO: Implement this method
+  def self.resolve_type abstract_type, obj, ctx # rubocop:disable Lint/UselessMethodDefinition
     # to return the correct GraphQL object type for `obj`
-    raise(GraphQL::RequiredImplementationMissingError)
+    # raise(GraphQL::RequiredImplementationMissingError)
+    super
   end
 
   # Limit the size of incoming queries:
@@ -32,14 +32,16 @@ class IstlSportsEngineSchema < GraphQL::Schema
   # Relay-style Object Identification:
 
   # Return a string UUID for `object`
-  def self.id_from_object(object, type_definition, query_ctx)
+  def self.id_from_object object, type_definition, query_ctx # rubocop:disable Lint/UselessMethodDefinition
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
-    object.to_gid_param
+    # object.to_gid_param
+    super
   end
 
   # Given a string UUID, find the object
-  def self.object_from_id(global_id, query_ctx)
+  def self.object_from_id global_id, query_ctx # rubocop:disable Lint/UselessMethodDefinition
     # For example, use Rails' GlobalID library (https://github.com/rails/globalid):
-    GlobalID.find(global_id)
+    # GlobalID.find(global_id)
+    super
   end
 end
