@@ -47,6 +47,11 @@ gem 'activeadmin'
 # Required for SCSS needed by active admin
 gem 'sassc-rails'
 
+# This gem implements the GraphQL Server Specification in Ruby. With this, a GraphQL API can be added to the Ruby or
+# Rails app.
+# [https://graphql-ruby.org/]
+gem 'graphql'
+
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
