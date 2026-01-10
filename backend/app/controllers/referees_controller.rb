@@ -11,19 +11,19 @@ class RefereesController < ApplicationController
     # Tournaments where this referee has at least one match
     @tournaments =
       Tournament
-        .joins(:matches)
-        .where(matches: { referee_id: current_user.id })
-        .distinct
-        .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
-        .order(start_date: :asc)
+      .joins(:matches)
+      .where(matches: { referee_id: current_user.id })
+      .distinct
+      .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
+      .order(start_date: :asc)
 
     matches = @tournaments.flat_map(&:matches).select { |m| m.referee_id == current_user.id }
 
     @results_by_match_id =
       Match::Result
-        .includes(teams_match_results: { team: :players })
-        .where(match_id: matches.map(&:id))
-        .index_by(&:match_id)
+      .includes(teams_match_results: { team: :players })
+      .where(match_id: matches.map(&:id))
+      .index_by(&:match_id)
 
     @participants_by_match_id = build_participants_by_match_id(matches)
     @round_by_match_id        = matches.index_with { |m| m.round.present? ? "Round #{m.round}" : '—' }

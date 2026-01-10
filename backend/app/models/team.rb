@@ -41,7 +41,8 @@ class Team < ApplicationRecord
     errors.add(:base, I18n.t('errors.models.team.tournament_teams_capacity'))
   end
 
-  # ...
+  # Returns the unique teams configured for doubles play, associated with a doubles tournament, and with at least one
+  # assigned player.
   scope :joined_by_someone, lambda {
     # noinspection SqlNoDataSourceInspection
     joins(:tournament, :players_teams)
@@ -52,9 +53,10 @@ class Team < ApplicationRecord
       .distinct
   }
 
-  # Refine the joinable scope to exclude teams that the specific player is already a member of
+  # Returns the doubles teams the specified player is eligible to join, excluding tournaments in which the player is
+  # already participating. Includes completely empty doubles teams or teams with only one remaining spot (of which the
+  # player is not already a member).
   scope :joinable_by, lambda { |player|
-    # ...
     subscribed_tournament = Tournament
                             .joins(teams: :players)
                             .where(players: { id: player })

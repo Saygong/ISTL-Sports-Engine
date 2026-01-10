@@ -8,17 +8,17 @@ class OrganizersController < ApplicationController
   def show
     # noinspection RailsParamDefResolve
     @tournaments = current_user
-                     .tournaments
-                     .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
-                     .order(start_date: :asc)
+                   .tournaments
+                   .includes(:sport, :court, matches: [:referee, { teams: :players }, :match_result])
+                   .order(start_date: :asc)
 
     matches = @tournaments.flat_map(&:matches)
 
     # Hash: match_id => Match::Result
     @results_by_match_id = Match::Result
-                             .includes(teams_match_results: { team: :players })
-                             .where(match_id: matches.map(&:id))
-                             .index_by(&:match_id)
+                           .includes(teams_match_results: { team: :players })
+                           .where(match_id: matches.map(&:id))
+                           .index_by(&:match_id)
     # Precompute labels
     @participants_by_match_id = build_participants_by_match_id(matches)
     @winner_by_match_id = build_winner_by_match_id(@results_by_match_id)
@@ -44,8 +44,6 @@ class OrganizersController < ApplicationController
           right: right_players.map { |p| "#{p.first_name.to_s.first}. #{p.last_name}" }
         }
       }
-
-
     end
            .reduce({}, :merge)
   end
