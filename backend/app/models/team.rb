@@ -42,13 +42,13 @@ class Team < ApplicationRecord
   end
 
   # ...
-  scope :full, lambda {
+  scope :joined_by_someone, lambda {
     # noinspection SqlNoDataSourceInspection
     joins(:tournament, :players_teams)
       .where(composition: :double)
       .where(tournament: { composition: :double })
       .group('teams.id')
-      .having('COUNT(*) >= 2')
+      .having('COUNT(*) > 0')
       .distinct
   }
 
