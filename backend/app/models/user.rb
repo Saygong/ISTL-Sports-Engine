@@ -56,7 +56,11 @@ class User < ApplicationRecord
     self.uid = email
   end
 
-  validates :birthdate, presence: true
+  validates :birthdate,
+            :first_name,
+            :last_name,
+            :gender,
+            presence: true
 
   def years_from_birth
     # noinspection RubyNilAnalysis
