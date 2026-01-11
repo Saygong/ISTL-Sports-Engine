@@ -61,6 +61,7 @@ class Tournament < ApplicationRecord
   validates :min_age,
             :max_age,
             :number_of_matches,
+            :start_date,
             presence: true
 
   # Custom validation to ensure age range is logically correct before saving
