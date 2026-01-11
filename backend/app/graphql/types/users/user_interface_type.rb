@@ -5,6 +5,7 @@ module Types
     module UserInterfaceType
       include Types::BaseInterface
 
+      field :id, ID, null: false
       field :email, String, null: false
       field :data, GraphQL::Types::JSON, null: false
       field :first_name, String, null: false
