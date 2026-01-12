@@ -21,6 +21,27 @@ module Types
               [Matches::MatchType],
               null: false
 
+        # TODO: Only player should see this field
+        field :won_matches,
+              [Matches::Results::ResultType],
+              null: false
+
+        # TODO: Only player should see this field
+        field :lost_matches,
+              [Matches::Results::ResultType],
+              null: false
+
+        def won_matches
+          context[:current_user]
+            .then { |player| Match::Result.won_by(player) }
+        end
+
+        def lost_matches
+          # noinspection RubyResolve
+          context[:current_user]
+            .then { |player| Match::Result.lost_by(player) }
+        end
+
         def matches_to_play
           context[:current_user]
             .then do |player|
