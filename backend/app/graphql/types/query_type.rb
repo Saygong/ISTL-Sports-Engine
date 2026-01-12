@@ -7,6 +7,7 @@ module Types
 
     include Sports::Queries
     include Tournaments::Queries
+    include Matches::Queries
     include Users::Queries
   end
 end
