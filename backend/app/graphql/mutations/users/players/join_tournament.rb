@@ -4,12 +4,12 @@ module Mutations
   module Users
     module Players
       class JoinTournament < BaseMutation
-        class JoinTournamentInput < Types::BaseInputObject
+        class JoinTournamentArgs < Types::BaseInputObject
           argument :tournament_id, GraphQL::Types::ID, required: true
           argument :team_id, GraphQL::Types::ID, required: false
         end
 
-        argument :input, JoinTournamentInput, required: true
+        argument :input, JoinTournamentArgs, required: true
         type Types::Users::Players::PlayerType
 
         def resolve tournament_id:, team_id:
