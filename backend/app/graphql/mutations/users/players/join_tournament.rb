@@ -9,16 +9,16 @@ module Mutations
           argument :team_id, GraphQL::Types::ID, required: false
         end
 
-        argument :input, JoinTournamentArgs, required: true
+        argument :args, JoinTournamentArgs, required: true
         type Types::Users::Players::PlayerType
 
-        def resolve tournament_id:, team_id:
+        def resolve args:
           context[:current_user]
             .then do |player|
               Tournament
                 .joinable_by(player)
-                .find(tournament_id)
-                .tap { player.join! it, team_id: team_id }
+                .find(args[:tournament_id])
+                .tap { player.join! it, team_id: args[:team_id] }
                 .then { User::Player.find(player.id) }
             end
         end
