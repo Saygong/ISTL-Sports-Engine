@@ -9,7 +9,7 @@ module Mutations
       end
 
       argument :args, SignInArgs, required: true
-      type Types::Users::SignInType
+      type Types::Users::SignActionType
 
       def resolve args:
         User
@@ -18,21 +18,8 @@ module Mutations
             raise ErrorsGQL::SignIn, I18n.t('errors.mutations.sign_in') unless user
             raise ErrorsGQL::SignIn, I18n.t('errors.mutations.sign_in') unless user.valid_password? args[:password]
 
-            {
-              user:    user,
-              headers: user
-                .create_new_auth_token
-                .then do |hash|
-                  {
-                    access_token:  hash['access-token'],
-                    token_type:    hash['token-type'],
-                    client:        hash['client'],
-                    expiry:        hash['expiry'],
-                    uid:           hash['uid'],
-                    authorization: hash['Authorization']
-                  }
-                end
-            }
+            Types::Users::SignActionType
+              .to_h user, user.create_new_auth_token
           end
       end
     end
