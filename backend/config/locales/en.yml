@@ -71,6 +71,10 @@ en:
         unauthorized: "You must be an organizer to access organizer features"
       players:
         unauthorized: "You must be a player to access player features"
+    mutations:
+      sign_in: "Invalid email or password"
+    query:
+      unauthorized: "Authentication is required before accessing field"
 
   notices:
     controllers:
