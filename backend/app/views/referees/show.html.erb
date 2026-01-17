@@ -60,7 +60,7 @@
                   <% pending = [] %>
                   <% finished = [] %>
 
-                  <% t.matches.each do |m| %>
+                  <% t.matches.where(referee:current_user).each do |m| %>
                     <% has_result = @results_by_match_id[m.id].present? %>
                     <% (has_result ? finished : pending) << m %>
                   <% end %>
@@ -124,11 +124,14 @@
                               <td><%= m.date&.strftime("%H:%M") %></td>
                               <td><%= t.court&.name %></td>
 
-                              <td class="action-end">
-                                <%= link_to "Insert result",
-                                            new_referee_match_result_path(m),
-                                            class: "btn btn-sm btn-outline-primary" %>
-                              </td>
+
+                              <% if m.referee == current_user && participants[:left].any? && participants[:right].any? %>
+                                <td class="action-end">
+                                  <%= link_to "Insert result",
+                                              new_referee_match_result_path(m),
+                                              class: "btn btn-sm btn-outline-primary" %>
+                                </td>
+                              <% end %>
                             </tr>
                           <% end %>
                         <% end %>
