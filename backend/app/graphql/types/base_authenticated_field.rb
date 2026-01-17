@@ -2,10 +2,9 @@
 
 module Types
   class BaseAuthenticatedField < BaseField
-    def initialize(*args, role: :base, **kwargs, &)
+    def initialize(*, role: :base, **, &)
+      super(*, **, &)
       @role = role
-
-      super
     end
 
     def authorized? obj, args, ctx
