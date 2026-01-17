@@ -29,5 +29,13 @@ module IstlSportsEngine
 
     # Set default locale
     config.i18n.default_locale = :en
+
+    config.middleware.insert_before Warden::Manager, Rack::Cors do
+      allow do
+        origins %r{http://localhost(:\d+)?},
+                %r{http://127\.0\.0\.1(:\d+)?}
+      end
+    end
+
   end
 end
