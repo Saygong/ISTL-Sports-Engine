@@ -6,7 +6,7 @@ module Mutations
       module MutationFields
         def self.included base
           base.instance_exec do
-            field :join_tournament, mutation: JoinTournament
+            field :join_tournament, mutation: JoinTournament, role: :player
           end
         end
       end
