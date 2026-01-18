@@ -8,6 +8,10 @@ module Types
           field :courts_all, [CourtType], null: false
         end
       end
+
+      def courts_all
+        Court.all
+      end
     end
   end
 end
