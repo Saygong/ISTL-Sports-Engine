@@ -6,39 +6,16 @@ module Types
       class PlayerType < Types::BaseObject
         implements UserInterfaceType
 
-        # TODO: Only player should see this field
-        field :joinable_tournaments,
-              [Tournaments::TournamentType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :joined_tournaments,
-              [Tournaments::TournamentType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :matches_to_play,
-              [Matches::MatchType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :viewed_matches,
-              [Matches::MatchType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :won_matches,
-              [Matches::Results::ResultType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :lost_matches,
-              [Matches::Results::ResultType],
-              null: false
-
-        # TODO: Only player should see this field
-        field :joinable_teams, [Teams::TeamType], null: false do
-          argument :tournament_id, GraphQL::Types::ID, required: true
+        with_options role: :player, null: false do
+          field :joinable_tournaments, [Tournaments::TournamentType]
+          field :joined_tournaments, [Tournaments::TournamentType]
+          field :matches_to_play, [Matches::MatchType]
+          field :viewed_matches, [Matches::MatchType]
+          field :won_matches, [Matches::Results::ResultType]
+          field :lost_matches, [Matches::Results::ResultType]
+          field :joinable_teams, [Teams::TeamType] do
+            argument :tournament_id, GraphQL::Types::ID, required: true
+          end
         end
 
         def joinable_teams tournament_id:
