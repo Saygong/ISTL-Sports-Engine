@@ -11,28 +11,31 @@ module Mutations
         end
 
         argument :args, CreateMatchResultArgs, required: true
-        type Types::Matches::Results::ResultType
+        type Types::Users::Referees::RefereeType
 
         def resolve args:
-          Match
-            .where(referee: context[:current_user])
-            .find(args[:match_id])
-            .then do |match|
-              winner = match
-                       .teams
-                       .find(args[:team_id])
-                       .then { TeamsMatchResult.new team_status: :winner, team: it }
+          context[:current_user]
+            .tap do |referee|
+              Match
+                .where(referee: referee)
+                .find(args[:match_id])
+                .then do |match|
+                  winner = match
+                           .teams
+                           .find(args[:team_id])
+                           .then { TeamsMatchResult.new team_status: :winner, team: it }
 
-              loser = match
-                      .teams
-                      .where
-                      .not(id: args[:team_id])
-                      .sole
-                      .then { TeamsMatchResult.new team_status: :loser, team: it }
+                  loser = match
+                          .teams
+                          .where
+                          .not(id: args[:team_id])
+                          .sole
+                          .then { TeamsMatchResult.new team_status: :loser, team: it }
 
-              Match::Result.create! match:               match,
-                                    description:         args[:description],
-                                    teams_match_results: [winner, loser]
+                  Match::Result.create! match:               match,
+                                        description:         args[:description],
+                                        teams_match_results: [winner, loser]
+                end
             end
         end
       end
