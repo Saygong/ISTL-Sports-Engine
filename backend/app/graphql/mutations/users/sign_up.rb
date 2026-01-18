@@ -4,15 +4,16 @@ module Mutations
   module Users
     class SignUp < BaseMutation
       class AuthDataArgs < Types::BaseInputObject
-        argument :email, String, required: true
-        argument :password, String, required: true
-        argument :password_confirmation, String, required: true
+        argument :email, GraphQL::Types::String, required: true
+        argument :password, GraphQL::Types::String, required: true
+        argument :password_confirmation, GraphQL::Types::String, required: true
       end
 
       class UserDataArgs < Types::BaseInputObject
         argument :first_name, String, required: true
         argument :last_name, String, required: true
         argument :birthdate, GraphQL::Types::ISO8601Date, required: true
+        argument :gender, Types::Common::GenderEnumType, required: true
       end
 
       class SignUpArgs < Types::BaseInputObject
