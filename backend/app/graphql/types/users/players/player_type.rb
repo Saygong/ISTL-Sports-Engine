@@ -29,6 +29,7 @@ module Types
         end
 
         def won_matches
+          # noinspection RubyResolve
           context[:current_user]
             .then { |player| Match::Result.won_by(player) }
         end
