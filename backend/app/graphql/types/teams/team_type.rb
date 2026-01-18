@@ -3,7 +3,8 @@
 module Types
   module Teams
     class TeamType < Types::BaseObject
-      field :id, ID, null: false
+      field :id, GraphQL::Types::ID, null: false
+      field :composition, Common::CompositionEnumType, null: false
     end
   end
 end
