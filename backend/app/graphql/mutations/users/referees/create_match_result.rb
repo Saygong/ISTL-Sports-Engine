@@ -15,6 +15,7 @@ module Mutations
 
         def resolve args:
           Match
+            .where(referee: context[:current_user])
             .find(args[:match_id])
             .then do |match|
               winner = match
