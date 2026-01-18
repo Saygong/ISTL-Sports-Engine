@@ -3,7 +3,8 @@
 module Types
   module Courts
     class CourtType < Types::BaseObject
-      field :name, String, null: true
+      field :id, GraphQL::Types::ID, null: false
+      field :name, GraphQL::Types::String, null: true
     end
   end
 end
