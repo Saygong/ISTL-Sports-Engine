@@ -9,6 +9,7 @@ module Types
     # They will be entry points for queries on your schema.
 
     include Sports::Queries
+    include Courts::Queries
     include Tournaments::Queries
     include Matches::Queries
     include Users::Queries
