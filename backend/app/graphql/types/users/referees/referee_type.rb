@@ -6,9 +6,11 @@ module Types
       class RefereeType < Types::BaseObject
         implements UserInterfaceType
 
+        # noinspection RubyArgCount
         field :refereed_tournaments,
               [Tournaments::TournamentType],
-              null: false
+              null: false,
+              role: :referee
 
         def refereed_tournaments
           context[:current_user]
