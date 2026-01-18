@@ -19,7 +19,7 @@ module Types
         Tournament
           .all
           .then { search&.[](:name) ? it.where(name: search[:name]) : it }
-          .then { search&.[](:sport_id) ? it.where(name: search[:sport_id]) : it }
+          .then { search&.[](:sport_id) ? it.where(sport_id: search[:sport_id]) : it }
           .then { search&.[](:start_date) ? it.where(start_date: search[:start_date]) : it }
       end
 
