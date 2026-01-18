@@ -12,6 +12,8 @@ module Types
     include Courts::Queries
     include Tournaments::Queries
     include Matches::Queries
+
     include Users::Queries
+    include Users::Referees::Queries
   end
 end
