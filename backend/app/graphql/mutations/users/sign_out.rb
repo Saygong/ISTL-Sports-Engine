@@ -9,7 +9,7 @@ module Mutations
         context[:current_user]
           .then do |user|
             user.tokens = nil
-            user.save ? { result: :ok } : { result: :ko }
+            user.save ? { result: 'ok' } : { result: 'ko' }
           end
       end
     end
