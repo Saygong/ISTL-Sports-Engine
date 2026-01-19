@@ -1,0 +1,6 @@
+fragment Sport on Sport {
+  id
+  description
+  variantKind
+  __typename
+}

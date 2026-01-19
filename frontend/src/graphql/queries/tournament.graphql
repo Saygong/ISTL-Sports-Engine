@@ -1,0 +1,5 @@
+query Tournament($id: ID!) {
+  tournament(id: $id) {
+    ...Tournament
+  }
+}

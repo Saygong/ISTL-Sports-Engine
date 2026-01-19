@@ -1,0 +1,9 @@
+fragment AuthHeaders on Headers {
+  accessToken
+  uid
+  client
+  expiry
+  authorization
+  tokenType
+  __typename
+}

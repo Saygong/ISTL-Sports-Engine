@@ -1,0 +1,27 @@
+mutation SignIn($input: SignInArgs!) {
+  signIn(args: $input) {
+    headers {
+      ...AuthHeaders
+    }
+    user {
+      ... on Organizer {
+        id
+        firstName
+        lastName
+        __typename
+      }
+      ... on Player {
+        id
+        firstName
+        lastName
+        __typename
+      }
+      ... on Referee {
+        id
+        firstName
+        lastName
+        __typename
+      }
+    }
+  }
+}

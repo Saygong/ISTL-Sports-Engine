@@ -1,0 +1,28 @@
+query Me {
+  me {
+    ... on Organizer {
+      id
+      firstName
+      lastName
+      gender
+      birthdate
+      __typename
+    }
+    ... on Player {
+      id
+      firstName
+      lastName
+      gender
+      birthdate
+      __typename
+    }
+    ... on Referee {
+      id
+      firstName
+      lastName
+      gender
+      birthdate
+      __typename
+    }
+  }
+}

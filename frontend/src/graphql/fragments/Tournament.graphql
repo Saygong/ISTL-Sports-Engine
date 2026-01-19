@@ -1,0 +1,24 @@
+fragment Tournament on Tournament {
+  id
+  name
+  composition
+  court {
+    name
+  }
+  gender
+  maxAge
+  minAge
+  numberOfMatches
+  organizer {
+    ...on Organizer {
+      id
+      firstName
+      lastName
+    }
+  }
+  sport {
+    ...Sport
+  }
+  startDate
+  __typename
+}

@@ -1,0 +1,46 @@
+{
+  "name": "my-react-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/vite",
+    "build": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/tsc -b && vite build",
+    "lint": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/eslint .",
+    "preview": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/vite preview",
+    "format": "npx prettier ../../../Progetto_distribuito/sports-frontend/sports-frontend --write",
+    "codegen": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/graphql-codegen --config codegen.ts",
+    "typecheck": "npx tsc -b"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.8",
+    "jwt-decode": "^4.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router": "^7.11.0",
+    "urql": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "@graphql-codegen/cli": "^6.1.1",
+    "@graphql-codegen/client-preset": "^5.2.2",
+    "@graphql-codegen/typescript": "^5.0.7",
+    "@graphql-codegen/typescript-operations": "^5.0.7",
+    "@graphql-codegen/typescript-urql": "^4.0.1",
+    "@popperjs/core": "^2.11.8",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.5",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "eslint": "^9.39.1",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "graphql": "^16.12.0",
+    "prettier": "3.8.0",
+    "sass": "^1.97.1",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.46.4",
+    "vite": "^7.2.4"
+  }
+}
