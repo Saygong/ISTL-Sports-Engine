@@ -2,7 +2,7 @@
 
 module Types
   class BaseAuthenticatedField < BaseField
-    def initialize(*, role: :base, **, &)
+    def initialize(*, role: nil, **, &)
       super(*, **, &)
       @role = role
     end

@@ -6,11 +6,8 @@ module Mutations
       def self.included base
         base.instance_exec do
           field :sign_out, mutation: SignOut
-
-          with_options role: nil do
-            field :sign_up, mutation: SignUp, role: nil
-            field :sign_in, mutation: SignIn, role: nil
-          end
+          field :sign_up, mutation: SignUp
+          field :sign_in, mutation: SignIn
         end
       end
     end
