@@ -27,15 +27,15 @@ module Mutations
             .tap do |organizer|
               Tournament.create! organizer:         organizer,
                                  name:              args[:name],
-                                 sport:             args[:sport],
+                                 sport:             Sport.find(args[:sport]),
                                  start_date:        args[:start_date],
-                                 court:             args[:court],
+                                 court:             Court.find(args[:court]),
                                  min_age:           args[:min_age],
                                  max_age:           args[:max_age],
                                  gender:            args[:gender],
                                  composition:       args[:composition],
                                  number_of_matches: args[:number_of_matches],
-                                 referees:          args[:referees]
+                                 referees:          User::Referee.where(id: args[:referees])
             end
         end
       end
