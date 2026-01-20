@@ -6,7 +6,7 @@ module Types
       with_options null: false do
         field :id, GraphQL::Types::ID
         field :teams, [Teams::TeamType]
-        field :tournament, [Tournaments::TournamentType]
+        field :tournament, Tournaments::TournamentType
         field :round, GraphQL::Types::Int
         field :date, GraphQL::Types::ISO8601DateTime
         field :field, Courts::Fields::FieldType
