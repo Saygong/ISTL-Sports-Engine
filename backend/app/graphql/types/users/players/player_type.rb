@@ -10,12 +10,17 @@ module Types
           field :joinable_tournaments, [Tournaments::TournamentType]
           field :joined_tournaments, [Tournaments::TournamentType]
           field :matches_to_play, [Matches::MatchType]
-          field :viewed_matches, [Matches::MatchType]
+          field :booked_matches, [Matches::MatchType]
           field :won_matches, [Matches::Results::ResultType]
           field :lost_matches, [Matches::Results::ResultType]
           field :joinable_teams, [Teams::TeamType] do
             argument :tournament_id, GraphQL::Types::ID, required: true
           end
+        end
+
+        def booked_matches
+          context[:current_user]
+            .then(&:viewed_matches)
         end
 
         def joinable_teams tournament_id:
