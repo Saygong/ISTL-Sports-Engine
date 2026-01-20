@@ -16,6 +16,10 @@ module Types
             Users::Referees::RefereeType,
             null: true
 
+      field :viewers,
+            [Users::Players::PlayerType],
+            null: false
+
       field :winner,
             Teams::TeamType,
             null: true
