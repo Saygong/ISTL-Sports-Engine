@@ -8,5 +8,6 @@ module Types
     include Mutations::Users::MutationFields
     include Mutations::Users::Players::MutationFields
     include Mutations::Users::Referees::MutationFields
+    include Mutations::Users::Organizers::MutationFields
   end
 end
