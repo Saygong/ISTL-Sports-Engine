@@ -59,7 +59,12 @@ export type CreateMatchResultArgs = {
 
 export type Field = {
   __typename?: 'Field';
+  court: Court;
+  description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
+  matches: Array<Match>;
+  maxSeats?: Maybe<Scalars['Int']['output']>;
+  name?: Maybe<Scalars['String']['output']>;
 };
 
 export enum GenderEnum {
@@ -90,7 +95,8 @@ export type Match = {
   referee?: Maybe<Referee>;
   round: Scalars['Int']['output'];
   teams: Array<Team>;
-  tournament: Array<Tournament>;
+  tournament: Tournament;
+  viewers: Array<Player>;
   winner?: Maybe<Team>;
 };
 
@@ -98,6 +104,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   bookMatch?: Maybe<Player>;
   createMatchResult?: Maybe<Referee>;
+  createTournament?: Maybe<Organizer>;
   joinTournament?: Maybe<Player>;
   signIn?: Maybe<SignAction>;
   signOut?: Maybe<ActionResult>;
@@ -113,6 +120,11 @@ export type MutationBookMatchArgs = {
 
 export type MutationCreateMatchResultArgs = {
   args: CreateMatchResultArgs;
+};
+
+
+export type MutationCreateTournamentArgs = {
+  args: TournamentDataArgs;
 };
 
 
@@ -150,6 +162,7 @@ export type Organizer = UserInterface & {
 export type Player = UserInterface & {
   __typename?: 'Player';
   birthdate: Scalars['ISO8601Date']['output'];
+  bookedMatches: Array<Match>;
   data: Scalars['JSON']['output'];
   email: Scalars['String']['output'];
   firstName: Scalars['String']['output'];
@@ -161,7 +174,6 @@ export type Player = UserInterface & {
   lastName: Scalars['JSON']['output'];
   lostMatches: Array<Result>;
   matchesToPlay: Array<Match>;
-  viewedMatches: Array<Match>;
   wonMatches: Array<Result>;
 };
 
@@ -240,6 +252,8 @@ export type Team = {
   __typename?: 'Team';
   composition: CompositionEnum;
   id: Scalars['ID']['output'];
+  name?: Maybe<Scalars['String']['output']>;
+  players: Array<Player>;
 };
 
 export type Tournament = {
@@ -256,6 +270,19 @@ export type Tournament = {
   organizer: Organizer;
   sport: Sport;
   startDate: Scalars['ISO8601Date']['output'];
+};
+
+export type TournamentDataArgs = {
+  composition: CompositionEnum;
+  court: Scalars['ID']['input'];
+  gender: GenderEnum;
+  maxAge: Scalars['Int']['input'];
+  minAge: Scalars['Int']['input'];
+  name: Scalars['String']['input'];
+  numberOfMatches: Scalars['Int']['input'];
+  referees: Array<Scalars['ID']['input']>;
+  sport: Scalars['ID']['input'];
+  startDate: Scalars['ISO8601Date']['input'];
 };
 
 export type TournamentSearchInput = {
