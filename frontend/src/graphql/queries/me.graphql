@@ -6,6 +6,7 @@ query Me {
       lastName
       gender
       birthdate
+      email
       __typename
     }
     ... on Player {
@@ -14,6 +15,25 @@ query Me {
       lastName
       gender
       birthdate
+      email
+      joinedTournaments {
+        ...Tournament
+      }
+      joinableTournaments {
+        ...Tournament
+      }
+      bookedMatches {
+        ...Match
+      }
+      matchesToPlay {
+        ...Match
+      }
+      lostMatches {
+        id
+      }
+      wonMatches {
+        id
+      }
       __typename
     }
     ... on Referee {
@@ -22,6 +42,7 @@ query Me {
       lastName
       gender
       birthdate
+      email
       __typename
     }
   }

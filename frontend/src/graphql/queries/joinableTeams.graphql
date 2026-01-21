@@ -1,0 +1,10 @@
+query JoinableTeams($tournamentId: ID!) {
+  me {
+    ...on Player {
+      id
+      joinableTeams(tournamentId: $tournamentId) {
+        ...Team
+      }
+    }
+  }
+}

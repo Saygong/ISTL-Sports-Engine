@@ -1,0 +1,6 @@
+query CourtsAll {
+  courtsAll {
+    id
+    name
+  }
+}

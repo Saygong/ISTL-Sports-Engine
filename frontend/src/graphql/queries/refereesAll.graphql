@@ -1,0 +1,10 @@
+query RefereesAll {
+  refereesAll {
+    ... on Referee {
+      id
+      firstName
+      lastName
+      __typename
+    }
+  }
+}
