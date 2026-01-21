@@ -6,14 +6,14 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router";
-import { RoutesEnum } from "../AppRoutes.tsx";
+import { RoutesEnum } from "../AppRoutes";
 import {
   AuthHeadersFragment,
   useMeQuery,
   UserUnion,
   useSignInMutation,
   useSignOutMutation,
-} from "../generated/graphql.tsx";
+} from "../generated/graphql";
 
 export type User = UserUnion;
 interface AuthContextType {
@@ -21,8 +21,8 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (
-    email: string,
-    password: string,
+      email: string,
+      password: string,
   ) => Promise<{
     success: boolean;
     errors?: Array<{ field: string; message: string }>;
@@ -46,11 +46,15 @@ export const getHeaders = () => {
   const client = localStorage.getItem("client") || "";
   const uid = localStorage.getItem("uid") || "";
   const expiry = localStorage.getItem("expiry") || "";
+  const authorization = localStorage.getItem("authorization") || "";
+  const tokenType = localStorage.getItem("token-type") || "";
   return {
     "access-token": accessToken,
     client: client,
     uid: uid,
     expiry: expiry,
+    authorization: authorization,
+    "token-type": tokenType,
   };
 };
 
