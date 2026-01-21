@@ -1,30 +1,13 @@
 import { useMemo } from "react";
 import { Link, useNavigate } from "react-router";
-import { RoutesEnum } from "../../AppRoutes.tsx";
-import { GenderEnum, Match, Referee, Tournament, useTournamentsAllQuery } from "../../generated/graphql.tsx";
+import { RoutesEnum } from "../../AppRoutes";
+import {
+  Player,
+  useTournamentsAllQuery
+} from "../../generated/graphql";
+import { playerShort } from "../player/TournamentDetail";
 
 type ID = string | number;
-
-type ParticipantsByMatchId = Record<
-  string,
-  {
-    left: string[];
-    right: string[];
-  }
->;
-
-type Props = {
-  tournaments: Tournament[];
-
-  // In ERB: @participants_by_match_id[m.id] || {left:[], right:[]}
-  participantsByMatchId?: ParticipantsByMatchId;
-
-  // In ERB: @results_by_match_id[m.id] used only to know if result exists
-  resultsByMatchId?: Record<string, unknown>;
-
-  // In ERB: @winner_by_match_id[m.id] string shown when result exists
-  winnerByMatchId?: Record<string, string>;
-};
 
 function humanize(s?: string): string {
   if (!s) return "—";
@@ -63,21 +46,9 @@ function matchKey(id: ID): string {
   return String(id);
 }
 
-const mockData: Props = {
-  tournaments: [],
-  participantsByMatchId: {},
-  resultsByMatchId: {},
-  winnerByMatchId: {},
-};
-
 export default function OrganizerHomePage() {
-  const {
-    participantsByMatchId = {},
-    resultsByMatchId = {},
-    winnerByMatchId = {},
-  } = mockData;
   const [{ data: tournamentsData }] = useTournamentsAllQuery({
-    variables: { search: { }},
+    variables: { search: {} },
   });
   const tournaments = tournamentsData?.tournamentsAll || [];
 
@@ -93,261 +64,246 @@ export default function OrganizerHomePage() {
     navigate(RoutesEnum.OrganizerCreateTournament);
   };
 
-  const matches: Match[] = []; // TODO: replace with real matches (should be tournament.matches)
-  const round: number = 1; // TODO: replace with match.round
-  const date: string = new Date().toISOString(); // TODO: replace with match.date
-  const referee: Referee = { // TODO: replace with matches.referee
-    email: '',
-    birthdate: '',
-    gender: GenderEnum.Male,
-    firstName: 'Mock',
-    lastName: 'Mock',
-    data: '',
-    id: '1',
-    refereedTournaments: [],
-  }
-
   return (
-    <div className="organizer-page">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <Link className="navbar-brand" to={RoutesEnum.OrganizerHomePage}>
-            ISTL Sports
-          </Link>
+      <div className="organizer-page">
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+          <div className="container-fluid">
+            <Link className="navbar-brand" to={RoutesEnum.OrganizerHomePage}>
+              ISTL Sports
+            </Link>
 
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span className="navbar-toggler-icon" />
-          </button>
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon" />
+            </button>
 
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <Link
-                className="nav-link active"
-                to={RoutesEnum.OrganizerHomePage}
-              >
-                Homepage
-              </Link>
-              <Link
-                className="nav-link"
-                to={RoutesEnum.OrganizerCreateTournament}
-              >
-                Create tournament
-              </Link>
-              <Link className="nav-link" to={RoutesEnum.Profile}>
-                Profile
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      <div className="container py-4">
-        <div className="page-narrow">
-          <div className="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
-            <div className="min-w-0">
-              <h2 className="mb-1">Organizer homepage</h2>
-              <div className="page-subtitle">
-                Manage your tournaments and monitor match outcomes
+            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div className="navbar-nav">
+                <Link
+                    className="nav-link active"
+                    to={RoutesEnum.OrganizerHomePage}
+                >
+                  Homepage
+                </Link>
+                <Link
+                    className="nav-link"
+                    to={RoutesEnum.OrganizerCreateTournament}
+                >
+                  Create tournament
+                </Link>
+                <Link className="nav-link" to={RoutesEnum.Profile}>
+                  Profile
+                </Link>
               </div>
             </div>
+          </div>
+        </nav>
 
-            <div className="d-flex justify-content-end">
-              <button
-                className="btn btn-primary"
-                onClick={redirectToCreateTournament}
-              >
+        <div className="container py-4">
+          <div className="page-narrow">
+            <div className="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+              <div className="min-w-0">
+                <h2 className="mb-1">Organizer homepage</h2>
+                <div className="page-subtitle">
+                  Manage your tournaments and monitor match outcomes
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-end">
+                <button
+                    className="btn btn-primary"
+                    onClick={redirectToCreateTournament}
+                >
                 <span className="me-1" aria-hidden="true">
                   ＋
                 </span>{" "}
-                Create tournament
-              </button>
+                  Create tournament
+                </button>
+              </div>
             </div>
-          </div>
 
-          <div className="accordion" id={accordionId}>
-            {!hasTournaments && (
-              <div className="text-body-secondary">No tournaments yet.</div>
-            )}
+            <div className="accordion" id={accordionId}>
+              {!hasTournaments && (
+                  <div className="text-body-secondary">No tournaments yet.</div>
+              )}
 
-            {tournamentView.map((t, idx) => {
-              const headingId = `orgT${idx}Heading`;
-              const collapseId = `orgT${idx}Collapse`;
-              const expanded = idx === 0;
+              {tournamentView.map((t, idx) => {
+                const headingId = `orgT${idx}Heading`;
+                const collapseId = `orgT${idx}Collapse`;
+                const expanded = idx === 0;
 
-              return (
-                <div className="accordion-item" key={String(t.id ?? idx)}>
-                  <h2 className="accordion-header" id={headingId}>
-                    <button
-                      className={`accordion-button ${expanded ? "" : "collapsed"}`}
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={`#${collapseId}`}
-                      aria-expanded={expanded}
-                      aria-controls={collapseId}
-                    >
-                      <div className="min-w-0">
-                        <div className="d-flex align-items-center gap-2 flex-wrap">
-                          <p className="tournament-title mb-0">{t.name}</p>
-                        </div>
+                return (
+                    <div className="accordion-item" key={String(t.id ?? idx)}>
+                      <h2 className="accordion-header" id={headingId}>
+                        <button
+                            className={`accordion-button ${expanded ? "" : "collapsed"}`}
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target={`#${collapseId}`}
+                            aria-expanded={expanded}
+                            aria-controls={collapseId}
+                        >
+                          <div className="min-w-0">
+                            <div className="d-flex align-items-center gap-2 flex-wrap">
+                              <p className="tournament-title mb-0">{t.name}</p>
+                            </div>
 
-                        <div className="tournament-meta">
+                            <div className="tournament-meta">
                           <span className="meta-chip">
                             📅 {formatDateDMY(t.startDate)}
                           </span>
-                          <span className="sport-chip">
+                              <span className="sport-chip">
                             {humanize(t.sport?.variantKind)}
                           </span>
-                          <span className="meta-chip">
+                              <span className="meta-chip">
                             🏟️ {t.court?.name || "—"}
                           </span>
-                        </div>
-                      </div>
-                    </button>
-                  </h2>
+                            </div>
+                          </div>
+                        </button>
+                      </h2>
 
-                  <div
-                    id={collapseId}
-                    className={`accordion-collapse collapse ${expanded ? "show" : ""}`}
-                    aria-labelledby={headingId}
-                    data-bs-parent={`#${accordionId}`}
-                  >
-                    <div className="accordion-body">
-                      <section className="section-block">
-                        <div className="section-header">
-                          <p className="section-title mb-0">Matches</p>
-                        </div>
+                      <div
+                          id={collapseId}
+                          className={`accordion-collapse collapse ${expanded ? "show" : ""}`}
+                          aria-labelledby={headingId}
+                          data-bs-parent={`#${accordionId}`}
+                      >
+                        <div className="accordion-body">
+                          <section className="section-block">
+                            <div className="section-header">
+                              <p className="section-title mb-0">Matches</p>
+                            </div>
 
-                        <div className="table-responsive">
-                          <table className="table table-hover align-middle mb-0">
-                            <thead className="table-light">
-                              <tr>
-                                <th scope="col">Participants</th>
-                                <th scope="col">Round</th>
-                                <th scope="col">Start date</th>
-                                <th scope="col">Start time</th>
-                                <th scope="col">Stadium</th>
-                                <th scope="col">Referee</th>
-                                <th scope="col" className="action-end">
-                                  Winner
-                                </th>
-                              </tr>
-                            </thead>
-
-                            <tbody>
-                              {(!matches || matches.length === 0) && (
+                            <div className="table-responsive">
+                              <table className="table table-hover align-middle mb-0">
+                                <thead className="table-light">
                                 <tr>
-                                  <td
-                                    colSpan={7}
-                                    className="text-center py-4 text-body-secondary"
-                                  >
-                                    No matches.
-                                  </td>
+                                  <th scope="col">Participants</th>
+                                  <th scope="col">Round</th>
+                                  <th scope="col">Start date</th>
+                                  <th scope="col">Start time</th>
+                                  <th scope="col">Stadium</th>
+                                  <th scope="col">Referee</th>
+                                  <th scope="col" className="action-end">
+                                    Winner
+                                  </th>
                                 </tr>
-                              )}
+                                </thead>
 
-                              {(matches || []).map((m) => {
-                                const mId = matchKey(m.id);
-                                const participants = participantsByMatchId[
-                                  mId
-                                ] ?? {
-                                  left: [],
-                                  right: [],
-                                };
-                                const result = resultsByMatchId[mId];
-                                const winnerLabel = winnerByMatchId[mId];
+                                <tbody>
+                                {(!t.matches || t.matches.length === 0) && (
+                                    <tr>
+                                      <td
+                                          colSpan={7}
+                                          className="text-center py-4 text-body-secondary"
+                                      >
+                                        No matches.
+                                      </td>
+                                    </tr>
+                                )}
 
-                                const refereeName = referee
-                                  ? `${referee.firstName ?? ""} ${
-                                      referee.lastName ?? ""
-                                    }`.trim() || "—"
-                                  : "—";
+                                {(t.matches || []).map((m) => {
+                                  const mId = matchKey(m.id);
+                                  const participants: {left: Player[], right: Player[]} = {
+                                    // @ts-expect-error Player type is wrong-ish
+                                    left: m.teams?.length ? m.teams[0].players : [],
+                                    // @ts-expect-error Player type is wrong-ish
+                                    right: m.teams?.length ? m.teams[1].players : [],
+                                  };
+                                  const winner = m.winner?.name;
 
-                                return (
-                                  <tr key={mId}>
-                                    <td>
-                                      <div className="participants">
-                                        <div className="team">
-                                          {participants.left.map((label, i) => (
-                                            <span
-                                              className="player"
-                                              key={`${mId}-l-${i}`}
-                                            >
-                                              {label}
+                                  const refereeName = m.referee
+                                      ? `${m.referee.firstName ?? ""} ${
+                                      m.referee.lastName ?? ""
+                                  }`.trim() || "—"
+                                      : "—";
+
+                                  return (
+                                      <tr key={mId}>
+                                        <td>
+                                          <div className="participants">
+                                            <div className="team">
+                                              {participants.left.map((player, i) => (
+                                                  <span
+                                                      className="player"
+                                                      key={`${mId}-l-${i}`}
+                                                  >
+                                              {playerShort(player)}
                                             </span>
-                                          ))}
-                                        </div>
+                                              ))}
+                                            </div>
 
-                                        <div className="vs">vs</div>
+                                            <div className="vs">vs</div>
 
-                                        <div className="team">
-                                          {participants.right.map(
-                                            (label, i) => (
-                                              <span
-                                                className="player"
-                                                key={`${mId}-r-${i}`}
-                                              >
-                                                {label}
+                                            <div className="team">
+                                              {participants.right.map(
+                                                  (player, i) => (
+                                                      <span
+                                                          className="player"
+                                                          key={`${mId}-r-${i}`}
+                                                      >
+                                                {playerShort(player)}
                                               </span>
-                                            ),
-                                          )}
-                                        </div>
-                                      </div>
-                                    </td>
+                                                  ),
+                                              )}
+                                            </div>
+                                          </div>
+                                        </td>
 
-                                    <td>
+                                        <td>
                                       <span className="badge text-bg-secondary">
-                                        {round ? `Round ${round}` : "—"}
+                                        {m.round >=0 ? `Round ${m.round}` : "—"}
                                       </span>
-                                    </td>
+                                        </td>
 
-                                    <td>{formatDateDMY(date)}</td>
-                                    <td>{formatTimeHM(date)}</td>
-                                    <td>{t.court?.name || "—"}</td>
+                                        <td>{formatDateDMY(m.date)}</td>
+                                        <td>{formatTimeHM(m.date)}</td>
+                                        <td>{t.court?.name || "—"}</td>
 
-                                    <td>
+                                        <td>
                                       <span className="ref-chip">
                                         {refereeName}
                                       </span>
-                                    </td>
+                                        </td>
 
-                                    <td className="action-end">
-                                      {result != null ? (
-                                        <span className="winner-chip">
+                                        <td className="action-end">
+                                          {winner ? (
+                                              <span className="winner-chip">
                                           <span
-                                            className="winner-dot"
-                                            aria-hidden="true"
+                                              className="winner-dot"
+                                              aria-hidden="true"
                                           />
-                                          {winnerLabel || "—"}
+                                                {winner || "—"}
                                         </span>
-                                      ) : (
-                                        <span className="text-body-secondary">
+                                          ) : (
+                                              <span className="text-body-secondary">
                                           —
                                         </span>
-                                      )}
-                                    </td>
-                                  </tr>
-                                );
-                              })}
-                            </tbody>
-                          </table>
+                                          )}
+                                        </td>
+                                      </tr>
+                                  );
+                                })}
+                                </tbody>
+                              </table>
+                            </div>
+                          </section>
                         </div>
-                      </section>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
-    </div>
   );
 }
