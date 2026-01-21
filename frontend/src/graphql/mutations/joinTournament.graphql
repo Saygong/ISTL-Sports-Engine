@@ -1,0 +1,7 @@
+mutation JoinTournament($args: JoinTournamentArgs!) {
+  joinTournament(args: $args) {
+    ... on Player {
+      id
+    }
+  }
+}

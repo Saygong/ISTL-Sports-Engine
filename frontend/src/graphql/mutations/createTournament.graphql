@@ -1,0 +1,7 @@
+mutation CreateTournament($args: TournamentDataArgs!) {
+  createTournament(args: $args) {
+    ... on Organizer {
+      id
+    }
+  }
+}

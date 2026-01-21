@@ -1,0 +1,7 @@
+mutation BookMatch($args: BookMatchArgs!) {
+  bookMatch(args: $args) {
+    ... on Player {
+      id
+    }
+  }
+}

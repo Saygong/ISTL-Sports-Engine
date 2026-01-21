@@ -1,0 +1,7 @@
+mutation UnbookMatch($args: UnbookMatchArgs!) {
+  unbookMatch(args: $args) {
+    ...on Player {
+      id
+    }
+  }
+}
