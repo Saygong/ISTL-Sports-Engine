@@ -4,12 +4,12 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/vite",
-    "build": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/tsc -b && vite build",
-    "lint": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/eslint .",
-    "preview": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/vite preview",
-    "format": "npx prettier ../../../Progetto_distribuito/sports-frontend/sports-frontend --write",
-    "codegen": "../../../Progetto_distribuito/sports-frontend/sports-frontend/node_modules/.bin/graphql-codegen --config codegen.ts",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "format": "npx prettier . --write",
+    "codegen": "graphql-codegen --config codegen.ts",
     "typecheck": "npx tsc -b"
   },
   "dependencies": {
