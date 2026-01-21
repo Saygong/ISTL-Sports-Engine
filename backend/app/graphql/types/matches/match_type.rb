@@ -24,10 +24,20 @@ module Types
             Teams::TeamType,
             null: true
 
+      field :match_result,
+            GraphQL::Types::String,
+            null: true
+
       def winner
         object
           .match_result
           &.winner
+      end
+
+      def match_result
+        object
+          .match_result
+          &.description
       end
     end
   end
