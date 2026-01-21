@@ -4,7 +4,8 @@ module Types
   module Matches
     module Results
       class ResultType < Types::BaseObject
-        field :id, ID, null: false
+        field :id, GraphQL::Types::ID, null: false
+        field :description, GraphQL::Types::String, null: true
       end
     end
   end
