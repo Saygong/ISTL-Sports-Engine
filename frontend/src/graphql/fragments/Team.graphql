@@ -1,0 +1,13 @@
+fragment Team on Team {
+  composition
+  id
+  name
+  players {
+    ... on Player {
+      id
+      firstName
+      lastName
+    }
+  }
+  __typename
+}

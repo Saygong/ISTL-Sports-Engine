@@ -10,7 +10,7 @@ fragment Tournament on Tournament {
   minAge
   numberOfMatches
   organizer {
-    ...on Organizer {
+    ... on Organizer {
       id
       firstName
       lastName
@@ -20,5 +20,8 @@ fragment Tournament on Tournament {
     ...Sport
   }
   startDate
+  matches {
+    ...Match
+  }
   __typename
 }

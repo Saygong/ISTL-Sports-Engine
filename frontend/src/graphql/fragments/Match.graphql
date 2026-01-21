@@ -1,0 +1,46 @@
+fragment Match on Match {
+  date
+  field {
+    id
+    maxSeats
+  }
+  id
+  referee {
+    ... on Referee {
+      id
+      firstName
+      lastName
+    }
+  }
+  round
+  teams {
+    ...Team
+  }
+  tournament {
+    id
+    organizer {
+      ... on Organizer {
+        id
+        firstName
+        lastName
+      }
+    }
+    sport {
+      id
+      description
+    }
+    court {
+      id
+      name
+    }
+  }
+  winner {
+    ...Team
+  }
+  viewers {
+    ... on Player {
+      id
+    }
+  }
+  __typename
+}
