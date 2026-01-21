@@ -16,7 +16,16 @@ module Types
       field :court, Courts::CourtType, null: false
       field :sport, Sports::SportType, null: false
       field :matches, [Matches::MatchType], null: false
+
+      # Teams.
       field :teams, [Teams::TeamType], null: false
+      field :joined_by_someone, [Teams::TeamType], null: false
+
+      def joined_by_someone
+        object
+          .teams
+          .joined_by_someone
+      end
     end
   end
 end
