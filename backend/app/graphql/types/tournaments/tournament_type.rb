@@ -16,6 +16,7 @@ module Types
       field :court, Courts::CourtType, null: false
       field :sport, Sports::SportType, null: false
       field :matches, [Matches::MatchType], null: false
+      field :teams, [Teams::TeamType], null: false
     end
   end
 end
