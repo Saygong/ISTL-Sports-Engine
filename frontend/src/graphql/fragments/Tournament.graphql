@@ -23,5 +23,8 @@ fragment Tournament on Tournament {
   matches {
     ...Match
   }
+  joinedBySomeone {
+    ...Team
+  }
   __typename
 }

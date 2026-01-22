@@ -5,6 +5,7 @@ fragment Match on Match {
     maxSeats
   }
   id
+  matchResult
   referee {
     ... on Referee {
       id
@@ -18,6 +19,7 @@ fragment Match on Match {
   }
   tournament {
     id
+    name
     organizer {
       ... on Organizer {
         id
@@ -28,6 +30,7 @@ fragment Match on Match {
     sport {
       id
       description
+      variantKind
     }
     court {
       id
