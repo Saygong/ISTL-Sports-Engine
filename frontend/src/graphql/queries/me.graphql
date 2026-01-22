@@ -43,6 +43,9 @@ query Me {
       gender
       birthdate
       email
+      refereedTournaments {
+        ...Tournament
+      }
       __typename
     }
   }
