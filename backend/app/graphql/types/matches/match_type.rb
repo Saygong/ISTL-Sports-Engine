@@ -25,19 +25,13 @@ module Types
             null: true
 
       field :match_result,
-            GraphQL::Types::String,
+            Results::ResultType,
             null: true
 
       def winner
         object
           .match_result
           &.winner
-      end
-
-      def match_result
-        object
-          .match_result
-          &.description
       end
     end
   end
