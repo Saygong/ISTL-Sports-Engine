@@ -123,7 +123,7 @@ export default function PlayerTournamentRegistrations() {
                   </thead>
 
                   <tbody>
-                  {matches.length === 0 ? (
+                  {matches?.length === 0 ? (
                       <tr>
                         <td
                             colSpan={7}
@@ -135,10 +135,11 @@ export default function PlayerTournamentRegistrations() {
                   ) : (
                       matches.map((m) => {
                         const mId = String(m.id);
-                        const participants: {left: Player[], right: Player[]} = {
-                          left: m.teams?.length ? m.teams[0].players : [],
-                          right: m.teams?.length ? m.teams[1].players : [],
-                        };
+                        const participants: { left: Player[]; right: Player[] } =
+                            {
+                              left: m.teams?.length ? m.teams[0].players : [],
+                              right: m.teams?.length ? m.teams[1].players : [],
+                            };
 
                         const sportLabel =
                             (m.tournament.sport.description &&
