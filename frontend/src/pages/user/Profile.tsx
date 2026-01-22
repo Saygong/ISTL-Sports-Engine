@@ -55,7 +55,6 @@ function formatDate(date?: string | Date) {
 }
 
 export default function Profile() {
-
   const { user, logout } = useAuth();
 
   const navigate = useNavigate();
@@ -106,21 +105,21 @@ export default function Profile() {
     }
   }, [user]);
 
-  const redirectToRoleHomepage = () => {
+  const roleHomepage = useMemo(() => {
     const role = normalizeRole(user);
 
     if (role === "Player") {
-      navigate(RoutesEnum.PlayerHomePage);
+      return RoutesEnum.PlayerHomePage;
     }
 
     if (role === "Organizer") {
-      navigate(RoutesEnum.OrganizerHomePage);
+      return RoutesEnum.OrganizerHomePage;
     }
 
     if (role === "Referee") {
-      navigate(RoutesEnum.RefereeHomePage);
+      return RoutesEnum.RefereeHomePage;
     }
-  };
+  }, [user]);
 
   function handleSignOut() {
     logout();
@@ -131,9 +130,9 @@ export default function Profile() {
         {/* Navbar */}
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
           <div className="container-fluid">
-            <button className="navbar-brand" onClick={redirectToRoleHomepage}>
+            <Link className="navbar-brand" to={roleHomepage as string}>
               ISTL Sports
-            </button>
+            </Link>
 
             <button
                 className="navbar-toggler"
@@ -170,7 +169,9 @@ export default function Profile() {
         <div className="container py-4">
           {/* Actions common to all users */}
           <section className="float-end">
-            <button onClick={handleSignOut}>Sign out</button>
+            <button className="btn btn-primary" onClick={handleSignOut}>
+              Sign out
+            </button>
           </section>
 
           {/* Page header */}
@@ -282,7 +283,9 @@ export default function Profile() {
                           </span>
                               <span className="stat-label">Matches won</span>
                             </div>
-                            <div className="stat-value">{(user as Player).wonMatches?.length || 0}</div>
+                            <div className="stat-value">
+                              {(user as Player).wonMatches?.length || 0}
+                            </div>
                           </div>
                         </div>
 
@@ -294,7 +297,9 @@ export default function Profile() {
                           </span>
                               <span className="stat-label">Matches lost</span>
                             </div>
-                            <div className="stat-value">{(user as Player).lostMatches?.length || 0}</div>
+                            <div className="stat-value">
+                              {(user as Player).lostMatches?.length || 0}
+                            </div>
                           </div>
                         </div>
                       </div>
