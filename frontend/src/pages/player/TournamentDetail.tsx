@@ -8,41 +8,9 @@ import {
   useBookMatchMutation,
   useJoinableTeamsQuery,
   useJoinTournamentMutation,
-  useTournamentQuery
+  useTournamentQuery,
 } from "../../generated/graphql";
 import { isEligible } from "./HomePage";
-
-type ID = string | number;
-
-type Team = {
-  id: ID;
-  name: string;
-  players: (Player | null | undefined)[]; // may contain nulls
-};
-
-type Props = {
-  // TODO
-  joinableTeams: Team[]; // @joinable_teams
-  allTeamsJoinedBySomeone: Team[]; // @tournament.teams.joined_by_someone
-
-  // optional callbacks after successful POSTs
-  onRegistered?: () => void;
-
-  // optional callback after team join
-  onJoinedTeam?: (teamId: ID) => void;
-
-  // NEW: endpoint for joining a doubles team inside the tournament
-  // Rails ERB posts to join_player_tournament_path(@tournament) with params { team_id: team.id }
-  joinTournamentUrl: (tournamentId: ID) => string;
-};
-
-function getCsrfToken(): string | null {
-  return (
-      document
-          .querySelector('meta[name="csrf-token"]')
-          ?.getAttribute("content") ?? null
-  );
-}
 
 function humanize(s?: string | null): string {
   if (!s) return "—";
@@ -76,19 +44,6 @@ function formatTimeHM(value?: string | Date | null): string {
   }).format(d);
 }
 
-function postFormUrlEncoded(url: string, body: URLSearchParams) {
-  const csrf = getCsrfToken();
-  return fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-      ...(csrf ? { "X-CSRF-Token": csrf } : {}),
-    },
-    credentials: "same-origin",
-    body: body.toString(),
-  });
-}
-
 export function playerShort(p?: Player | null): string {
   if (!p) return "—";
   const fi = (p.firstName ?? "").trim().slice(0, 1);
@@ -104,25 +59,16 @@ function slotDotClass(filled: number) {
   return "slot-dot--full"; // optional if you have CSS
 }
 
-const mockData: Props = {
-  joinableTeams: [],
-  allTeamsJoinedBySomeone: [],
-  joinTournamentUrl: () => "#",
-};
-
 export default function PlayerTournamentDetail() {
-  const {
-    allTeamsJoinedBySomeone,
-    joinTournamentUrl,
-    onJoinedTeam,
-  } = mockData;
   const [isRegistering, setIsRegistering] = useState(false);
   const [bookingMatchId, setBookingMatchId] = useState<string | null>(null);
   const [, joinTournamentMutation] = useJoinTournamentMutation();
   const [, bookMatchMutation] = useBookMatchMutation();
 
   const { user } = useAuth();
-  const [bookedMatchIds, setBookedMatchIds] = useState(() => (user as Player).bookedMatches?.map(m => m.id));
+  const [bookedMatchIds, setBookedMatchIds] = useState(() =>
+      (user as Player).bookedMatches?.map((m) => m.id),
+  );
 
   const { id } = useParams();
   const [{ data: tournamentData }] = useTournamentQuery({
@@ -139,18 +85,17 @@ export default function PlayerTournamentDetail() {
 
   const [{ data: joinableTeamsData }] = useJoinableTeamsQuery({
     variables: {
-      tournamentId: tournament ? tournament.id : '',
+      tournamentId: tournament ? tournament.id : "",
     },
     pause: !tournament,
   });
-  const joinableTeams = joinableTeamsData ? (joinableTeamsData.me as Player).joinableTeams : [];
+  const joinableTeams = joinableTeamsData
+      ? (joinableTeamsData.me as Player).joinableTeams
+      : [];
 
   const [joiningTeamId, setJoiningTeamId] = useState<string | null>(null);
 
-  const bookedSet = useMemo(
-      () => new Set(bookedMatchIds),
-      [bookedMatchIds],
-  );
+  const bookedSet = useMemo(() => new Set(bookedMatchIds), [bookedMatchIds]);
 
   const sportLabel = useMemo(() => {
     const desc = tournament?.sport.description?.trim();
@@ -182,19 +127,24 @@ export default function PlayerTournamentDetail() {
     const res = await bookMatchMutation({ args: { matchId } });
 
     if (res.data?.bookMatch) {
-      setBookedMatchIds(ids => ([...ids, matchId]))
+      setBookedMatchIds((ids) => [...ids, matchId]);
       setBookingMatchId(null);
     }
   };
 
-  const handleJoinTeam = async (teamId: ID, teamName?: string) => {
-    const ok = window.confirm(`Join ${teamName}?`);
-    if (!ok) return;
+  const handleJoinTeam = async (teamId: string, teamName?: string) => {
+    // const ok = window.confirm(`Join ${teamName}?`);
+    // if (!ok) return;
 
     const key = String(teamId);
     setJoiningTeamId(key);
 
-    // TODO: join team mutation
+    await joinTournamentMutation({
+      args: {
+        teamId,
+        tournamentId: tournament.id,
+      },
+    });
 
     setJoiningTeamId(null);
   };
@@ -416,13 +366,14 @@ export default function PlayerTournamentDetail() {
                       tournament?.matches.map((m) => {
                         const mId = String(m.id);
 
-                        const participants: {left: Player[], right: Player[]} = {
-                          left: m.teams?.length ? m.teams[0].players : [],
-                          right: m.teams?.length ? m.teams[1].players : [],
-                        };
+                        const participants: { left: Player[]; right: Player[] } =
+                            {
+                              left: m.teams?.length ? m.teams[0].players : [],
+                              right: m.teams?.length ? m.teams[1].players : [],
+                            };
                         const maxSeats = Number(m.field?.maxSeats ?? 0) || 0;
                         const roundLabel =
-                            (m.round != null ? `Round ${m.round}` : "—");
+                            m.round != null ? `Round ${m.round}` : "—";
                         const used = m.viewers?.length || 0;
                         const available = Math.max(maxSeats - used, 0);
                         const reserved = bookedSet.has(mId);
@@ -606,8 +557,8 @@ export default function PlayerTournamentDetail() {
 
                     <div className="card-body">
                       <div className="row g-3">
-                        {allTeamsJoinedBySomeone.length > 0 ? (
-                            allTeamsJoinedBySomeone.map((team) => {
+                        {tournament.joinedBySomeone.length > 0 ? (
+                            tournament.joinedBySomeone.map((team) => {
                               const players = (team.players ?? []).filter(
                                   Boolean,
                               ) as Player[];
