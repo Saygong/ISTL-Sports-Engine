@@ -1,0 +1,10 @@
+query RefereedTournaments {
+  me {
+    ... on Referee {
+      id
+      refereedTournaments {
+        ...Tournament
+      }
+    }
+  }
+}
