@@ -1,0 +1,7 @@
+mutation CreateMatchResult($args: CreateMatchResultArgs!) {
+  createMatchResult(args: $args) {
+    ... on Referee {
+      id
+    }
+  }
+}
