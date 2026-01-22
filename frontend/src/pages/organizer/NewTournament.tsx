@@ -8,7 +8,7 @@ import {
   useCreateTournamentMutation,
   useRefereesAllQuery,
   UserInterface,
-  useSportsQuery
+  useSportsQuery,
 } from "../../generated/graphql";
 
 type TournamentDraft = {
@@ -66,11 +66,7 @@ const mockData: Props = {
 };
 
 export default function OrganizerCreateTournament() {
-  const {
-    genderOptions,
-    compositionOptions,
-    initialTournament,
-  } = mockData;
+  const { genderOptions, compositionOptions, initialTournament } = mockData;
   const navigate = useNavigate();
   const [{ data: sportsData }] = useSportsQuery();
   const sports = sportsData?.sportsAll;
@@ -135,7 +131,8 @@ export default function OrganizerCreateTournament() {
       return;
     }
     // validate age
-    const min = Number(tournament.min_age), max = Number(tournament.max_age);
+    const min = Number(tournament.min_age),
+        max = Number(tournament.max_age);
     if (Number.isFinite(min) && Number.isFinite(max) && min > max) {
       alert("Min age is greater than max age.");
       return;
@@ -150,14 +147,16 @@ export default function OrganizerCreateTournament() {
         numberOfMatches: tournament.number_of_matches,
         gender: tournament.gender as GenderEnum,
         composition: tournament.composition as CompositionEnum,
-        referees: refereeIds.map(Number).filter(n => n > 0) as unknown as string[],
+        referees: refereeIds
+            .map(Number)
+            .filter((n) => n > 0) as unknown as string[],
         sport: Number(tournament.sport_id) as unknown as string,
         court: Number(tournament.court_id) as unknown as string,
-      }
+      },
     });
 
     if (res.data?.createTournament) {
-      navigate('/organizer');
+      navigate(RoutesEnum.OrganizerHomePage);
     }
   };
 
