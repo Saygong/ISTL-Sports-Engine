@@ -1,0 +1,36 @@
+mutation SignUp($args: SignUpArgs!) {
+  signUp(args: $args) {
+    headers {
+      ...AuthHeaders
+    }
+    user {
+      ... on Organizer {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+      ... on Player {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+      ... on Referee {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+    }
+  }
+}
