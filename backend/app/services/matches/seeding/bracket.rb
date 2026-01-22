@@ -6,7 +6,7 @@ module Matches
       def seed? match
         # A match is eligible if it is currently "incomplete" (missing teams/players)
         return false if match.nil?
-        return false unless Match.incomplete.find(match.id)
+        return false unless Match.incomplete.find_by(id: match.id)
 
         true
       end
