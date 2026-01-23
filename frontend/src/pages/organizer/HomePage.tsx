@@ -1,10 +1,7 @@
 import { useMemo } from "react";
 import { Link, useNavigate } from "react-router";
 import { RoutesEnum } from "../../AppRoutes";
-import {
-  Player,
-  useTournamentsAllQuery
-} from "../../generated/graphql";
+import { Player, useTournamentsAllQuery } from "../../generated/graphql";
 import { playerShort } from "../player/TournamentDetail";
 
 type ID = string | number;
@@ -212,11 +209,18 @@ export default function OrganizerHomePage() {
 
                                 {(t.matches || []).map((m) => {
                                   const mId = matchKey(m.id);
-                                  const participants: {left: Player[], right: Player[]} = {
+                                  const participants: {
+                                    left: Player[];
+                                    right: Player[];
+                                  } = {
                                     // @ts-expect-error Player type is wrong-ish
-                                    left: m.teams?.length ? m.teams[0].players : [],
+                                    left: m.teams?.length
+                                        ? m.teams[0].players
+                                        : [],
                                     // @ts-expect-error Player type is wrong-ish
-                                    right: m.teams?.length ? m.teams[1].players : [],
+                                    right: m.teams?.length > 1
+                                        ? m.teams[1].players
+                                        : [],
                                   };
                                   const winner = m.winner?.name;
 
@@ -231,14 +235,16 @@ export default function OrganizerHomePage() {
                                         <td>
                                           <div className="participants">
                                             <div className="team">
-                                              {participants.left.map((player, i) => (
-                                                  <span
-                                                      className="player"
-                                                      key={`${mId}-l-${i}`}
-                                                  >
-                                              {playerShort(player)}
-                                            </span>
-                                              ))}
+                                              {participants.left.map(
+                                                  (player, i) => (
+                                                      <span
+                                                          className="player"
+                                                          key={`${mId}-l-${i}`}
+                                                      >
+                                                {playerShort(player)}
+                                              </span>
+                                                  ),
+                                              )}
                                             </div>
 
                                             <div className="vs">vs</div>
@@ -260,7 +266,9 @@ export default function OrganizerHomePage() {
 
                                         <td>
                                       <span className="badge text-bg-secondary">
-                                        {m.round >=0 ? `Round ${m.round}` : "—"}
+                                        {m.round >= 0
+                                            ? `Round ${m.round}`
+                                            : "—"}
                                       </span>
                                         </td>
 
