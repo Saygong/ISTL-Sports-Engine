@@ -92,6 +92,7 @@ export type Match = {
   date: Scalars['ISO8601DateTime']['output'];
   field: Field;
   id: Scalars['ID']['output'];
+  matchResult?: Maybe<Result>;
   referee?: Maybe<Referee>;
   round: Scalars['Int']['output'];
   teams: Array<Team>;
@@ -222,6 +223,7 @@ export type Referee = UserInterface & {
 
 export type Result = {
   __typename?: 'Result';
+  description?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
 };
 
@@ -262,6 +264,7 @@ export type Tournament = {
   court: Court;
   gender: GenderEnum;
   id: Scalars['ID']['output'];
+  joinedBySomeone: Array<Team>;
   matches: Array<Match>;
   maxAge: Scalars['Int']['output'];
   minAge: Scalars['Int']['output'];
@@ -270,6 +273,7 @@ export type Tournament = {
   organizer: Organizer;
   sport: Sport;
   startDate: Scalars['ISO8601Date']['output'];
+  teams: Array<Team>;
 };
 
 export type TournamentDataArgs = {
@@ -321,9 +325,41 @@ export enum VariantKindEnum {
 
 export type AuthHeadersFragment = { __typename: 'Headers', accessToken: string, uid: string, client: string, expiry: number, authorization: string, tokenType: string };
 
+export type MatchFragment = { __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> };
+
 export type SportFragment = { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum };
 
-export type TournamentFragment = { __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum } };
+export type TeamFragment = { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> };
+
+export type TournamentFragment = { __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> };
+
+export type BookMatchMutationVariables = Exact<{
+  args: BookMatchArgs;
+}>;
+
+
+export type BookMatchMutation = { __typename?: 'Mutation', bookMatch?: { __typename?: 'Player', id: string } | null };
+
+export type CreateMatchResultMutationVariables = Exact<{
+  args: CreateMatchResultArgs;
+}>;
+
+
+export type CreateMatchResultMutation = { __typename?: 'Mutation', createMatchResult?: { __typename?: 'Referee', id: string } | null };
+
+export type CreateTournamentMutationVariables = Exact<{
+  args: TournamentDataArgs;
+}>;
+
+
+export type CreateTournamentMutation = { __typename?: 'Mutation', createTournament?: { __typename?: 'Organizer', id: string } | null };
+
+export type JoinTournamentMutationVariables = Exact<{
+  args: JoinTournamentArgs;
+}>;
+
+
+export type JoinTournamentMutation = { __typename?: 'Mutation', joinTournament?: { __typename?: 'Player', id: string } | null };
 
 export type SignInMutationVariables = Exact<{
   input: SignInArgs;
@@ -331,9 +367,9 @@ export type SignInMutationVariables = Exact<{
 
 
 export type SignInMutation = { __typename?: 'Mutation', signIn?: { __typename?: 'SignAction', headers: { __typename: 'Headers', accessToken: string, uid: string, client: string, expiry: number, authorization: string, tokenType: string }, user:
-      | { __typename: 'Organizer', id: string, firstName: string, lastName: any }
-      | { __typename: 'Player', id: string, firstName: string, lastName: any }
-      | { __typename: 'Referee', id: string, firstName: string, lastName: any }
+      | { __typename: 'Organizer', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+      | { __typename: 'Player', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+      | { __typename: 'Referee', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
      } | null };
 
 export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
@@ -341,14 +377,69 @@ export type SignOutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type SignOutMutation = { __typename?: 'Mutation', signOut?: { __typename?: 'ActionResult', result: ActionResultEnum } | null };
 
+export type SignUpMutationVariables = Exact<{
+  args: SignUpArgs;
+}>;
+
+
+export type SignUpMutation = { __typename?: 'Mutation', signUp?: { __typename?: 'SignAction', headers: { __typename: 'Headers', accessToken: string, uid: string, client: string, expiry: number, authorization: string, tokenType: string }, user:
+      | { __typename: 'Organizer', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+      | { __typename: 'Player', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+      | { __typename: 'Referee', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+     } | null };
+
+export type UnbookMatchMutationVariables = Exact<{
+  args: UnbookMatchArgs;
+}>;
+
+
+export type UnbookMatchMutation = { __typename?: 'Mutation', unbookMatch?: { __typename?: 'Player', id: string } | null };
+
+export type CourtsAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CourtsAllQuery = { __typename?: 'Query', courtsAll: Array<{ __typename?: 'Court', id: string, name?: string | null }> };
+
+export type JoinableTeamsQueryVariables = Exact<{
+  tournamentId: Scalars['ID']['input'];
+}>;
+
+
+export type JoinableTeamsQuery = { __typename?: 'Query', me:
+    | { __typename?: 'Organizer' }
+    | { __typename?: 'Player', id: string, joinableTeams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }
+    | { __typename?: 'Referee' }
+   };
+
+export type MatchQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type MatchQuery = { __typename?: 'Query', match: { __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> } };
+
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MeQuery = { __typename?: 'Query', me:
-    | { __typename: 'Organizer', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any }
-    | { __typename: 'Player', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any }
-    | { __typename: 'Referee', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any }
+    | { __typename: 'Organizer', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string }
+    | { __typename: 'Player', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string, joinedTournaments: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }>, joinableTournaments: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }>, bookedMatches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, matchesToPlay: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, lostMatches: Array<{ __typename?: 'Result', id: string }>, wonMatches: Array<{ __typename?: 'Result', id: string }> }
+    | { __typename: 'Referee', id: string, firstName: string, lastName: any, gender: GenderEnum, birthdate: any, email: string, refereedTournaments: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }> }
    };
+
+export type RefereedTournamentsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefereedTournamentsQuery = { __typename?: 'Query', me:
+    | { __typename?: 'Organizer' }
+    | { __typename?: 'Player' }
+    | { __typename?: 'Referee', id: string, refereedTournaments: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }> }
+   };
+
+export type RefereesAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type RefereesAllQuery = { __typename?: 'Query', refereesAll: Array<{ __typename: 'Referee', id: string, firstName: string, lastName: any }> };
 
 export type SportsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -360,14 +451,14 @@ export type TournamentQueryVariables = Exact<{
 }>;
 
 
-export type TournamentQuery = { __typename?: 'Query', tournament: { __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum } } };
+export type TournamentQuery = { __typename?: 'Query', tournament: { __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> } };
 
 export type TournamentsAllQueryVariables = Exact<{
   search?: InputMaybe<TournamentSearchInput>;
 }>;
 
 
-export type TournamentsAllQuery = { __typename?: 'Query', tournamentsAll: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum } }> };
+export type TournamentsAllQuery = { __typename?: 'Query', tournamentsAll: Array<{ __typename: 'Tournament', id: string, name?: string | null, composition: CompositionEnum, gender: GenderEnum, maxAge: number, minAge: number, numberOfMatches: number, startDate: any, court: { __typename?: 'Court', name?: string | null }, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, matches: Array<{ __typename: 'Match', date: any, id: string, round: number, field: { __typename?: 'Field', id: string, maxSeats?: number | null }, matchResult?: { __typename?: 'Result', description?: string | null } | null, referee?: { __typename?: 'Referee', id: string, firstName: string, lastName: any } | null, teams: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }>, tournament: { __typename?: 'Tournament', id: string, name?: string | null, organizer: { __typename?: 'Organizer', id: string, firstName: string, lastName: any }, sport: { __typename?: 'Sport', id: string, description?: string | null, variantKind: VariantKindEnum }, court: { __typename?: 'Court', id: string, name?: string | null } }, winner?: { __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> } | null, viewers: Array<{ __typename?: 'Player', id: string }> }>, joinedBySomeone: Array<{ __typename: 'Team', composition: CompositionEnum, id: string, name?: string | null, players: Array<{ __typename?: 'Player', id: string, firstName: string, lastName: any }> }> }> };
 
 export const AuthHeadersFragmentDoc = gql`
     fragment AuthHeaders on Headers {
@@ -388,6 +479,74 @@ export const SportFragmentDoc = gql`
   __typename
 }
     `;
+export const TeamFragmentDoc = gql`
+    fragment Team on Team {
+  composition
+  id
+  name
+  players {
+    ... on Player {
+      id
+      firstName
+      lastName
+    }
+  }
+  __typename
+}
+    `;
+export const MatchFragmentDoc = gql`
+    fragment Match on Match {
+  date
+  field {
+    id
+    maxSeats
+  }
+  id
+  matchResult {
+    description
+  }
+  referee {
+    ... on Referee {
+      id
+      firstName
+      lastName
+    }
+  }
+  round
+  teams {
+    ...Team
+  }
+  tournament {
+    id
+    name
+    organizer {
+      ... on Organizer {
+        id
+        firstName
+        lastName
+      }
+    }
+    sport {
+      id
+      description
+      variantKind
+    }
+    court {
+      id
+      name
+    }
+  }
+  winner {
+    ...Team
+  }
+  viewers {
+    ... on Player {
+      id
+    }
+  }
+  __typename
+}
+    ${TeamFragmentDoc}`;
 export const TournamentFragmentDoc = gql`
     fragment Tournament on Tournament {
   id
@@ -411,9 +570,69 @@ export const TournamentFragmentDoc = gql`
     ...Sport
   }
   startDate
+  matches {
+    ...Match
+  }
+  joinedBySomeone {
+    ...Team
+  }
   __typename
 }
-    ${SportFragmentDoc}`;
+    ${SportFragmentDoc}
+${MatchFragmentDoc}
+${TeamFragmentDoc}`;
+export const BookMatchDocument = gql`
+    mutation BookMatch($args: BookMatchArgs!) {
+  bookMatch(args: $args) {
+    ... on Player {
+      id
+    }
+  }
+}
+    `;
+
+export function useBookMatchMutation() {
+  return Urql.useMutation<BookMatchMutation, BookMatchMutationVariables>(BookMatchDocument);
+};
+export const CreateMatchResultDocument = gql`
+    mutation CreateMatchResult($args: CreateMatchResultArgs!) {
+  createMatchResult(args: $args) {
+    ... on Referee {
+      id
+    }
+  }
+}
+    `;
+
+export function useCreateMatchResultMutation() {
+  return Urql.useMutation<CreateMatchResultMutation, CreateMatchResultMutationVariables>(CreateMatchResultDocument);
+};
+export const CreateTournamentDocument = gql`
+    mutation CreateTournament($args: TournamentDataArgs!) {
+  createTournament(args: $args) {
+    ... on Organizer {
+      id
+    }
+  }
+}
+    `;
+
+export function useCreateTournamentMutation() {
+  return Urql.useMutation<CreateTournamentMutation, CreateTournamentMutationVariables>(CreateTournamentDocument);
+};
+export const JoinTournamentDocument = gql`
+    mutation JoinTournament($args: JoinTournamentArgs!) {
+  joinTournament(args: $args) {
+    ... on Player {
+      id
+    }
+  }
+}
+    `;
+
+export function useJoinTournamentMutation() {
+  return Urql.useMutation<JoinTournamentMutation, JoinTournamentMutationVariables>(JoinTournamentDocument);
+};
 export const SignInDocument = gql`
     mutation SignIn($input: SignInArgs!) {
   signIn(args: $input) {
@@ -425,18 +644,27 @@ export const SignInDocument = gql`
         id
         firstName
         lastName
+        gender
+        birthdate
+        email
         __typename
       }
       ... on Player {
         id
         firstName
         lastName
+        gender
+        birthdate
+        email
         __typename
       }
       ... on Referee {
         id
         firstName
         lastName
+        gender
+        birthdate
+        email
         __typename
       }
     }
@@ -458,6 +686,100 @@ export const SignOutDocument = gql`
 export function useSignOutMutation() {
   return Urql.useMutation<SignOutMutation, SignOutMutationVariables>(SignOutDocument);
 };
+export const SignUpDocument = gql`
+    mutation SignUp($args: SignUpArgs!) {
+  signUp(args: $args) {
+    headers {
+      ...AuthHeaders
+    }
+    user {
+      ... on Organizer {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+      ... on Player {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+      ... on Referee {
+        id
+        firstName
+        lastName
+        gender
+        birthdate
+        email
+        __typename
+      }
+    }
+  }
+}
+    ${AuthHeadersFragmentDoc}`;
+
+export function useSignUpMutation() {
+  return Urql.useMutation<SignUpMutation, SignUpMutationVariables>(SignUpDocument);
+};
+export const UnbookMatchDocument = gql`
+    mutation UnbookMatch($args: UnbookMatchArgs!) {
+  unbookMatch(args: $args) {
+    ... on Player {
+      id
+    }
+  }
+}
+    `;
+
+export function useUnbookMatchMutation() {
+  return Urql.useMutation<UnbookMatchMutation, UnbookMatchMutationVariables>(UnbookMatchDocument);
+};
+export const CourtsAllDocument = gql`
+    query CourtsAll {
+  courtsAll {
+    id
+    name
+  }
+}
+    `;
+
+export function useCourtsAllQuery(options?: Omit<Urql.UseQueryArgs<CourtsAllQueryVariables>, 'query'>) {
+  return Urql.useQuery<CourtsAllQuery, CourtsAllQueryVariables>({ query: CourtsAllDocument, ...options });
+};
+export const JoinableTeamsDocument = gql`
+    query JoinableTeams($tournamentId: ID!) {
+  me {
+    ... on Player {
+      id
+      joinableTeams(tournamentId: $tournamentId) {
+        ...Team
+      }
+    }
+  }
+}
+    ${TeamFragmentDoc}`;
+
+export function useJoinableTeamsQuery(options: Omit<Urql.UseQueryArgs<JoinableTeamsQueryVariables>, 'query'>) {
+  return Urql.useQuery<JoinableTeamsQuery, JoinableTeamsQueryVariables>({ query: JoinableTeamsDocument, ...options });
+};
+export const MatchDocument = gql`
+    query Match($id: ID!) {
+  match(id: $id) {
+    ...Match
+  }
+}
+    ${MatchFragmentDoc}`;
+
+export function useMatchQuery(options: Omit<Urql.UseQueryArgs<MatchQueryVariables>, 'query'>) {
+  return Urql.useQuery<MatchQuery, MatchQueryVariables>({ query: MatchDocument, ...options });
+};
 export const MeDocument = gql`
     query Me {
   me {
@@ -467,6 +789,7 @@ export const MeDocument = gql`
       lastName
       gender
       birthdate
+      email
       __typename
     }
     ... on Player {
@@ -475,6 +798,25 @@ export const MeDocument = gql`
       lastName
       gender
       birthdate
+      email
+      joinedTournaments {
+        ...Tournament
+      }
+      joinableTournaments {
+        ...Tournament
+      }
+      bookedMatches {
+        ...Match
+      }
+      matchesToPlay {
+        ...Match
+      }
+      lostMatches {
+        id
+      }
+      wonMatches {
+        id
+      }
       __typename
     }
     ... on Referee {
@@ -483,14 +825,51 @@ export const MeDocument = gql`
       lastName
       gender
       birthdate
+      email
+      refereedTournaments {
+        ...Tournament
+      }
+      __typename
+    }
+  }
+}
+    ${TournamentFragmentDoc}
+${MatchFragmentDoc}`;
+
+export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
+  return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
+};
+export const RefereedTournamentsDocument = gql`
+    query RefereedTournaments {
+  me {
+    ... on Referee {
+      id
+      refereedTournaments {
+        ...Tournament
+      }
+    }
+  }
+}
+    ${TournamentFragmentDoc}`;
+
+export function useRefereedTournamentsQuery(options?: Omit<Urql.UseQueryArgs<RefereedTournamentsQueryVariables>, 'query'>) {
+  return Urql.useQuery<RefereedTournamentsQuery, RefereedTournamentsQueryVariables>({ query: RefereedTournamentsDocument, ...options });
+};
+export const RefereesAllDocument = gql`
+    query RefereesAll {
+  refereesAll {
+    ... on Referee {
+      id
+      firstName
+      lastName
       __typename
     }
   }
 }
     `;
 
-export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
-  return Urql.useQuery<MeQuery, MeQueryVariables>({ query: MeDocument, ...options });
+export function useRefereesAllQuery(options?: Omit<Urql.UseQueryArgs<RefereesAllQueryVariables>, 'query'>) {
+  return Urql.useQuery<RefereesAllQuery, RefereesAllQueryVariables>({ query: RefereesAllDocument, ...options });
 };
 export const SportsDocument = gql`
     query Sports {
