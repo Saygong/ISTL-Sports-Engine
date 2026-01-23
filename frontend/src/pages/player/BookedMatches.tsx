@@ -140,7 +140,7 @@ export default function PlayerBookedMatches() {
                   </thead>
 
                   <tbody>
-                  {matches.length === 0 ? (
+                  {matches?.length === 0 ? (
                       <tr>
                         <td
                             colSpan={8}
@@ -150,7 +150,7 @@ export default function PlayerBookedMatches() {
                         </td>
                       </tr>
                   ) : (
-                      matches.map((m) => {
+                      matches?.map((m) => {
                         const mId = String(m.id);
                         const participants: { left: Player[]; right: Player[] } =
                             {
