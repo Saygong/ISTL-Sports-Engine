@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { RoutesEnum } from "../../AppRoutes";
 import { useAuth, User } from "../../contexts/AuthContext";
 import { Player } from "../../generated/graphql";
@@ -56,8 +56,6 @@ function formatDate(date?: string | Date) {
 
 export default function Profile() {
   const { user, logout } = useAuth();
-
-  const navigate = useNavigate();
 
   const initials = useMemo(() => computeInitials(user), [user]);
   const role = useMemo(() => normalizeRole(user), [user]);
