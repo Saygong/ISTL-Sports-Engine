@@ -138,7 +138,7 @@ export default function PlayerTournamentRegistrations() {
                         const participants: { left: Player[]; right: Player[] } =
                             {
                               left: m.teams?.length ? m.teams[0].players : [],
-                              right: m.teams?.length ? m.teams[1].players : [],
+                              right: m.teams?.length > 1 ? m.teams[1].players : [],
                             };
 
                         const sportLabel =
