@@ -133,7 +133,7 @@ export default function PlayerTournamentRegistrations() {
                         </td>
                       </tr>
                   ) : (
-                      matches.map((m) => {
+                      matches?.map((m) => {
                         const mId = String(m.id);
                         const participants: { left: Player[]; right: Player[] } =
                             {
