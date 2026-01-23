@@ -138,7 +138,7 @@ export default function RefereeHomePage() {
                       const f: Match[] = [];
 
                       (t.matches || []).forEach((m) => {
-                        const res = m.matchResult;
+                        const res = m.matchResult?.description;
                         (res ? f : p).push(m);
                       });
 
@@ -358,7 +358,7 @@ export default function RefereeHomePage() {
                                     ) : (
                                         finished.map((m) => {
                                           const mId = m.id;
-                                          const resLabel = m.matchResult || "—";
+                                          const resLabel = m.matchResult?.description || "—";
 
                                           const leftTeam =
                                               m.teams?.[0]?.players ?? [];
