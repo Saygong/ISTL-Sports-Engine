@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * UniversalSkeletonPage
  * A single “works-everywhere” skeleton/shimmer that matches all your pages:
