@@ -1,4 +1,4 @@
-query TournamentsAll($search: TournamentSearchInput){
+query TournamentsAll($search: TournamentSearchInput) {
   tournamentsAll(search: $search) {
     ...Tournament
   }

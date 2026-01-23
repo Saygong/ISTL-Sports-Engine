@@ -59,144 +59,144 @@ export default function SignUp() {
   };
 
   return (
-      <div className="all-centered full-height">
-        <h2 className="mb-4">Sign up</h2>
+    <div className="all-centered full-height">
+      <h2 className="mb-4">Sign up</h2>
 
-        <div>
-          <div className="fields">
-            {/* Replacement for: render "devise/shared/error_messages" */}
-            {errors.length > 0 && (
-                <div className="alert alert-danger" role="alert">
-                  <ul className="mb-0">
-                    {errors.map((msg, i) => (
-                        <li key={i}>{msg}</li>
-                    ))}
-                  </ul>
-                </div>
-            )}
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="first_name">
-                First name
-              </label>
-              <input
-                  id="first_name"
-                  className="form-control"
-                  autoFocus
-                  autoComplete="given-name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-              />
+      <div>
+        <div className="fields">
+          {/* Replacement for: render "devise/shared/error_messages" */}
+          {errors.length > 0 && (
+            <div className="alert alert-danger" role="alert">
+              <ul className="mb-0">
+                {errors.map((msg, i) => (
+                  <li key={i}>{msg}</li>
+                ))}
+              </ul>
             </div>
+          )}
 
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="last_name">
-                Last name
-              </label>
-              <input
-                  id="last_name"
-                  className="form-control"
-                  autoComplete="family-name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="gender">
-                Gender
-              </label>
-              <select
-                  id="gender"
-                  className="form-select"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value as GenderValue)}
-              >
-                <option value="">Select gender</option>
-                <option value={GenderEnum.Male}>Male</option>
-                <option value={GenderEnum.Female}>Female</option>
-              </select>
-            </div>
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="birthdate">
-                Birthdate
-              </label>
-              <input
-                  id="birthdate"
-                  type="date"
-                  className="form-control"
-                  autoComplete="bday"
-                  value={birthdate}
-                  onChange={(e) => setBirthdate(e.target.value)}
-              />
-            </div>
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                  id="email"
-                  type="email"
-                  className="form-control"
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-              />
-            </div>
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="password">
-                Password{" "}
-                {minimumPasswordLength ? (
-                    <em>({minimumPasswordLength} characters minimum)</em>
-                ) : null}
-              </label>
-              <input
-                  id="password"
-                  type="password"
-                  className="form-control"
-                  autoComplete="new-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-              />
-            </div>
-
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="password_confirmation">
-                Password confirmation
-              </label>
-              <input
-                  id="password_confirmation"
-                  type="password"
-                  className="form-control"
-                  autoComplete="new-password"
-                  value={passwordConfirmation}
-                  onChange={(e) => setPasswordConfirmation(e.target.value)}
-                  required
-              />
-            </div>
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="first_name">
+              First name
+            </label>
+            <input
+              id="first_name"
+              className="form-control"
+              autoFocus
+              autoComplete="given-name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
           </div>
 
-          <div className="actions">
-            <button
-                className="btn btn-primary"
-                disabled={isSubmitting}
-                onClick={handleSubmit}
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="last_name">
+              Last name
+            </label>
+            <input
+              id="last_name"
+              className="form-control"
+              autoComplete="family-name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </div>
+
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="gender">
+              Gender
+            </label>
+            <select
+              id="gender"
+              className="form-select"
+              value={gender}
+              onChange={(e) => setGender(e.target.value as GenderValue)}
             >
-              {isSubmitting ? "Signing up..." : "Sign up"}
-            </button>
+              <option value="">Select gender</option>
+              <option value={GenderEnum.Male}>Male</option>
+              <option value={GenderEnum.Female}>Female</option>
+            </select>
+          </div>
+
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="birthdate">
+              Birthdate
+            </label>
+            <input
+              id="birthdate"
+              type="date"
+              className="form-control"
+              autoComplete="bday"
+              value={birthdate}
+              onChange={(e) => setBirthdate(e.target.value)}
+            />
+          </div>
+
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="password">
+              Password{" "}
+              {minimumPasswordLength ? (
+                <em>({minimumPasswordLength} characters minimum)</em>
+              ) : null}
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="password_confirmation">
+              Password confirmation
+            </label>
+            <input
+              id="password_confirmation"
+              type="password"
+              className="form-control"
+              autoComplete="new-password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              required
+            />
           </div>
         </div>
 
-        <div className="links-centered mt-2">
-          <div className="links">
-            <Link to={RoutesEnum.Login}>Log in</Link>
-          </div>
+        <div className="actions">
+          <button
+            className="btn btn-primary"
+            disabled={isSubmitting}
+            onClick={handleSubmit}
+          >
+            {isSubmitting ? "Signing up..." : "Sign up"}
+          </button>
         </div>
       </div>
+
+      <div className="links-centered mt-2">
+        <div className="links">
+          <Link to={RoutesEnum.Login}>Log in</Link>
+        </div>
+      </div>
+    </div>
   );
 }

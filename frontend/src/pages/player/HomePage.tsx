@@ -72,8 +72,8 @@ function calculateAge(birthdate: string): number {
 }
 
 export function isEligible(
-    user: UserUnion | null,
-    tournament?: Tournament | null,
+  user: UserUnion | null,
+  tournament?: Tournament | null,
 ): boolean {
   if (!user || !tournament) return false;
 
@@ -105,17 +105,17 @@ export default function PlayerHomePage() {
 
   const { user } = useAuth();
   const [{ data: tournamentsData }, reExecuteTournamentsAll] =
-      useTournamentsAllQuery({
-        variables: {
-          search: {
-            name: filters.name,
-            sportId: filters.sport_id?.trim() ? filters.sport_id : undefined,
-            startDate: filters.start_date,
-          },
+    useTournamentsAllQuery({
+      variables: {
+        search: {
+          name: filters.name,
+          sportId: filters.sport_id?.trim() ? filters.sport_id : undefined,
+          startDate: filters.start_date,
         },
-        pause: true,
-        requestPolicy: "network-only",
-      });
+      },
+      pause: true,
+      requestPolicy: "network-only",
+    });
   const tournaments = tournamentsData?.tournamentsAll || [];
 
   // Load tournaments on initial page load
@@ -148,7 +148,7 @@ export default function PlayerHomePage() {
   const sports = sportsData?.sportsAll;
 
   const handleChange = (
-      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value } = e.target;
     setFilters((prev) => ({ ...prev, [name]: value }));
@@ -169,141 +169,141 @@ export default function PlayerHomePage() {
   };
 
   return (
-      <div className="player-page">
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
-          <div className="container-fluid">
-            <Link className="navbar-brand" to={RoutesEnum.PlayerHomePage}>
-              ISTL Sports
-            </Link>
+    <div className="player-page">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to={RoutesEnum.PlayerHomePage}>
+            ISTL Sports
+          </Link>
 
-            <button
-                className="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarNavAltMarkup"
-                aria-controls="navbarNavAltMarkup"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-              <span className="navbar-toggler-icon" />
-            </button>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon" />
+          </button>
 
-            <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div className="navbar-nav">
-                <Link className="nav-link active" to={RoutesEnum.PlayerHomePage}>
-                  Homepage
-                </Link>
-                <Link
-                    className="nav-link"
-                    to={RoutesEnum.PlayerTournamentRegistrations}
-                >
-                  Tournament Registrations
-                </Link>
-                <Link className="nav-link" to={RoutesEnum.PlayerBookedMatches}>
-                  Booked Matches
-                </Link>
-                <Link className="nav-link" to={RoutesEnum.Profile}>
-                  Profile
-                </Link>
+          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div className="navbar-nav">
+              <Link className="nav-link active" to={RoutesEnum.PlayerHomePage}>
+                Homepage
+              </Link>
+              <Link
+                className="nav-link"
+                to={RoutesEnum.PlayerTournamentRegistrations}
+              >
+                Tournament Registrations
+              </Link>
+              <Link className="nav-link" to={RoutesEnum.PlayerBookedMatches}>
+                Booked Matches
+              </Link>
+              <Link className="nav-link" to={RoutesEnum.Profile}>
+                Profile
+              </Link>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <div className="container py-4">
+        <div className="page-narrow">
+          <div className="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
+            <div className="min-w-0">
+              <h2 className="mb-1">Player homepage</h2>
+              <div className="page-subtitle">
+                Browse tournaments and check your eligibility
               </div>
             </div>
           </div>
-        </nav>
 
-        <div className="container py-4">
-          <div className="page-narrow">
-            <div className="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
-              <div className="min-w-0">
-                <h2 className="mb-1">Player homepage</h2>
-                <div className="page-subtitle">
-                  Browse tournaments and check your eligibility
-                </div>
-              </div>
+          {/* Filters */}
+          <section className="card shadow-sm filters-card mb-3">
+            <div className="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <strong className="fs-5">Filters</strong>
             </div>
 
-            {/* Filters */}
-            <section className="card shadow-sm filters-card mb-3">
-              <div className="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <strong className="fs-5">Filters</strong>
-              </div>
+            <div className="card-body">
+              <div>
+                <div className="row g-3 align-items-end">
+                  <div className="col-12 col-md-4">
+                    <label htmlFor="filterName" className="form-label">
+                      Name
+                    </label>
+                    <input
+                      id="filterName"
+                      name="name"
+                      className="form-control"
+                      placeholder="e.g. Wimbledon"
+                      value={filters.name}
+                      onChange={handleChange}
+                    />
+                  </div>
 
-              <div className="card-body">
-                <div>
-                  <div className="row g-3 align-items-end">
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="filterName" className="form-label">
-                        Name
-                      </label>
-                      <input
-                          id="filterName"
-                          name="name"
-                          className="form-control"
-                          placeholder="e.g. Wimbledon"
-                          value={filters.name}
-                          onChange={handleChange}
-                      />
-                    </div>
+                  <div className="col-12 col-md-4">
+                    <label htmlFor="filterSport" className="form-label">
+                      Sport
+                    </label>
+                    <select
+                      id="filterSport"
+                      name="sport_id"
+                      className="form-select"
+                      value={filters.sport_id}
+                      onChange={handleChange}
+                    >
+                      <option value="">All sports</option>
+                      {sports?.map((s) => (
+                        <option key={String(s.id)} value={String(s.id)}>
+                          {s.description}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="filterSport" className="form-label">
-                        Sport
-                      </label>
-                      <select
-                          id="filterSport"
-                          name="sport_id"
-                          className="form-select"
-                          value={filters.sport_id}
-                          onChange={handleChange}
-                      >
-                        <option value="">All sports</option>
-                        {sports?.map((s) => (
-                            <option key={String(s.id)} value={String(s.id)}>
-                              {s.description}
-                            </option>
-                        ))}
-                      </select>
-                    </div>
+                  <div className="col-12 col-md-4">
+                    <label htmlFor="filterStartDate" className="form-label">
+                      Start date
+                    </label>
+                    <input
+                      id="filterStartDate"
+                      name="start_date"
+                      type="date"
+                      className="form-control"
+                      value={filters.start_date}
+                      onChange={handleChange}
+                    />
+                  </div>
 
-                    <div className="col-12 col-md-4">
-                      <label htmlFor="filterStartDate" className="form-label">
-                        Start date
-                      </label>
-                      <input
-                          id="filterStartDate"
-                          name="start_date"
-                          type="date"
-                          className="form-control"
-                          value={filters.start_date}
-                          onChange={handleChange}
-                      />
-                    </div>
-
-                    <div className="col-12 col-md-4 d-flex gap-2">
-                      <button onClick={handleApply} className="btn btn-primary">
-                        Apply
-                      </button>
-                      <button
-                          type="button"
-                          className="btn btn-outline-secondary"
-                          onClick={handleReset}
-                      >
-                        Reset
-                      </button>
-                    </div>
+                  <div className="col-12 col-md-4 d-flex gap-2">
+                    <button onClick={handleApply} className="btn btn-primary">
+                      Apply
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-secondary"
+                      onClick={handleReset}
+                    >
+                      Reset
+                    </button>
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
+          </section>
 
-            {/* Tournaments table */}
-            <section className="card shadow-sm table-card">
-              <div className="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
-                <strong className="fs-5">Tournaments</strong>
-              </div>
+          {/* Tournaments table */}
+          <section className="card shadow-sm table-card">
+            <div className="card-header d-flex flex-wrap justify-content-between align-items-center gap-2">
+              <strong className="fs-5">Tournaments</strong>
+            </div>
 
-              <div className="table-responsive">
-                <table className="table table-hover align-middle mb-0">
-                  <thead className="table-light">
+            <div className="table-responsive">
+              <table className="table table-hover align-middle mb-0">
+                <thead className="table-light">
                   <tr>
                     <th scope="col">Tournament</th>
                     <th scope="col">Sport</th>
@@ -314,82 +314,82 @@ export default function PlayerHomePage() {
                       Action
                     </th>
                   </tr>
-                  </thead>
+                </thead>
 
-                  <tbody>
+                <tbody>
                   {tournaments.length === 0 ? (
-                      <tr>
-                        <td
-                            colSpan={6}
-                            className="text-center py-5 text-body-secondary"
-                        >
-                          No tournaments found.
-                        </td>
-                      </tr>
+                    <tr>
+                      <td
+                        colSpan={6}
+                        className="text-center py-5 text-body-secondary"
+                      >
+                        No tournaments found.
+                      </td>
+                    </tr>
                   ) : (
-                      tournaments.map((t) => {
-                        const eligible =
-                            !!eligibilityByTournamentId[String(t.id)];
+                    tournaments.map((t) => {
+                      const eligible =
+                        !!eligibilityByTournamentId[String(t.id)];
 
-                        const sportLabel =
-                            (t.sport.description && t.sport.description.trim()) ||
-                            humanize(t.sport.variantKind);
+                      const sportLabel =
+                        (t.sport.description && t.sport.description.trim()) ||
+                        humanize(t.sport.variantKind);
 
-                        return (
-                            <tr key={String(t.id)}>
-                              <th scope="row">{t.name}</th>
+                      return (
+                        <tr key={String(t.id)}>
+                          <th scope="row">{t.name}</th>
 
-                              <td>
-                                <span className="sport-chip">{sportLabel}</span>
-                              </td>
+                          <td>
+                            <span className="sport-chip">{sportLabel}</span>
+                          </td>
 
-                              <td>{formatDateDMY(t.startDate)}</td>
+                          <td>{formatDateDMY(t.startDate)}</td>
 
-                              <td>
+                          <td>
                             <span className="org-chip">
                               {/* @ts-expect-error organizer type wrong */}
                               {organizerLabel(t.organizer)}
                             </span>
-                              </td>
+                          </td>
 
-                              <td>
-                                {eligible ? (
-                                    <span className="elig-pill">
+                          <td>
+                            {eligible ? (
+                              <span className="elig-pill">
                                 <span
-                                    className="elig-dot elig-dot--ok"
-                                    aria-hidden="true"
+                                  className="elig-dot elig-dot--ok"
+                                  aria-hidden="true"
                                 />
                                 Eligible
                               </span>
-                                ) : (
-                                    <span className="elig-pill">
+                            ) : (
+                              <span className="elig-pill">
                                 <span
-                                    className="elig-dot elig-dot--no"
-                                    aria-hidden="true"
+                                  className="elig-dot elig-dot--no"
+                                  aria-hidden="true"
                                 />
                                 Not eligible
                               </span>
-                                )}
-                              </td>
+                            )}
+                          </td>
 
-                              <td className="text-end">
-                                <button
-                                    className="action-btn btn btn-sm btn-outline-primary"
-                                    onClick={() => openTournamentDetail(t.id)}
-                                >
-                                  Details
-                                </button>
-                              </td>
-                            </tr>
-                        );
-                      })
+                          <td className="text-end">
+                            <button
+                              className="action-btn btn btn-sm btn-outline-primary"
+                              onClick={() => openTournamentDetail(t.id)}
+                            >
+                              Details
+                            </button>
+                          </td>
+                        </tr>
+                      );
+                    })
                   )}
-                  </tbody>
-                </table>
-              </div>
-            </section>
-          </div>
+                </tbody>
+              </table>
+            </div>
+          </section>
         </div>
       </div>
+    </div>
   );
 }

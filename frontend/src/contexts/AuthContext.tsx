@@ -21,8 +21,8 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (
-      email: string,
-      password: string,
+    email: string,
+    password: string,
   ) => Promise<{
     success: boolean;
     errors?: Array<{ field: string; message: string }>;

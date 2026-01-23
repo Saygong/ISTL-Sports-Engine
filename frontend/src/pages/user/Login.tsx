@@ -38,43 +38,43 @@ export default function Login() {
   };
 
   return (
-      <div className="all-centered full-height">
-        <h2 className="mb-4">Log in</h2>
+    <div className="all-centered full-height">
+      <h2 className="mb-4">Log in</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="fields">
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="email">
-                Email
-              </label>
-              <input
-                  id="email"
-                  type="email"
-                  className="form-control"
-                  autoFocus
-                  autoComplete="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-              />
-            </div>
+      <form onSubmit={handleSubmit}>
+        <div className="fields">
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="email">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              className="form-control"
+              autoFocus
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className="field text-center field-lg">
-              <label className="form-label" htmlFor="password">
-                Password
-              </label>
-              <input
-                  id="password"
-                  type="password"
-                  className="form-control"
-                  autoComplete="current-password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-              />
-            </div>
+          <div className="field text-center field-lg">
+            <label className="form-label" htmlFor="password">
+              Password
+            </label>
+            <input
+              id="password"
+              type="password"
+              className="form-control"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
 
-            {/* {rememberable && (
+          {/* {rememberable && (
             <div className="text-center">
               <input
                 id="remember_me"
@@ -89,24 +89,24 @@ export default function Login() {
             </div>
           )} */}
 
-            <div className="actions">
-              <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={isSubmitting}
-              >
-                {isSubmitting ? "Logging in..." : "Log in"}
-              </button>
-            </div>
-          </div>
-        </form>
-
-        <div className="links-centered mt-2">
-          <div className="links">
-            <Link to={RoutesEnum.SignUp}>Sign up</Link>
-            {/* <Link to={RoutesEnum.ForgotPassword}>Forgot your password?</Link> */}
+          <div className="actions">
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Logging in..." : "Log in"}
+            </button>
           </div>
         </div>
+      </form>
+
+      <div className="links-centered mt-2">
+        <div className="links">
+          <Link to={RoutesEnum.SignUp}>Sign up</Link>
+          {/* <Link to={RoutesEnum.ForgotPassword}>Forgot your password?</Link> */}
+        </div>
       </div>
+    </div>
   );
 }
