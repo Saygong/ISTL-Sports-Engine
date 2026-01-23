@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { RoutesEnum } from "../../AppRoutes";
 import { useAuth } from "../../contexts/AuthContext";
 import {
@@ -66,6 +66,7 @@ export default function PlayerTournamentDetail() {
   const [, bookMatchMutation] = useBookMatchMutation();
 
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [bookedMatchIds, setBookedMatchIds] = useState(() =>
       (user as Player).bookedMatches?.map((m) => m.id),
   );
@@ -119,6 +120,7 @@ export default function PlayerTournamentDetail() {
 
     if (res.data?.joinTournament) {
       setIsRegistering(false);
+      navigate(RoutesEnum.PlayerTournamentDetail.replace(":id", tournament.id.toString()))
     }
   };
 
@@ -220,6 +222,13 @@ export default function PlayerTournamentDetail() {
                               aria-disabled="true"
                           >
                       Already registered
+                    </span>
+                      ) : tournament?.matches?.length ? (
+                          <span
+                              className="btn btn-outline-secondary disabled"
+                              aria-disabled="true"
+                          >
+                      Tournament started
                     </span>
                       ) : (
                           <button
@@ -369,7 +378,7 @@ export default function PlayerTournamentDetail() {
                         const participants: { left: Player[]; right: Player[] } =
                             {
                               left: m.teams?.length ? m.teams[0].players : [],
-                              right: m.teams?.length ? m.teams[1].players : [],
+                              right: m.teams?.length > 1 ? m.teams[1].players : [],
                             };
                         const maxSeats = Number(m.field?.maxSeats ?? 0) || 0;
                         const roundLabel =
