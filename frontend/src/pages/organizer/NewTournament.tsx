@@ -142,8 +142,8 @@ export default function OrganizerCreateTournament() {
       args: {
         name: tournament.name,
         startDate: tournament.start_date,
-        minAge: tournament.min_age,
-        maxAge: tournament.max_age,
+        minAge: Number(tournament.min_age),
+        maxAge: Number(tournament.max_age),
         numberOfMatches: tournament.number_of_matches,
         gender: tournament.gender as GenderEnum,
         composition: tournament.composition as CompositionEnum,
