@@ -11,13 +11,13 @@ type Props = {
   onChanged?: () => void; // optional callback on success
 };
 
-function getCsrfToken(): string | null {
+/*function getCsrfToken(): string | null {
   return (
     document
       .querySelector('meta[name="csrf-token"]')
       ?.getAttribute("content") ?? null
   );
-}
+}*/
 
 const mockData: Props = {
   resetPasswordToken: "",
@@ -28,20 +28,20 @@ const mockData: Props = {
 
 export default function ChangePassword() {
   const {
-    resetPasswordToken,
+    //resetPasswordToken,
     minimumPasswordLength,
-    links,
+    //links,
     initialErrors = [],
-    onChanged,
+    //onChanged,
   } = mockData;
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
-  const [errors, setErrors] = useState<string[]>(initialErrors);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
+  const [errors] = useState<string[]>(initialErrors);
+  const [isSubmitting] = useState(false);
+  const [success] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // e.preventDefault();
+    e.preventDefault();
     // setErrors([]);
     // if (password !== passwordConfirmation) {
     //   setErrors(["Password confirmation doesn't match Password"]);
@@ -87,7 +87,7 @@ export default function ChangePassword() {
           {errors.length > 0 && (
             <div className="alert alert-danger" role="alert">
               <ul className="mb-0">
-                {errors.map((msg, i) => (
+                {errors.map((msg: string, i: number) => (
                   <li key={i}>{msg}</li>
                 ))}
               </ul>
