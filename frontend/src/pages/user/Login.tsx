@@ -6,14 +6,15 @@ import {
   useState,
 } from "react";
 import { useNavigate } from "react-router";
-import { RoutesEnum } from "../AppRoutes";
+
 import {
   AuthHeadersFragment,
   useMeQuery,
   UserUnion,
   useSignInMutation,
   useSignOutMutation,
-} from "../generated/graphql";
+} from "../../generated/graphql";
+import {RoutesEnum} from "../../AppRoutes.tsx";
 
 export type User = UserUnion;
 interface AuthContextType {
