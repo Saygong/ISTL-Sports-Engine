@@ -5,7 +5,9 @@ fragment Match on Match {
     maxSeats
   }
   id
-  matchResult
+  matchResult {
+    description
+  }
   referee {
     ... on Referee {
       id
