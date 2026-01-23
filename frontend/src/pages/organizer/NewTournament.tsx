@@ -381,12 +381,6 @@ export default function OrganizerCreateTournament() {
                             </select>
                           </div>
 
-                          <div className="col-12">
-                            <div className="form-text">
-                              Note: validate that <strong>min age</strong> ≤{" "}
-                              <strong>max age</strong> on the backend.
-                            </div>
-                          </div>
                         </div>
                       </div>
                     </section>
