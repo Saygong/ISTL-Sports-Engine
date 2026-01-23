@@ -8,13 +8,13 @@ type Props = {
   onSent?: () => void; // optional callback on success
 };
 
-function getCsrfToken(): string | null {
+/*function getCsrfToken(): string | null {
   return (
     document
       .querySelector('meta[name="csrf-token"]')
       ?.getAttribute("content") ?? null
   );
-}
+}*/
 
 const mockData: Props = {
   links: null,
@@ -22,14 +22,14 @@ const mockData: Props = {
 };
 
 export default function ForgotPassword() {
-  const { links, initialErrors = [], onSent } = mockData;
+  const { initialErrors = [] } = mockData;
   const [email, setEmail] = useState("");
-  const [errors, setErrors] = useState<string[]>(initialErrors);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [errors] = useState<string[]>(initialErrors);
+  const [isSubmitting] = useState(false);
+  const [sent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    // e.preventDefault();
+    e.preventDefault();
     // setErrors([]);
     // setIsSubmitting(true);
     // try {
