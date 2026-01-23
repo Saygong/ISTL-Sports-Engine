@@ -83,6 +83,8 @@ export function isEligible(
   if (age < tournament.minAge) return false;
   if (age > tournament.maxAge) return false;
 
+  if (tournament.matches.length) return false;
+
   return true;
 }
 
