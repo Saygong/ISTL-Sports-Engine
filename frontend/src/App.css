@@ -160,7 +160,8 @@
   font-size: 0.85rem;
 }
 
-.seat-pill {
+.seat-pill,
+.winner-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
@@ -175,7 +176,8 @@
   background: rgba(255, 193, 7, 0.22);
 }
 
-.seat-dot {
+.seat-dot,
+.winner-dot {
   width: 0.55rem;
   height: 0.55rem;
   border-radius: 50%;
@@ -230,9 +232,9 @@
   border-radius: 1rem;
   border: 1px solid var(--profile-soft-border);
   background: linear-gradient(
-          135deg,
-          rgba(13, 110, 253, 0.12),
-          rgba(25, 135, 84, 0.1)
+    135deg,
+    rgba(13, 110, 253, 0.12),
+    rgba(25, 135, 84, 0.1)
   );
   display: grid;
   place-items: center;
@@ -298,25 +300,25 @@
 
 .profile-page .stat-card--win {
   background: linear-gradient(
-          135deg,
-          rgba(25, 135, 84, 0.08),
-          rgba(255, 255, 255, 1)
+    135deg,
+    rgba(25, 135, 84, 0.08),
+    rgba(255, 255, 255, 1)
   );
 }
 
 .profile-page .stat-card--loss {
   background: linear-gradient(
-          135deg,
-          rgba(220, 53, 69, 0.08),
-          rgba(255, 255, 255, 1)
+    135deg,
+    rgba(220, 53, 69, 0.08),
+    rgba(255, 255, 255, 1)
   );
 }
 
 .profile-page .stat-card--trophy {
   background: linear-gradient(
-          135deg,
-          rgba(13, 110, 253, 0.1),
-          rgba(255, 255, 255, 1)
+    135deg,
+    rgba(13, 110, 253, 0.1),
+    rgba(255, 255, 255, 1)
   );
 }
 
