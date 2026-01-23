@@ -1,0 +1,10 @@
+query JoinedTournaments {
+  me {
+    ... on Player {
+      id
+      joinedTournaments {
+        id
+      }
+    }
+  }
+}
