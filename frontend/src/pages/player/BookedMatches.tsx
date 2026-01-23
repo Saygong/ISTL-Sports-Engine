@@ -43,7 +43,6 @@ function playerShort(p: Player): string {
   return label || "—";
 }
 
-
 export default function PlayerBookedMatches() {
   const [unbookingId, setUnbookingId] = useState<string | null>(null);
 
@@ -54,7 +53,7 @@ export default function PlayerBookedMatches() {
   const handleUnbook = async (matchId: string) => {
     setUnbookingId(matchId);
 
-    await unbookMatchMutation({args: {matchId}});
+    await unbookMatchMutation({ args: { matchId } });
 
     setUnbookingId(null);
   };
@@ -153,10 +152,11 @@ export default function PlayerBookedMatches() {
                   ) : (
                       matches.map((m) => {
                         const mId = String(m.id);
-                        const participants: {left: Player[], right: Player[]} = {
-                          left: m.teams?.length ? m.teams[0].players : [],
-                          right: m.teams?.length ? m.teams[1].players : [],
-                        };
+                        const participants: { left: Player[]; right: Player[] } =
+                            {
+                              left: m.teams?.length ? m.teams[0].players : [],
+                              right: m.teams?.length > 1 ? m.teams[1].players : [],
+                            };
 
                         const maxSeats = Number(m.field?.maxSeats ?? 0) || 0;
                         const used = m.viewers?.length || 0;
