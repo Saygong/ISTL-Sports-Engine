@@ -106,11 +106,17 @@
 
                   <td class="text-end">
                       <span class="action-stack">
-                        <%= button_to "Unbook",
-                                      player_match_unbook_path(m),
-                                      method: :delete,
-                                      class: "btn btn-sm btn-outline-danger",
-                                      form: { data: { turbo_confirm: "Unbook this match?" } } %>
+                        <% if m.match_result %>
+                        <span class="badge text-bg-warning me-2">
+                          Ended
+                        </span>
+                        <% else %>
+                          <%= button_to "Unbook",
+                                        player_match_unbook_path(m),
+                                        method: :delete,
+                                        class: "btn btn-sm btn-outline-danger",
+                                        form: { data: { turbo_confirm: "Unbook this match?" } } %>
+                        <% end %>
                       </span>
                   </td>
                 </tr>
