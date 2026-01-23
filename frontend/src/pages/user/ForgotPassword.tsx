@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RoutesEnum } from "../../AppRoutes.tsx";
+import { RoutesEnum } from "../../AppRoutes";
 import { Link } from "react-router";
 
 type Props = {
@@ -10,9 +10,9 @@ type Props = {
 
 function getCsrfToken(): string | null {
   return (
-    document
-      .querySelector('meta[name="csrf-token"]')
-      ?.getAttribute("content") ?? null
+      document
+          .querySelector('meta[name="csrf-token"]')
+          ?.getAttribute("content") ?? null
   );
 }
 
@@ -61,65 +61,65 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="all-centered full-height">
-      <h2 className="mb-4">Forgot your password?</h2>
+      <div className="all-centered full-height">
+        <h2 className="mb-4">Forgot your password?</h2>
 
-      <form onSubmit={handleSubmit}>
-        <div className="fields">
-          {/* Replacement for: render "devise/shared/error_messages" */}
-          {errors.length > 0 && (
-            <div className="alert alert-danger" role="alert">
-              <ul className="mb-0">
-                {errors.map((msg, i) => (
-                  <li key={i}>{msg}</li>
-                ))}
-              </ul>
+        <form onSubmit={handleSubmit}>
+          <div className="fields">
+            {/* Replacement for: render "devise/shared/error_messages" */}
+            {errors.length > 0 && (
+                <div className="alert alert-danger" role="alert">
+                  <ul className="mb-0">
+                    {errors.map((msg, i) => (
+                        <li key={i}>{msg}</li>
+                    ))}
+                  </ul>
+                </div>
+            )}
+
+            {sent && (
+                <div className="alert alert-success" role="alert">
+                  If the email exists, you’ll receive reset password instructions
+                  shortly.
+                </div>
+            )}
+
+            <div className="field text-center field-lg">
+              <label className="form-label" htmlFor="email">
+                Email
+              </label>
+              <input
+                  id="email"
+                  type="email"
+                  className="form-control"
+                  autoFocus
+                  autoComplete="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+              />
             </div>
-          )}
+          </div>
 
-          {sent && (
-            <div className="alert alert-success" role="alert">
-              If the email exists, you’ll receive reset password instructions
-              shortly.
-            </div>
-          )}
+          <div className="actions">
+            <button
+                type="submit"
+                className="btn btn-primary"
+                disabled={isSubmitting}
+            >
+              {isSubmitting
+                  ? "Sending..."
+                  : "Send me reset password instructions"}
+            </button>
+          </div>
+        </form>
 
-          <div className="field text-center field-lg">
-            <label className="form-label" htmlFor="email">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              className="form-control"
-              autoFocus
-              autoComplete="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+        <div className="links-centered mt-2">
+          <div className="links">
+            <Link to={RoutesEnum.Login}>Log in</Link>
+            <Link to={RoutesEnum.SignUp}>Sign up</Link>
           </div>
         </div>
-
-        <div className="actions">
-          <button
-            type="submit"
-            className="btn btn-primary"
-            disabled={isSubmitting}
-          >
-            {isSubmitting
-              ? "Sending..."
-              : "Send me reset password instructions"}
-          </button>
-        </div>
-      </form>
-
-      <div className="links-centered mt-2">
-        <div className="links">
-          <Link to={RoutesEnum.Login}>Log in</Link>
-          <Link to={RoutesEnum.SignUp}>Sign up</Link>
-        </div>
       </div>
-    </div>
   );
 }
