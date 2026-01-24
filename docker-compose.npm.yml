@@ -1,0 +1,49 @@
+# By creating a custom Docker network, you don't need to publish ports for your upstream services to all the Docker
+# host's interfaces.
+# [https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network]
+networks:
+  npm-shared:
+    external: true
+
+services:
+  npm:
+    image: jc21/nginx-proxy-manager:2.13.6
+    restart: unless-stopped
+    environment:
+
+      # Postgres parameters
+      DB_POSTGRES_HOST:
+      DB_POSTGRES_PORT:
+      DB_POSTGRES_USER:
+      DB_POSTGRES_PASSWORD:
+      DB_POSTGRES_NAME:
+    ports:
+
+      - $NPM_PUBLIC_HTTP_PORT:$NPM_PUBLIC_HTTP_PORT
+      - $NPM_PUBLIC_HTTPS_PORT:$NPM_PUBLIC_HTTPS_PORT
+      - $NPM_ADMIN_PORT:$NPM_ADMIN_PORT
+    volumes:
+
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+
+      - npm-shared
+    depends_on:
+
+      - npm-db
+
+  npm-db:
+    image: postgres:17
+    environment:
+
+      # Postgres parameters
+      POSTGRES_USER:
+      POSTGRES_PASSWORD:
+      POSTGRES_DB:
+    volumes:
+
+      - ./postgresql:/var/lib/postgresql
+    networks:
+
+      - npm-shared

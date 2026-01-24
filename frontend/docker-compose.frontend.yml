@@ -1,0 +1,19 @@
+# By creating a custom Docker network, you don't need to publish ports for your upstream services to all the Docker
+# host's interfaces.
+# [https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network]
+networks:
+  npm-shared:
+    external: true
+
+services:
+
+  frontend:
+    # Reachable locally via istl.distributed-frontend.local when the /etc/hosts file contains the following entry:
+    # 127.0.0.1 istl.distributed-frontend.local
+    container_name: distributed-frontend # Reachable locally through istl.distributed-frontend.local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+
+      - npm-shared
