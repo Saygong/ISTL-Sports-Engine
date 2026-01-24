@@ -14,6 +14,10 @@ services:
     networks:
 
       - npm-shared
+    ports:
+
+      # The port binding is just to demonstrate that the monolith can be viewed without proxy managers.
+      - ${RAILS_PORT}:${RAILS_PORT}
     environment:
 
       - RAILS_PORT
