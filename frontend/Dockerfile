@@ -1,32 +1,23 @@
-# Build stage
+# Taken from https://www.docker.com/blog/how-to-dockerize-react-app/
+
+# Stage 1: Build the React app
 FROM node:24-trixie-slim AS build
+WORKDIR /app
 
-# Create app directory
-WORKDIR /usr/src/app
+# Leverage caching by installing dependencies first
+COPY package.json package-lock.json ./
+RUN npm install --frozen-lockfile
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy source code
-COPY ../../../Progetto_distribuito/sports-frontend/sports-frontend .
-
-# Build the application
+# Copy the rest of the application code and build for production
+COPY . ./
 RUN npm run build
 
-# Production stage
-FROM nginx:alpine
+# Stage 3: Production environment
+FROM nginx:alpine AS production
 
-# Copy built assets from build stage
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+# Copy the production build artifacts from the build stage
+COPY --from=build /app/dist /usr/share/nginx/html
 
-# Copy nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose port
+# Expose the default NGINX port
 EXPOSE 80
-
-# Start nginx
-CMD ["nginx", "-g", "daemon off;"] 
+CMD ["nginx", "-g", "daemon off;"]
