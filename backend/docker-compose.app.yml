@@ -19,10 +19,6 @@ services:
       - RAILS_PORT
       - RAILS_MASTER_KEY
       - RAILS_ENV
-      - POSTGRES_HOST
-      - POSTGRES_PORT
-      - POSTGRES_USER
-      - POSTGRES_PASSWORD
     build:
       context: .
     restart: on-failure
