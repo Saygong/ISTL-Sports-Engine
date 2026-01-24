@@ -1,3 +1,5 @@
+# This service is used for testing purposes only.
+
 # Docker volume named db-data that persists the database files outside the container. This ensures your data isn't lost
 # when the container stops or is removed.
 volumes:
