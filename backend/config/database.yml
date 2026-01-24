@@ -17,8 +17,8 @@ default: &default
   encoding: unicode
 
   # Required to connect to the correct database.
-  host: <%= ENV.fetch('NGROK_HOST') { Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) } %>
-  port: <%= ENV.fetch('NGROK_PORT') { 5432 } %>
+  host: <%= ENV.fetch('POSTGRES_HOST') { Rails.application.credentials.dig(Rails.env.to_sym, :db, :host) } %>
+  port: <%= ENV.fetch('POSTGRES_PORT') { Rails.application.credentials.dig(Rails.env.to_sym, :db, :port) } %>
   username: <%= ENV.fetch('POSTGRES_USER') { Rails.application.credentials.dig(Rails.env.to_sym, :db, :username) } %>
   password: <%= ENV.fetch('POSTGRES_PASSWORD') { Rails.application.credentials.dig(Rails.env.to_sym, :db, :password) } %>
 
@@ -88,4 +88,4 @@ test:
 #
 production:
   <<: *default
-  database: <%= ENV.fetch('POSTGRES_DB') { Rails.application.credentials.dig(:production, :db, :name) } %>
+  database: <%= Rails.application.credentials.dig(:production, :db, :name) %>
