@@ -1,0 +1,31 @@
+# This service is used for testing purposes only.
+
+# Docker volume named db-data that persists the database files outside the container. This ensures your data isn't lost
+# when the container stops or is removed.
+volumes:
+  db-data:
+    external: false
+
+# By creating a custom Docker network, you don't need to publish ports for your upstream services to all the Docker
+# host's interfaces.
+# [https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network]
+networks:
+  npm-shared:
+    external: true
+
+services:
+  db:
+    environment:
+
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    image: postgres:16.11-alpine3.23
+    ports:
+
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+
+      - db-data:/var/lib/postgresql/data
+    networks:
+
+      - npm-shared
