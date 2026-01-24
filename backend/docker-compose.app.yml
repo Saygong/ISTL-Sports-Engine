@@ -8,7 +8,9 @@ networks:
 services:
 
   app:
-    container_name: monolith-app
+    # Reachable locally via istl.monolith-app.local when the /etc/hosts file contains the following entry:
+    # 127.0.0.1 istl.monolith-app.local
+    container_name: monolith-app # Reachable locally through istl.monolith-app.local
     networks:
 
       - npm-shared
