@@ -1,0 +1,31 @@
+# By creating a custom Docker network, you don't need to publish ports for your upstream services to all the Docker
+# host's interfaces.
+# [https://nginxproxymanager.com/advanced-config/#best-practice-use-a-docker-network]
+networks:
+  npm-shared:
+    external: true
+
+services:
+
+  app:
+    container_name: monolith-app
+    networks:
+
+      - npm-shared
+    environment:
+
+      - RAILS_PORT
+      - RAILS_MASTER_KEY
+      - RAILS_ENV
+      - POSTGRES_HOST
+      - POSTGRES_PORT
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    build:
+      context: .
+    restart: on-failure
+    develop:
+      watch:
+        - action: sync # Action sync is ideal for frameworks that support "Hot Reload" or equivalent functionality
+          path: ./app
+          target: /backend/app
