@@ -43,7 +43,7 @@ services:
       POSTGRES_DB:
     volumes:
 
-      - ./postgresql:/var/lib/postgresql
+      - ./postgresql:/var/lib/postgresql/data
     networks:
 
       - npm-shared
