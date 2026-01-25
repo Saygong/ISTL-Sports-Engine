@@ -52,7 +52,7 @@ docker network rm npm-shared
 
 ### Description
 
-Monolith can be reached via http://0.0.0.0:3000. There are already registered users.
+Monolith can be reached via http://localhost:3000. There are already registered users.
 
 - Player:
   - username: mario@gmail.com
@@ -74,6 +74,6 @@ Monolith can be reached via http://0.0.0.0:3000. There are already registered us
   - username: ref2@ref.com
   - password: password
 
-The admin panel is accessible only to the admin user, which can be found at http://0.0.0.0:3000/admin. No sign-up is
+The admin panel is accessible only to the admin user, which can be found at http://localhost:3000/admin. No sign-up is
 required, as admin users are created through a special process (i.e., created by the machine owner via the Rails
 console).
