@@ -9,7 +9,7 @@ Rails.application.config.middleware.insert_before Warden::Manager, Rack::Cors do
     # noinspection RailsParamDefResolve
     resource '*',
              headers: :any,
-             methods: [:get, :post, :patch, :put]
+             methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end
 
