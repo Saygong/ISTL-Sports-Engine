@@ -4,8 +4,11 @@ import "./App.css";
 import { AppRoutes } from "./AppRoutes.tsx";
 import { AuthProvider, getHeaders } from "./contexts/AuthContext.tsx";
 
+const graphqlUrl = import.meta.env.VITE_GRAPHQL_URL ?? "http://localhost:3000/graphql";
+console.log("graphqlUrl", graphqlUrl)
+
 const client = new Client({
-  url: "http://localhost:3000/graphql",
+  url: graphqlUrl,
   exchanges: [cacheExchange, fetchExchange],
   preferGetMethod: false,
   fetchOptions: () => {

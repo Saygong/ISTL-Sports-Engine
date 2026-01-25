@@ -14,6 +14,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - VITE_GRAPHQL_URL
     networks:
 
       - npm-shared
