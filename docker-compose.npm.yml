@@ -17,6 +17,10 @@ services:
       DB_POSTGRES_USER:
       DB_POSTGRES_PASSWORD:
       DB_POSTGRES_NAME:
+
+      # The default user on startup
+      INITIAL_ADMIN_EMAIL:
+      INITIAL_ADMIN_PASSWORD:
     ports:
 
       - $NPM_PUBLIC_HTTP_PORT:$NPM_PUBLIC_HTTP_PORT
