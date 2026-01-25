@@ -39,7 +39,7 @@ responsible for other things. The code is developed by enforcing compliance with
 #### Start the monolith
 
 ``` bash
-docker network create npm-shared >/dev/null 2>&1
+docker network create npm-shared
 docker compose -f backend/docker-compose.app.yml up -d --build --remove-orphans
 ```
 
@@ -47,7 +47,7 @@ docker compose -f backend/docker-compose.app.yml up -d --build --remove-orphans
 
 ``` bash
 docker compose -f backend/docker-compose.app.yml down --remove-orphans
-docker network rm npm-shared >/dev/null 2>&1
+docker network rm npm-shared
 ```
 
 ### Description
