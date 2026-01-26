@@ -67,7 +67,11 @@ to make a fictitious domain name pointing to our local machine (/etc/hosts file 
 ```
 
 This way, the names istl.distributed-backend.local and istl.distributed-frontend.local can be used by NPM as valid
-domain names. Once this is done it is sufficient to execute ./distributed.sh script as follows:
+domain names.
+
+Windows users only - Remember to start your Docker engine before proceeding!
+
+Once this is done it is sufficient to execute ./distributed.sh script as follows:
 
 ``` bash
 ./distributed start   # To start the infrastructure
