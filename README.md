@@ -20,7 +20,7 @@ rails new . --database=postgresql --skip-kamal --skip-solid --skip-ci --skip-thr
 ### Run the monolith container
 
 To run the monolith, you need to have Docker Engine installed. For demonstration purposes, everything is running
-locally but the database that, as previously mentioned, is deployed on a virtual machine in AWS West Virginia. 
+locally but the database that, as previously mentioned, is deployed on a virtual machine in AWS North Virginia. 
 
 Backend and frontend merge, with the old, but not so bad, method of having both the presentation and business layers
 within the same complete module. Each new feature is ideally designed to run in the same giant module. Replication means
