@@ -1,13 +1,17 @@
 # README
 
 ## ISTL-Sports-Engine
-The Italian Supreme Tennis League (ISTL, a fictitious organization) aims to unify and simplify the management of
-racket-based tournaments, including, but not limited to, tennis, padel, table tennis, and similar sports.
+The Italian Supreme Tennis League (ISTL - that is a fictional organization) wants to unify and streamline the management of racquet based tournaments,
+including but not limited to tennis, padel, table tennis and similar sports.
+Its primary goal is to create an integrated IT system that is capable of managing
+the entire lifecycle of an event such as a tournament, from player registration  to final rankings.
 
 ## Shared database
 The database is shared between the monolithic and distributed architectures, so all the data prepared for a quick
-project overview can be viewed from both the monolithic and distributed architectures. Database access is particularly
-slow. Furthermore, queries have not been optimized, so displaying data can take a long time.
+project overview can be viewed from both the monolithic and distributed architectures.
+The database is deployed on a virtual machine hosted in AWS North Virginia, so access can be slighly slower at times,
+but not in a way that will detract from using or enjoying the application.
+
 
 ## Repository structure
 This repository is structured to easily distinguish between code used for the monolithic architecture and that used for
