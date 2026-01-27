@@ -97,13 +97,26 @@ For the frontend service:
 
 ### Description
 
-Frontend can be reached via http://istl.distributed-frontend.local. There are already registered users.
+Frontend can be reached via http://istl.distributed-frontend.local.
+There are already registered users and a few tournaments are already been played.
 
-- Player:
+- Player 1:
   - username: mario@gmail.com
   - password: password
 
-- Admin:
+- Player 2:
+  - username: donald@gmail.com
+  - password: password
+
+- Player 3:
+  - username: alfonso@gmail.com
+  - password: password
+
+- Player 4:
+  - username: gabriel@gmail.com
+  - password: password
+
+- Admin (only for admin panel, more info below):
   - username: admin@admin.com
   - password: Adm1ni$strat0r
 
