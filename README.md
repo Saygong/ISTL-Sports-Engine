@@ -9,13 +9,16 @@ the entire lifecycle of an event such as a tournament, from player registration 
 ## Shared database
 The database is shared between the monolithic and distributed architectures, so all the data prepared for a quick
 project overview can be viewed from both the monolithic and distributed architectures.
-The database is deployed on a virtual machine hosted in AWS North Virginia, so access can be slighly slower at times,
+The database is deployed on a virtual machine hosted in AWS North Virginia, so access can be slightly slower at times,
 but not in a way that will detract from using or enjoying the application.
 
 
 ## Repository structure
 This repository is structured to easily distinguish between code used for the monolithic architecture and that used for
-the distributed architecture. To do this, two different branches are used:
+the distributed architecture.
+
+The following links point to the branches corresponding to the two architectural samples,
+each containing additional information about the architecture and instructions on how to run the project.
 
 - Monolith branch: https://github.com/Saygong/ISTL-Sports-Engine/tree/monolith/main
 - Distributed branch: https://github.com/Saygong/ISTL-Sports-Engine/tree/distributed/main
