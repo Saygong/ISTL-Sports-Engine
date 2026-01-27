@@ -4,7 +4,7 @@
 The Italian Supreme Tennis League (ISTL - that is a fictional organization) wants to unify and streamline the management of racquet based tournaments,
 including but not limited to tennis, padel, table tennis and similar sports.
 Its primary goal is to create an integrated IT system that is capable of managing
-the entire lifecycle of an event such as a tournament, from player registration  to final rankings.
+the entire lifecycle of a tournament: from event creation, player registration, booking seats, to final rankings.
 
 ## Shared database
 The database is shared between the monolithic and distributed architectures, so all the data prepared for a quick
