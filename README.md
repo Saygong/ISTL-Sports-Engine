@@ -72,9 +72,9 @@ domain names. Remember to start your Docker engine before proceeding!
 Once this is done it is sufficient to execute ./distributed.sh script as follows:
 
 ``` bash
-./distributed start   # To start the infrastructure
-./distributed stop    # To stop the infrastructure
-./distributed restart # To stop and then start again the infrastructure
+./distributed.sh start   # To start the infrastructure
+./distributed.sh stop    # To stop the infrastructure
+./distributed.sh restart # To stop and then start again the infrastructure
 ```
 
 Once the infrastructure is up and running, NPM can be configured at http://localhost:81. A default user is created
