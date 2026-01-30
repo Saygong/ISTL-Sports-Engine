@@ -71,14 +71,15 @@ to make a fictitious domain name pointing to our local machine:
 ```
 
 This way, the names istl.distributed-backend.local and istl.distributed-frontend.local can be used by NPM as valid
-domain names. Remember to start your Docker engine before proceeding!
+domain names. **Remember to start your Docker engine before proceeding! For Windows users make sure to execute 
+the next script lines using Git Bash or similar.**
 
 Once this is done it is sufficient to execute ./distributed.sh script as follows:
 
 ``` bash
-./distributed start   # To start the infrastructure
-./distributed stop    # To stop the infrastructure
-./distributed restart # To stop and then start again the infrastructure
+./distributed.sh start   # To start the infrastructure
+./distributed.sh stop    # To stop the infrastructure
+./distributed.sh restart # To stop and then start again the infrastructure
 ```
 
 Once the infrastructure is up and running, NPM can be configured at http://localhost:81. A default user is created

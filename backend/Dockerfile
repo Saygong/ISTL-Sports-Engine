@@ -32,5 +32,8 @@ RUN bundle install
 # Copy the rest of the application code into the container
 COPY . .
 
+# Convert the end of file for a DOS/Windows system to Unix system
+RUN apk add dos2unix && dos2unix entrypoint.sh
+
 # Use the entrypoint script to manage service startup
 ENTRYPOINT ["bash", "./entrypoint.sh"]
