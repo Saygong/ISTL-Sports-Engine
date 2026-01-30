@@ -6,6 +6,30 @@ racket-based tournaments, including, but not limited to, tennis, padel, table te
 
 ### The distributed skeleton
 
+The first thing we tried to do compared to the monolithic distribution was to separate the layer involved in creating
+the user interface. Initially it was part of the backend monolith, where dedicated libraries were used to generate pages
+directly from the backend service. We have identified the Presentation Layer as a service, which is now wrapped as a
+frontend service. Since the backend included a limited amount of logic, breaking it into additional services was not
+considered useful. However, the logic behind the matchbook is still very weak and does not provide for any serious
+control.
+
+We know that this is an area that could be improved because:
+
+- To book a match it should not be necessary to be registered as a player
+- The process of booking a match can be considered a separate aspect, independent of the tournament creation engine.
+
+Future work not yet implemented would, at the very least, create additional backend services. To give a visual idea of
+what this means:
+
+```mermaid
+graph TD;
+  Client--oInternet;
+  Internet--oNGINX;
+  NGINX--o|Internet or Internal Network|Frontend;
+  NGINX--o|Internet or Internal Network|TournamentEngine;
+  NGINX--o|Internet or Internal Network|BookingEngine;
+```
+
 #### Backend
 
 The backend is initialized using Rails generators, a common method for generating assumed directory structures and
