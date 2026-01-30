@@ -57,7 +57,11 @@ within the same network, which we call npm-shared. This way, NPM can visualize e
 complex configurations for the purposes of this DEMO. This operation is handled automatically by Docker.
 
 However, to make NPM fully operational and configurable within the local machine, we need to add additional dummy lines
-to make a fictitious domain name pointing to our local machine (/etc/hosts file in UNIX-like operating systems).
+to make a fictitious domain name pointing to our local machine:
+
+- /etc/hosts file in UNIX-like operating systems
+- C:Windows/System32/drivers/etc/hosts file in Windows operating systems
+
 
 ``` text
 ...
