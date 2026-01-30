@@ -22,3 +22,5 @@ each containing additional information about the architecture and instructions o
 
 - Monolith branch: https://github.com/Saygong/ISTL-Sports-Engine/tree/monolith/main
 - Distributed branch: https://github.com/Saygong/ISTL-Sports-Engine/tree/distributed/main
+
+For a more complete report on the project please refer to the pdf document "Report_ISTL_Sport_Engine.pdf" located in this directory.
