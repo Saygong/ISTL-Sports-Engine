@@ -44,7 +44,17 @@ rails new . --database=postgresql --skip-kamal --skip-solid --skip-ci --skip-thr
 
 #### Frontend
 
-...
+The frontend is built with React using Vite, providing a fast and minimal development setup. The project is initialized with:
+
+``` bash
+npm create vite@latest
+```
+Dependencies are managed via `npm`. Routing logic is organized through custom components in the `components` folder, 
+where `PublicRoute.tsx` and `ProtectedRoute.tsx` handle access control. Route paths and permissions are defined centrally in `AppRoute.tsx`.
+Authentication state is managed using React Context in `AuthContext.tsx`, which fetches and stores user information 
+for use across the application. GraphQL queries, schemas, and generated TypeScript typings are located in the `graphql` and `generated` folders.
+The `pages` folder contains the main React views, `App.css` provides global styling, and `App.tsx` initializes the GraphQL client, 
+defines the API endpoint, and bootstraps the application.
 
 ### Run the distributed infrastructure
 
